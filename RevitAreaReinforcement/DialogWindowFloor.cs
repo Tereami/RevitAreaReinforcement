@@ -12,7 +12,7 @@ namespace RevitAreaReinforcement
 {
     public partial class DialogWindowFloor : Form
     {
-        RebarInfoFloor rif;
+        public RebarInfoFloor rif;
 
         public DialogWindowFloor(RebarInfoFloor Info, List<string> rebarTypes)
         {

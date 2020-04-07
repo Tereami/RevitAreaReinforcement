@@ -24,14 +24,14 @@ namespace RevitAreaReinforcement
                 "AreaRebar",
                 "Фоновая",
                 assemblyPath,
-                "WallReinforcement.CommandCreateAreaRebar")
+                "RevitAreaReinforcement.CommandCreateAreaRebar")
                 ) as PushButton;
 
             PushButton btn2 = panel1.AddItem(new PushButtonData(
                 "AreaFix",
                 "Ремонт",
                 assemblyPath,
-                "WallReinforcement.CommandRestoreRebarArea")
+                "RevitAreaReinforcement.CommandRestoreRebarArea")
                 ) as PushButton;
 
 

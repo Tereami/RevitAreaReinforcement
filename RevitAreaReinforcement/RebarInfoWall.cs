@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using System.Xml.Serialization;
 
 namespace RevitAreaReinforcement
 {
+    [Serializable]
     public class RebarInfoWall
     {
         public bool generateVertical;
@@ -78,6 +80,40 @@ namespace RevitAreaReinforcement
             verticalFreeLength = GetParameter("Арм.ДлинаВыпуска", wall).AsDouble();
 
             rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
+        }
+
+
+        public static RebarInfoWall GetDefault(Document doc)
+        {
+            RebarBarType bartype = new FilteredElementCollector(doc)
+                .WhereElementIsElementType()
+                .OfClass(typeof(RebarBarType))
+                .Cast<RebarBarType>()
+                .First();
+            string bartypename = bartype.Name;
+
+            RebarInfoWall info = new RebarInfoWall
+            {
+                generateVertical = true,
+                verticalSectionText = "Осн. верт.",
+                generateHorizontal = true,
+                horizontalSectionText = "Осн. гор.",
+                verticalRebarTypeName = bartypename,
+                verticalRebarInterval = 0.65616797900262469,
+                horizontalRebarTypeName = bartypename,
+                horizontalRebarInterval = 0.65616797900262469,
+                horizontalAddInterval = false,
+                verticalFreeLength = 2.1325459317585302,
+                horizontalFreeLength = 0.98425196850393692,
+                backOffset = 0.16404199475065617,
+                bottomOffset = 0.16404199475065617,
+                topOffset = 0.16404199475065617,
+                rebarCover = 0.082020997375328086
+            };
+
+
+
+            return info;
         }
 
 

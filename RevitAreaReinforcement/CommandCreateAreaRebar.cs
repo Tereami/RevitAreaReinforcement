@@ -7,6 +7,8 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Structure;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace RevitAreaReinforcement
 {
@@ -22,19 +24,14 @@ namespace RevitAreaReinforcement
             }
 
             string programdataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            string localFolder = System.IO.Path.Combine(programdataPath, "RibbonBimStarter", "WallReinforcement");
-            string wallPath = System.IO.Path.Combine(localFolder, "wall.json");
-            string floorPath = System.IO.Path.Combine(localFolder, "floor.json");
-            if(!System.IO.File.Exists(wallPath))
-            {
-                string appWallPath = System.IO.Path.Combine(App.assemblyFolder, "wall.json");
-                System.IO.File.Copy(appWallPath, wallPath);
-            }
-            if (!System.IO.File.Exists(floorPath))
-            {
-                string appFloorPath = System.IO.Path.Combine(App.assemblyFolder, "floor.json");
-                System.IO.File.Copy(appFloorPath, floorPath);
-            }
+            string rbspath = Path.Combine(programdataPath, "RibbonBimStarter");
+            if (!Directory.Exists(rbspath)) Directory.CreateDirectory(rbspath);
+            string localFolder = Path.Combine(rbspath, "RevitAreaReinforcement");
+            if (!Directory.Exists(localFolder)) Directory.CreateDirectory(localFolder);
+
+            
+
+            
 
 
 
@@ -85,9 +82,7 @@ namespace RevitAreaReinforcement
             bool wallsHaveRebarInfo = SupportDocumentGetter.CheckWallsHaveRebarInfo(walls);
             if (walls.Count > 0)
             {
-                
-                string wallDeserialize = System.IO.File.ReadAllText(wallPath);
-                RebarInfoWall riw = Newtonsoft.Json.JsonConvert.DeserializeObject<RebarInfoWall>(wallDeserialize);
+                RebarInfoWall riw = null;
 
                 if (wallsHaveRebarInfo)
                 {
@@ -95,12 +90,34 @@ namespace RevitAreaReinforcement
                 }
                 else
                 {
+                    string wallPath = System.IO.Path.Combine(localFolder, "wall.xml");
+                    XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
+
+                    if (System.IO.File.Exists(wallPath))
+                    {
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(wallPath))
+                        {
+
+                            riw = (RebarInfoWall)serializer.Deserialize(reader);
+                            if (riw == null)
+                            {
+                                throw new Exception("Не удалось сериализовать: " + wallPath);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        riw = RebarInfoWall.GetDefault(doc);
+                    }
+
                     DialogWindowWall form = new DialogWindowWall(riw, rebarTypes, rebarTypes2);
                     form.ShowDialog();
                     if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
 
-                    wallDeserialize = Newtonsoft.Json.JsonConvert.SerializeObject(riw, Newtonsoft.Json.Formatting.Indented);
-                    System.IO.File.WriteAllText(wallPath, wallDeserialize);
+                    using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
+                    {
+                        serializer.Serialize(writer, form.wri);
+                    }
                 }
 
                 using (Transaction t = new Transaction(doc))
@@ -125,27 +142,47 @@ namespace RevitAreaReinforcement
                         {
                             RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
                         }
-
-                        
                     }
                     t.Commit();
                 }
-                
+
             }
 
 
             if (floors.Count > 0)
             {
+                string floorPath = System.IO.Path.Combine(localFolder, "floor.xml");
+                RebarInfoFloor rif = null;
+                XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoFloor));
+
+                if (System.IO.File.Exists(floorPath))
+                {
+                    using(System.IO.StreamReader reader = new System.IO.StreamReader(floorPath))
+                        {
+
+                        rif = (RebarInfoFloor)serializer.Deserialize(reader);
+                        if (rif == null)
+                        {
+                            throw new Exception("Не удалось сериализовать: " + floorPath);
+                        }
+                    }
+                }
+                else
+                {
+                    rif = RebarInfoFloor.GetDefault(doc);
+                }
+
                 
-                string floorDeserialize = System.IO.File.ReadAllText(floorPath);
-                RebarInfoFloor rif = Newtonsoft.Json.JsonConvert.DeserializeObject<RebarInfoFloor>(floorDeserialize);
+
 
                 DialogWindowFloor form = new DialogWindowFloor(rif, rebarTypes);
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
 
-                floorDeserialize = Newtonsoft.Json.JsonConvert.SerializeObject(rif);
-                System.IO.File.WriteAllText(floorPath, floorDeserialize);
+                using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(writer, form.rif);
+                }
 
                 using (Transaction t = new Transaction(doc))
                 {

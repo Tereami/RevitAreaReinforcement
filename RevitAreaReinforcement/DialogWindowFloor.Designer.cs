@@ -50,7 +50,7 @@
             this.comboBoxType.FormattingEnabled = true;
             this.comboBoxType.Location = new System.Drawing.Point(12, 25);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(177, 21);
+            this.comboBoxType.Size = new System.Drawing.Size(194, 21);
             this.comboBoxType.TabIndex = 0;
             // 
             // label1
@@ -82,13 +82,13 @@
             0,
             0});
             this.numInterval.Name = "numInterval";
-            this.numInterval.Size = new System.Drawing.Size(177, 20);
+            this.numInterval.Size = new System.Drawing.Size(194, 20);
             this.numInterval.TabIndex = 3;
             // 
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOk.Location = new System.Drawing.Point(9, 190);
+            this.buttonOk.Location = new System.Drawing.Point(9, 196);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -99,7 +99,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(114, 190);
+            this.buttonCancel.Location = new System.Drawing.Point(131, 196);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -113,7 +113,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numCoverBottom.Location = new System.Drawing.Point(12, 157);
             this.numCoverBottom.Name = "numCoverBottom";
-            this.numCoverBottom.Size = new System.Drawing.Size(177, 20);
+            this.numCoverBottom.Size = new System.Drawing.Size(194, 20);
             this.numCoverBottom.TabIndex = 3;
             // 
             // label3
@@ -140,14 +140,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numCoverTop.Location = new System.Drawing.Point(12, 112);
             this.numCoverTop.Name = "numCoverTop";
-            this.numCoverTop.Size = new System.Drawing.Size(177, 20);
+            this.numCoverTop.Size = new System.Drawing.Size(194, 20);
             this.numCoverTop.TabIndex = 3;
             // 
             // DialogWindowFloor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(201, 225);
+            this.ClientSize = new System.Drawing.Size(218, 231);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.numCoverTop);
@@ -161,7 +161,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DialogWindowFloor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Армирование плиты v2019.11.20";
+            this.Text = "Армирование плиты v2020.04.07";
             this.Load += new System.EventHandler(this.DialogWindowFloor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverBottom)).EndInit();
