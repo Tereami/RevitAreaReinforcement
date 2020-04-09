@@ -97,8 +97,15 @@ namespace RevitAreaReinforcement
                     {
                         using (System.IO.StreamReader reader = new System.IO.StreamReader(wallPath))
                         {
-
-                            riw = (RebarInfoWall)serializer.Deserialize(reader);
+                            try
+                            {
+                                riw = (RebarInfoWall)serializer.Deserialize(reader);
+                            }
+                            catch
+                            {
+                                riw = RebarInfoWall.GetDefault(doc);
+                            }
+                            
                             if (riw == null)
                             {
                                 throw new Exception("Не удалось сериализовать: " + wallPath);
@@ -114,6 +121,7 @@ namespace RevitAreaReinforcement
                     form.ShowDialog();
                     if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
 
+                    if (File.Exists(wallPath)) File.Delete(wallPath);
                     using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
                     {
                         serializer.Serialize(writer, form.wri);
@@ -159,8 +167,14 @@ namespace RevitAreaReinforcement
                 {
                     using(System.IO.StreamReader reader = new System.IO.StreamReader(floorPath))
                         {
-
-                        rif = (RebarInfoFloor)serializer.Deserialize(reader);
+                        try
+                        {
+                            rif = (RebarInfoFloor)serializer.Deserialize(reader);
+                        }
+                        catch
+                        {
+                            rif = RebarInfoFloor.GetDefault(doc);
+                        }
                         if (rif == null)
                         {
                             throw new Exception("Не удалось сериализовать: " + floorPath);
@@ -179,6 +193,7 @@ namespace RevitAreaReinforcement
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
 
+                if (File.Exists(floorPath)) File.Delete(floorPath);
                 using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
                 {
                     serializer.Serialize(writer, form.rif);
