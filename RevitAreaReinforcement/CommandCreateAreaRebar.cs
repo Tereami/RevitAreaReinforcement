@@ -38,7 +38,8 @@ namespace RevitAreaReinforcement
             string programdataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string rbspath = Path.Combine(programdataPath, "RibbonBimStarter");
             if (!Directory.Exists(rbspath)) Directory.CreateDirectory(rbspath);
-            string localFolder = Path.Combine(rbspath, "RevitAreaReinforcement");
+            string solutionName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            string localFolder = Path.Combine(rbspath, solutionName);
             if (!Directory.Exists(localFolder)) Directory.CreateDirectory(localFolder);
 
             
