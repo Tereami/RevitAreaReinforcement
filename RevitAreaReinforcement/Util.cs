@@ -1,11 +1,11 @@
 ﻿#region License
-/*Данный код опубликован под лицензией Creative Commons Attribution-NonCommercial-ShareAlike.
-Разрешено использовать, распространять, изменять и брать данный код за основу для производных в некоммерческих целях,
-при условии указания авторства и если производные лицензируются на тех же условиях.
+/*Данный код опубликован под лицензией Creative Commons Attribution-ShareAlike.
+Разрешено использовать, распространять, изменять и брать данный код за основу для производных в коммерческих и
+некоммерческих целях, при условии указания авторства и если производные лицензируются на тех же условиях.
 Код поставляется "как есть". Автор не несет ответственности за возможные последствия использования.
 Зуев Александр, 2020, все права защищены.
-This code is listed under the Creative Commons Attribution-NonCommercial-ShareAlike license.
-You may use, redistribute, remix, tweak, and build upon this work non-commercially,
+This code is listed under the Creative Commons Attribution-ShareAlike license.
+You may use, redistribute, remix, tweak, and build upon this work non-commercially and commercially,
 as long as you credit the author by linking back and license your new creations under the same terms.
 This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
@@ -137,43 +137,5 @@ namespace RevitAreaReinforcement
             return string.Format("{0} {1}<{2} {3}>",
               cn, fn, e.Id.IntegerValue, e.Name);
         }
-
-        //public static Element SelectSingleElement(UIDocument uidoc, string description)
-        //{
-        //    Selection sel = uidoc.Selection;
-        //    Element e = null;
-        //    sel.SetElementIds(null);
-        //    if (sel.PickObject(ObjectType.Element, "Выберите один элемент")
-        //    {
-        //        ElementSetIterator elemSetItr
-        //          = sel.Elements.ForwardIterator();
-        //        elemSetItr.MoveNext();
-        //        e = elemSetItr.Current as Element;
-        //    }
-        //    return e;
-        //}
-
-        //public static bool GetSelectedElementsOrAll(
-        //  List<Element> a,
-        //  Document doc,
-        //  Type t)
-        //{
-        //    Selection sel = doc.Selection;
-        //    if (0 < sel.Elements.Size)
-        //    {
-        //        foreach (Element e in sel.Elements)
-        //        {
-        //            if (e.GetType().IsSubclassOf(t))
-        //            {
-        //                a.Add(e);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        doc.get_Elements(t, a);
-        //    }
-        //    return 0 < a.Count;
-        //}
     }
 }
