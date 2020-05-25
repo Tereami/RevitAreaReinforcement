@@ -53,6 +53,8 @@ namespace RevitAreaReinforcement
             {
                 Parameter param = wall.LookupParameter("Арм.ГоризДиаметр");
                 if (param == null || !param.HasValue) return false;
+                double diam = param.AsDouble();
+                if (diam < 0.001) return false; //если указан 0 то тоже пропускаем
             }
             return true;
         }
