@@ -25,107 +25,84 @@ using System.IO;
 namespace RevitAreaReinforcement
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    class CommandCreateAreaRebar : IExternalCommand
+    class CommandCreateFloorRebar : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             App.ActivateConfigFolder();
-
             Document doc = commandData.Application.ActiveUIDocument.Document;
-
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
-            List<Wall> walls = new List<Wall>();
-
+            List<Floor> floors = new List<Floor>();
             foreach (ElementId id in sel.GetElementIds())
             {
                 Element elem = doc.GetElement(id);
-
-                if (elem is Wall) walls.Add(elem as Wall);
+                if (elem is Floor) floors.Add(elem as Floor);
             }
-            if (walls.Count == 0)
+            if (floors.Count == 0)
             {
-                message = "Выберите стены для армирования";
+                message = "Выберите плиты для армирования";
                 return Result.Failed;
             }
 
             ElementId areaTypeId = SupportDocumentGetter.GetDefaultArea(doc).Id;
             RebarCoverType zeroCover = SupportDocumentGetter.GetRebarCoverType(doc, 0);
+
             List<string> rebarTypes = SupportDocumentGetter.GetRebarTypes(doc);
-            List<string> rebarTypes2 = rebarTypes.ToList();
-            bool wallsHaveRebarInfo = SupportDocumentGetter.CheckWallsHaveRebarInfo(walls);
 
-
-            RebarInfoWall riw = null;
-
-            if (wallsHaveRebarInfo)
+            if (floors.Count > 0)
             {
-                TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
-            }
-            else
-            {
-                string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
-                XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
+                string floorPath = System.IO.Path.Combine(App.localFolder, "floor.xml");
+                RebarInfoFloor rif = null;
+                XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoFloor));
 
-                if (System.IO.File.Exists(wallPath))
+                if (System.IO.File.Exists(floorPath))
                 {
-                    using (System.IO.StreamReader reader = new System.IO.StreamReader(wallPath))
+                    using (System.IO.StreamReader reader = new System.IO.StreamReader(floorPath))
                     {
                         try
                         {
-                            riw = (RebarInfoWall)serializer.Deserialize(reader);
+                            rif = (RebarInfoFloor)serializer.Deserialize(reader);
                         }
                         catch
                         {
-                            riw = RebarInfoWall.GetDefault(doc);
+                            rif = RebarInfoFloor.GetDefault(doc);
                         }
-
-                        if (riw == null)
+                        if (rif == null)
                         {
-                            throw new Exception("Не удалось сериализовать: " + wallPath);
+                            throw new Exception("Не удалось сериализовать: " + floorPath);
                         }
                     }
                 }
                 else
                 {
-                    riw = RebarInfoWall.GetDefault(doc);
+                    rif = RebarInfoFloor.GetDefault(doc);
                 }
 
-                DialogWindowWall form = new DialogWindowWall(riw, rebarTypes, rebarTypes2);
+
+
+
+                DialogWindowFloor form = new DialogWindowFloor(rif, rebarTypes);
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
 
-                if (File.Exists(wallPath)) File.Delete(wallPath);
-                using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
+                if (File.Exists(floorPath)) File.Delete(floorPath);
+                using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
                 {
-                    serializer.Serialize(writer, form.wri);
+                    serializer.Serialize(writer, form.rif);
+                }
+
+                using (Transaction t = new Transaction(doc))
+                {
+                    t.Start("Армирование плит");
+
+                    foreach (Floor floor in floors)
+                    {
+                        RebarWorkerFloor.Generate(doc, floor, rif, areaTypeId);
+                    }
+                    t.Commit();
                 }
             }
 
-            using (Transaction t = new Transaction(doc))
-            {
-                t.Start("Армирование стен");
-
-                foreach (Wall wall in walls)
-                {
-                    if (wallsHaveRebarInfo)
-                    {
-                        RebarInfoWall newRiw = new RebarInfoWall(doc, wall);
-                        newRiw.topOffset = riw.topOffset;
-                        newRiw.bottomOffset = riw.bottomOffset;
-                        newRiw.backOffset = riw.backOffset;
-                        newRiw.horizontalAddInterval = riw.horizontalAddInterval;
-                        newRiw.verticalSectionText = riw.verticalSectionText;
-                        newRiw.horizontalSectionText = riw.horizontalSectionText;
-
-                        RebarWorkerWall.GenerateRebar(doc, wall, newRiw, zeroCover, areaTypeId);
-                    }
-                    else
-                    {
-                        RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
-                    }
-                }
-                t.Commit();
-            }
             return Result.Succeeded;
         }
     }

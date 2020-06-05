@@ -58,5 +58,17 @@ namespace RevitAreaReinforcement
             }
             return true;
         }
+
+        public static List<string> GetRebarTypes(Document doc)
+        {
+            List<string> rebarTypes = new FilteredElementCollector(doc)
+                .WhereElementIsElementType()
+                .OfClass(typeof(RebarBarType))
+                .Cast<RebarBarType>()
+                .Select(i => i.Name)
+                .OrderBy(i => i)
+                .ToList();
+            return rebarTypes;
+        }
     }
 }

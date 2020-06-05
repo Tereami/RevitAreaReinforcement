@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="CommandCreateAreaRebar.cs" />
+    <Compile Include="CommandCreateFloorRebar.cs" />
     <Compile Include="CommandRestoreRebarArea.cs" />
     <Compile Include="ContiguousCurveSorter.cs" />
     <Compile Include="DialogWindowWall.cs">

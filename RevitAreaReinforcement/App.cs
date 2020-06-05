@@ -19,6 +19,7 @@ namespace RevitAreaReinforcement
     {
         public static string assemblyPath = "";
         public static string assemblyFolder = "";
+        public static string localFolder = "";
         public Result OnStartup(UIControlledApplication application)
         {
             assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -47,6 +48,27 @@ namespace RevitAreaReinforcement
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
+        }
+
+        public static void ActivateConfigFolder()
+        {
+            if (string.IsNullOrEmpty(App.assemblyFolder))
+            {
+                App.assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                App.assemblyFolder = System.IO.Path.GetDirectoryName(App.assemblyPath);
+            }
+
+            string programdataPath = 
+                System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
+            string rbspath = System.IO.Path.Combine(programdataPath, "RibbonBimStarter");
+            if (!System.IO.Directory.Exists(rbspath))
+                System.IO.Directory.CreateDirectory(rbspath);
+            string solutionName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            localFolder =
+                System.IO.Path.Combine(rbspath, solutionName);
+            if (!System.IO.Directory.Exists(localFolder))
+                System.IO.Directory.CreateDirectory(localFolder);
+
         }
 
     }
