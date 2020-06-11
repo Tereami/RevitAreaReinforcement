@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">    
+    <Name>RevitAreaReinforcement</Name>
+    <Assembly>
+        C:\Users\azuev\Source\Repos\Tereami\RevitAreaReinforcement\RevitAreaReinforcement\bin\Debug\RevitAreaReinforcement.dll    
+    </Assembly>
+    <ClientId>50729e3f-f32f-4ec9-a8e5-f0e616b66f84</ClientId>
+    <FullClassName>RevitAreaReinforcement.App</FullClassName>
+    <VendorId>Weandrevit</VendorId>
+    <VendorDescription>weandrevit.ru</VendorDescription>
+  </AddIn>
+</RevitAddIns>

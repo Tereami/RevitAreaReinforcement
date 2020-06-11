@@ -55,7 +55,21 @@ namespace RevitAreaReinforcement
             bool wallsHaveRebarInfo = SupportDocumentGetter.CheckWallsHaveRebarInfo(walls);
 
 
-            RebarInfoWall riw = null;
+            RebarInfoWall riw = RebarInfoWall.GetDefault(doc);
+            string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
+            XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
+
+            if (System.IO.File.Exists(wallPath))
+            {
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(wallPath))
+                {
+                    try
+                    {
+                        riw = (RebarInfoWall)serializer.Deserialize(reader);
+                    }
+                    catch { }
+                }
+            }
 
             if (wallsHaveRebarInfo)
             {
@@ -63,43 +77,17 @@ namespace RevitAreaReinforcement
             }
             else
             {
-                string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
-                XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
-
-                if (System.IO.File.Exists(wallPath))
-                {
-                    using (System.IO.StreamReader reader = new System.IO.StreamReader(wallPath))
-                    {
-                        try
-                        {
-                            riw = (RebarInfoWall)serializer.Deserialize(reader);
-                        }
-                        catch
-                        {
-                            riw = RebarInfoWall.GetDefault(doc);
-                        }
-
-                        if (riw == null)
-                        {
-                            throw new Exception("Не удалось сериализовать: " + wallPath);
-                        }
-                    }
-                }
-                else
-                {
-                    riw = RebarInfoWall.GetDefault(doc);
-                }
-
                 DialogWindowWall form = new DialogWindowWall(riw, rebarTypes, rebarTypes2);
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
-
-                if (File.Exists(wallPath)) File.Delete(wallPath);
-                using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
-                {
-                    serializer.Serialize(writer, form.wri);
-                }
             }
+
+            if (File.Exists(wallPath)) File.Delete(wallPath);
+            using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
+            {
+                serializer.Serialize(writer, riw);
+            }
+
 
             using (Transaction t = new Transaction(doc))
             {
