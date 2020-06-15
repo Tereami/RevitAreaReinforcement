@@ -42,6 +42,7 @@ namespace RevitAreaReinforcement
             txtBackOffset.Text = (reinfInfo.backOffset * 304.8).ToString();
             txtBottomOffset.Text = (reinfInfo.bottomOffset * 304.8).ToString();
             txtTopOffset.Text = (reinfInfo.topOffset * 304.8).ToString();
+            txtVerticalOffset.Text = (reinfInfo.verticalOffset * 304.8).ToString();
 
             txtHorizontalInterval.Text = (reinfInfo.horizontalRebarInterval * 304.8).ToString();
             txtVerticalInterval.Text = (reinfInfo.verticalRebarInterval * 304.8).ToString();
@@ -78,6 +79,7 @@ namespace RevitAreaReinforcement
             wri.backOffset = double.Parse(txtBackOffset.Text) / 304.8;
             wri.bottomOffset = double.Parse(txtBottomOffset.Text) / 304.8;
             wri.topOffset = double.Parse(txtTopOffset.Text) / 304.8;
+            wri.verticalOffset = double.Parse(txtVerticalOffset.Text) / 304.8;
             
             wri.horizontalRebarInterval = double.Parse(txtHorizontalInterval.Text) / 304.8;
             wri.verticalRebarInterval = double.Parse(txtVerticalInterval.Text) / 304.8;

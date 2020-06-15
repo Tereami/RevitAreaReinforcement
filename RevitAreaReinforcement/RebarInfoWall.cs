@@ -42,6 +42,7 @@ namespace RevitAreaReinforcement
         public double backOffset;
         public double bottomOffset;
         public double topOffset;
+        public double verticalOffset;
 
         public double rebarCover;
 
@@ -121,6 +122,7 @@ namespace RevitAreaReinforcement
                 backOffset = 0.16404199475065617,
                 bottomOffset = 0.16404199475065617,
                 topOffset = 0.16404199475065617,
+                verticalOffset = 0,
                 rebarCover = 0.082020997375328086
             };
 

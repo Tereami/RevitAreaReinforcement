@@ -66,18 +66,18 @@ namespace RevitAreaReinforcement
                 List<Curve> curvesVertical = SupportGeometry.MoveLine(wallOutline, wri.verticalFreeLength, SupportGeometry.LineSide.Top);
                 CurveUtils.SortCurvesContiguous(doc.Application.Create, curvesVertical, true);
 
+                if (wri.verticalOffset < 0.0001)
+                {
+                    AreaReinforcement arVertical = Generate(doc, wall, curvesVertical, false, true, true, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
+                }
+                else
+                {
+                    AreaReinforcement arVertical1 = Generate(doc, wall, curvesVertical, false, true, false, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
 
-                AreaReinforcement arVertical = Generate(doc, wall, curvesVertical, false, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
-
-
-                //AreaReinforcement .Create(doc, wall, curvesVertical, new XYZ(0, 0, 1), areaTypeId, verticalRebarType.bartype.Id, ElementId.InvalidElementId);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_FRONT_DIR_2).Set(0);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_2).Set(0);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_INTERIOR_OFFSET).Set(offsetVerticalInterior);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_EXTERIOR_OFFSET).Set(offsetVerticalExterior);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_1_GENERIC).Set(wri.verticalRebarInterval);
-                //arVertical.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1_GENERIC).Set(wri.verticalRebarInterval);
-                //arVertical.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set(wri.verticalSectionText);
+                    List<Curve> curves2 = SupportGeometry.MoveLine(curvesVertical, wri.verticalOffset, SupportGeometry.LineSide.Top);
+                    curves2 = SupportGeometry.MoveLine(curves2, wri.verticalOffset, SupportGeometry.LineSide.Bottom);
+                    AreaReinforcement arVertical2 = Generate(doc, wall, curves2, false, false, true, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
+                }
             }
 
             if (wri.generateHorizontal)
@@ -131,7 +131,7 @@ namespace RevitAreaReinforcement
 
                 foreach (List<Curve> profile in curvesArray)
                 {
-                    AreaReinforcement ar = Generate(doc, wall, profile, true, offsetHorizontalInterior, offsetHorizontalExterior, wri.horizontalRebarInterval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
+                    AreaReinforcement ar = Generate(doc, wall, profile, true, true, true, offsetHorizontalInterior, offsetHorizontalExterior, wri.horizontalRebarInterval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
                 }
 
 
@@ -149,10 +149,13 @@ namespace RevitAreaReinforcement
         }
 
 
-        private static AreaReinforcement Generate(Document doc, Wall wall, List<Curve> profile, bool isHorizontal, double offsetInt, double offsetExt, double interval, ElementId areaId, RebarBarType barType, string partition)
+        private static AreaReinforcement Generate(Document doc, Wall wall, List<Curve> profile, bool isHorizontal, bool createInterior, bool createExterior, double offsetInt, double offsetExt, double interval, ElementId areaId, RebarBarType barType, string partition)
         {
             CurveUtils.SortCurvesContiguous(doc.Application.Create, profile, true);
             AreaReinforcement arein = AreaReinforcement.Create(doc, wall, profile, new XYZ(0, 0, 1), areaId, barType.Id, ElementId.InvalidElementId);
+
+
+
             if (isHorizontal)
             {
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_1).Set(0);
@@ -160,6 +163,11 @@ namespace RevitAreaReinforcement
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2_GENERIC).Set(interval);
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2_GENERIC).Set(interval);
 
+                if(!createInterior)
+                    arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_2).Set(0);
+
+                if(!createExterior)
+                    arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_FRONT_DIR_2).Set(0);
             }
             else
             {
@@ -167,6 +175,12 @@ namespace RevitAreaReinforcement
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_2).Set(0);
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_1_GENERIC).Set(interval);
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1_GENERIC).Set(interval);
+
+                if (!createInterior)
+                    arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_1).Set(0);
+
+                if (!createExterior)
+                    arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_FRONT_DIR_1).Set(0);
 
             }
             arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_INTERIOR_OFFSET).Set(offsetInt);

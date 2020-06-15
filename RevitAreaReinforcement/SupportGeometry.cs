@@ -186,10 +186,6 @@ namespace RevitAreaReinforcement
                         heigth = curHeigth;
                     }
                 }
-                else
-                {
-                    continue;
-                }
             }
 
 

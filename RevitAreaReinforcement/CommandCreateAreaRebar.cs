@@ -104,6 +104,7 @@ namespace RevitAreaReinforcement
                         newRiw.horizontalAddInterval = riw.horizontalAddInterval;
                         newRiw.verticalSectionText = riw.verticalSectionText;
                         newRiw.horizontalSectionText = riw.horizontalSectionText;
+                        newRiw.verticalOffset = riw.verticalOffset;
 
                         RebarWorkerWall.GenerateRebar(doc, wall, newRiw, zeroCover, areaTypeId);
                     }
