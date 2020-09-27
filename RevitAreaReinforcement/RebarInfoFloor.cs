@@ -28,9 +28,9 @@ namespace RevitAreaReinforcement
     {
         public string rebarTypeName;
 
-        public double interval;
-        public double topCover;
-        public double bottomCover;
+        public double interval = 0.65616797900262469;
+        public double topCover = 0.098425196850393692;
+        public double bottomCover = 0.13123359580052493;
 
 
         public RebarInfoFloor()
@@ -48,13 +48,8 @@ namespace RevitAreaReinforcement
                 .First();
             string bartypename = bartype.Name;
 
-            RebarInfoFloor info = new RebarInfoFloor
-            {
-                rebarTypeName = bartypename,
-                interval = 0.65616797900262469,
-                topCover = 0.098425196850393692,
-                bottomCover = 0.13123359580052493
-            };
+            RebarInfoFloor info = new RebarInfoFloor();
+            info.rebarTypeName = bartypename;
 
 
             return info;

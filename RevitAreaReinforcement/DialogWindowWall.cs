@@ -54,10 +54,17 @@ namespace RevitAreaReinforcement
 
             cmbHorizonalType.DataSource = rebarTypes1;
             cmbVerticalType.DataSource = rebarTypes2;
-            cmbHorizonalType.SelectedItem = reinfInfo.horizontalRebarTypeName; //SettingsStorage.rebarTypes1.Where(i => i.bartype.Name == reinfInfo.horizontalRebarTypeName).First();
-            cmbVerticalType.SelectedItem = reinfInfo.verticalRebarTypeName; // SettingsStorage.rebarTypes2.Where(i => i.bartype.Name == reinfInfo.verticalRebarTypeName).First();
+            cmbHorizonalType.SelectedItem = reinfInfo.horizontalRebarTypeName;
+            cmbVerticalType.SelectedItem = reinfInfo.verticalRebarTypeName;
 
             checkBoxHorizAddInterval.Checked = reinfInfo.horizontalAddInterval;
+
+            checkBoxUnificateLength.Checked = reinfInfo.useUnification;
+            foreach(double len in reinfInfo.lengthsUnification)
+            {
+                string letText = (len * 304.8).ToString("F0");
+                textBoxLengths.Text += letText + ";";
+            }
 
             this.Text = "Армирование стен. Версия " + System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
         }
@@ -75,24 +82,35 @@ namespace RevitAreaReinforcement
             wri.verticalSectionText = txtBoxVertArmSection.Text;
             wri.generateVertical = checkBoxGenerateVertical.Checked;
             wri.horizontalSectionText = txtBoxHorizArmSection.Text;
-            
+
             wri.backOffset = double.Parse(txtBackOffset.Text) / 304.8;
             wri.bottomOffset = double.Parse(txtBottomOffset.Text) / 304.8;
             wri.topOffset = double.Parse(txtTopOffset.Text) / 304.8;
             wri.verticalOffset = double.Parse(txtVerticalOffset.Text) / 304.8;
-            
+
             wri.horizontalRebarInterval = double.Parse(txtHorizontalInterval.Text) / 304.8;
             wri.verticalRebarInterval = double.Parse(txtVerticalInterval.Text) / 304.8;
-            
+
             wri.rebarCover = double.Parse(txtRebarCover.Text) / 304.8;
-            
+
             wri.verticalFreeLength = double.Parse(txtVerticalFreeLength.Text) / 304.8;
             wri.horizontalFreeLength = double.Parse(txtHorizontalFreeLength.Text) / 304.8;
-            
+
             wri.horizontalRebarTypeName = cmbHorizonalType.Text;
             wri.verticalRebarTypeName = cmbVerticalType.Text;
 
             wri.horizontalAddInterval = checkBoxHorizAddInterval.Checked;
+
+            wri.useUnification = checkBoxUnificateLength.Checked;
+            wri.lengthsUnification = new List<double>();
+            foreach(string lenStr in textBoxLengths.Text.Split(';'))
+            {
+                double l = 0;
+                double.TryParse(lenStr, out l);
+                if (l == 0) continue;
+                l = l / 304.8; 
+                wri.lengthsUnification.Add(l);
+            }
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -101,7 +119,7 @@ namespace RevitAreaReinforcement
 
         private void checkBoxGenerateVertical_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxGenerateVertical.Checked)
+            if (checkBoxGenerateVertical.Checked)
             {
                 cmbVerticalType.Enabled = true;
                 txtBoxVertArmSection.Enabled = true;
@@ -119,7 +137,7 @@ namespace RevitAreaReinforcement
 
         private void checkBoxGenerateHorizontal_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxGenerateHorizontal.Checked)
+            if (checkBoxGenerateHorizontal.Checked)
             {
                 cmbHorizonalType.Enabled = true;
                 txtBoxHorizArmSection.Enabled = true;
@@ -135,6 +153,11 @@ namespace RevitAreaReinforcement
                 txtBottomOffset.Enabled = false;
                 txtHorizontalInterval.Enabled = false;
             }
+        }
+
+        private void checkBoxUnificateLength_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxLengths.Enabled = checkBoxUnificateLength.Checked;
         }
     }
 }

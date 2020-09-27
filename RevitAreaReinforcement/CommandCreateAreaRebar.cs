@@ -106,6 +106,9 @@ namespace RevitAreaReinforcement
                         newRiw.horizontalSectionText = riw.horizontalSectionText;
                         newRiw.verticalOffset = riw.verticalOffset;
 
+                        newRiw.useUnification = riw.useUnification;
+                        newRiw.lengthsUnification = riw.lengthsUnification;
+
                         RebarWorkerWall.GenerateRebar(doc, wall, newRiw, zeroCover, areaTypeId);
                     }
                     else

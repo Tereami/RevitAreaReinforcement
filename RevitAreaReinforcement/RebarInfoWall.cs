@@ -25,26 +25,29 @@ namespace RevitAreaReinforcement
     [Serializable]
     public class RebarInfoWall
     {
-        public bool generateVertical;
-        public string verticalSectionText;
-        public bool generateHorizontal;
-        public string horizontalSectionText;
+        public bool generateVertical = true;
+        public string verticalSectionText = "Осн. верт.";
+        public bool generateHorizontal = true;
+        public string horizontalSectionText = "Осн. гор.";
 
-        public string verticalRebarTypeName;
-        public double verticalRebarInterval;
-        public string horizontalRebarTypeName;
-        public double horizontalRebarInterval;
-        public bool horizontalAddInterval;
+        public string verticalRebarTypeName = "12 A240";
+        public double verticalRebarInterval = 0.65616797900262469;
+        public string horizontalRebarTypeName = "12 A240";
+        public double horizontalRebarInterval = 0.65616797900262469;
+        public bool horizontalAddInterval = false;
 
-        public double verticalFreeLength;
-        public double horizontalFreeLength;
+        public double verticalFreeLength = 2.1325459317585302;
+        public double horizontalFreeLength = 0;
 
-        public double backOffset;
-        public double bottomOffset;
-        public double topOffset;
-        public double verticalOffset;
+        public double backOffset = 0;
+        public double bottomOffset = 0.16404199475065617;
+        public double topOffset = 0.16404199475065617;
+        public double verticalOffset = 0;
 
-        public double rebarCover;
+        public double rebarCover = 0.082020997375328086;
+
+        public bool useUnification = false;
+        public List<double> lengthsUnification;
 
 
         /// <summary>
@@ -106,27 +109,10 @@ namespace RevitAreaReinforcement
                 .First();
             string bartypename = bartype.Name;
 
-            RebarInfoWall info = new RebarInfoWall
-            {
-                generateVertical = true,
-                verticalSectionText = "Осн. верт.",
-                generateHorizontal = true,
-                horizontalSectionText = "Осн. гор.",
-                verticalRebarTypeName = bartypename,
-                verticalRebarInterval = 0.65616797900262469,
-                horizontalRebarTypeName = bartypename,
-                horizontalRebarInterval = 0.65616797900262469,
-                horizontalAddInterval = false,
-                verticalFreeLength = 2.1325459317585302,
-                horizontalFreeLength = 0.98425196850393692,
-                backOffset = 0.16404199475065617,
-                bottomOffset = 0.16404199475065617,
-                topOffset = 0.16404199475065617,
-                verticalOffset = 0,
-                rebarCover = 0.082020997375328086
-            };
-
-
+            RebarInfoWall info = new RebarInfoWall();
+            info.horizontalRebarTypeName = bartypename;
+            info.verticalRebarTypeName = bartypename;
+            info.lengthsUnification = new List<double> { 38.38582677165354, 25.59055118110236, 19.19291338582677, 12.79527559055118, 9.596456692913386, 7.677165354330709 };
 
             return info;
         }
@@ -140,12 +126,28 @@ namespace RevitAreaReinforcement
 
         }
 
-        private bool GetBool(string paramName, Element elem)
+        public double getNearestLength(double l)
         {
-            Parameter param = GetParameter(paramName, elem);
-            int val = param.AsInteger();
-            if (val == 0) return false;
-            return true;
+            double distance = 99999;
+            double result = 99999;
+            foreach(double u in lengthsUnification)
+            {
+                double curDist = u - l;
+                if(curDist >= 0 && curDist < distance)
+                {
+                    distance = curDist;
+                    result = u;
+                }
+            }
+            return result;
         }
+
+        //private bool GetBool(string paramName, Element elem)
+        //{
+        //    Parameter param = GetParameter(paramName, elem);
+        //    int val = param.AsInteger();
+        //    if (val == 0) return false;
+        //    return true;
+        //}
     }
 }

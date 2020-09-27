@@ -47,6 +47,8 @@
             this.checkBoxHorizAddInterval = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtVerticalOffset = new System.Windows.Forms.TextBox();
+            this.checkBoxUnificateLength = new System.Windows.Forms.CheckBox();
+            this.textBoxLengths = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,6 +96,7 @@
             // 
             // txtBackOffset
             // 
+            this.txtBackOffset.Enabled = false;
             this.txtBackOffset.Location = new System.Drawing.Point(241, 494);
             this.txtBackOffset.Margin = new System.Windows.Forms.Padding(2);
             this.txtBackOffset.Name = "txtBackOffset";
@@ -103,6 +106,7 @@
             // 
             // txtHorizontalFreeLength
             // 
+            this.txtHorizontalFreeLength.Enabled = false;
             this.txtHorizontalFreeLength.Location = new System.Drawing.Point(150, 494);
             this.txtHorizontalFreeLength.Margin = new System.Windows.Forms.Padding(2);
             this.txtHorizontalFreeLength.Name = "txtHorizontalFreeLength";
@@ -158,10 +162,10 @@
             // cmbVerticalType
             // 
             this.cmbVerticalType.FormattingEnabled = true;
-            this.cmbVerticalType.Location = new System.Drawing.Point(506, 74);
+            this.cmbVerticalType.Location = new System.Drawing.Point(524, 52);
             this.cmbVerticalType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbVerticalType.Name = "cmbVerticalType";
-            this.cmbVerticalType.Size = new System.Drawing.Size(115, 21);
+            this.cmbVerticalType.Size = new System.Drawing.Size(139, 21);
             this.cmbVerticalType.TabIndex = 4;
             // 
             // checkBoxGenerateVertical
@@ -169,7 +173,7 @@
             this.checkBoxGenerateVertical.AutoSize = true;
             this.checkBoxGenerateVertical.Checked = true;
             this.checkBoxGenerateVertical.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxGenerateVertical.Location = new System.Drawing.Point(506, 52);
+            this.checkBoxGenerateVertical.Location = new System.Drawing.Point(524, 30);
             this.checkBoxGenerateVertical.Name = "checkBoxGenerateVertical";
             this.checkBoxGenerateVertical.Size = new System.Drawing.Size(98, 17);
             this.checkBoxGenerateVertical.TabIndex = 5;
@@ -192,9 +196,9 @@
             // 
             // txtBoxVertArmSection
             // 
-            this.txtBoxVertArmSection.Location = new System.Drawing.Point(506, 100);
+            this.txtBoxVertArmSection.Location = new System.Drawing.Point(524, 78);
             this.txtBoxVertArmSection.Name = "txtBoxVertArmSection";
-            this.txtBoxVertArmSection.Size = new System.Drawing.Size(115, 20);
+            this.txtBoxVertArmSection.Size = new System.Drawing.Size(139, 20);
             this.txtBoxVertArmSection.TabIndex = 7;
             // 
             // txtBoxHorizArmSection
@@ -236,11 +240,32 @@
             this.txtVerticalOffset.Size = new System.Drawing.Size(51, 20);
             this.txtVerticalOffset.TabIndex = 8;
             // 
+            // checkBoxUnificateLength
+            // 
+            this.checkBoxUnificateLength.AutoSize = true;
+            this.checkBoxUnificateLength.Location = new System.Drawing.Point(524, 105);
+            this.checkBoxUnificateLength.Name = "checkBoxUnificateLength";
+            this.checkBoxUnificateLength.Size = new System.Drawing.Size(142, 17);
+            this.checkBoxUnificateLength.TabIndex = 9;
+            this.checkBoxUnificateLength.Text = "Унифицировать длины";
+            this.checkBoxUnificateLength.UseVisualStyleBackColor = true;
+            this.checkBoxUnificateLength.CheckedChanged += new System.EventHandler(this.checkBoxUnificateLength_CheckedChanged);
+            // 
+            // textBoxLengths
+            // 
+            this.textBoxLengths.Enabled = false;
+            this.textBoxLengths.Location = new System.Drawing.Point(524, 129);
+            this.textBoxLengths.Name = "textBoxLengths";
+            this.textBoxLengths.Size = new System.Drawing.Size(139, 20);
+            this.textBoxLengths.TabIndex = 10;
+            // 
             // DialogWindowWall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(865, 625);
+            this.Controls.Add(this.textBoxLengths);
+            this.Controls.Add(this.checkBoxUnificateLength);
             this.Controls.Add(this.txtVerticalOffset);
             this.Controls.Add(this.txtBoxHorizArmSection);
             this.Controls.Add(this.txtBoxVertArmSection);
@@ -291,5 +316,7 @@
         private System.Windows.Forms.TextBox txtBoxHorizArmSection;
         private System.Windows.Forms.CheckBox checkBoxHorizAddInterval;
         private System.Windows.Forms.TextBox txtVerticalOffset;
+        private System.Windows.Forms.CheckBox checkBoxUnificateLength;
+        private System.Windows.Forms.TextBox textBoxLengths;
     }
 }
