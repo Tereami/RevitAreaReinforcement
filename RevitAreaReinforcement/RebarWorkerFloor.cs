@@ -40,8 +40,20 @@ namespace RevitAreaReinforcement
 
             List<Curve> curves = SupportGeometry.GetFloorOuterBoundary(floor);
 
+            XYZ direction = new XYZ(1, 0, 0);
+
+            if (rif.useDirection)
+            {
+                double angle = floor.SpanDirectionAngle;
+                Transform rotateTransform = Transform.CreateRotationAtPoint(new XYZ(0, 0, 1), angle, new XYZ(0, 0, 0));
+                Line horizontal = Line.CreateBound(new XYZ(0, 0, 0), new XYZ(1, 0, 0));
+                Curve rotatedCurve = horizontal.CreateTransformed(rotateTransform);
+                direction = rotatedCurve.GetEndPoint(1);
+            }
+
+
             AreaReinforcement arTopX = AreaReinforcement
-                .Create(doc, floor, curves, new XYZ(1, 0, 0), areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
+                .Create(doc, floor, curves, direction, areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1_GENERIC).Set(1);
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2_GENERIC).Set(0);
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);
@@ -51,7 +63,7 @@ namespace RevitAreaReinforcement
             arTopX.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх X фон");
 
             AreaReinforcement arTopY = AreaReinforcement
-                .Create(doc, floor, curves, new XYZ(1, 0, 0), areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
+                .Create(doc, floor, curves, direction, areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1_GENERIC).Set(0);
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2_GENERIC).Set(1);
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);
@@ -61,7 +73,7 @@ namespace RevitAreaReinforcement
             arTopY.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
 
             AreaReinforcement arBottomX = AreaReinforcement
-                .Create(doc, floor, curves, new XYZ(1, 0, 0), areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
+                .Create(doc, floor, curves, direction, areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1_GENERIC).Set(0);
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2_GENERIC).Set(0);
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(1);
@@ -71,7 +83,7 @@ namespace RevitAreaReinforcement
             arBottomX.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ X фон");
 
             AreaReinforcement arBottomY = AreaReinforcement
-                .Create(doc, floor, curves, new XYZ(1, 0, 0), areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
+                .Create(doc, floor, curves, direction, areaTypeId, mrt.bartype.Id, ElementId.InvalidElementId);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1_GENERIC).Set(0);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2_GENERIC).Set(0);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);

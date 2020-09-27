@@ -39,6 +39,7 @@ namespace RevitAreaReinforcement
             numInterval.Value = (decimal)(Info.interval * 304.8);
             numCoverBottom.Value = (decimal)(Info.bottomCover * 304.8);
             numCoverTop.Value = (decimal)(Info.topCover * 304.8);
+            checkBoxUseDirection.Checked = Info.useDirection;
 
         }
 
@@ -53,6 +54,7 @@ namespace RevitAreaReinforcement
             rif.interval = ((double)numInterval.Value) / 304.8;
             rif.bottomCover = ((double)numCoverBottom.Value) / 304.8;
             rif.topCover = ((double)numCoverTop.Value) / 304.8;
+            rif.useDirection = checkBoxUseDirection.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

@@ -31,6 +31,7 @@ namespace RevitAreaReinforcement
         public double interval = 0.65616797900262469;
         public double topCover = 0.098425196850393692;
         public double bottomCover = 0.13123359580052493;
+        public bool useDirection = false;
 
 
         public RebarInfoFloor()

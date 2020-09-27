@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.numCoverTop = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxUseDirection = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverBottom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverTop)).BeginInit();
@@ -88,7 +89,7 @@
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOk.Location = new System.Drawing.Point(9, 196);
+            this.buttonOk.Location = new System.Drawing.Point(9, 224);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -99,7 +100,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(131, 196);
+            this.buttonCancel.Location = new System.Drawing.Point(131, 224);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -143,11 +144,22 @@
             this.numCoverTop.Size = new System.Drawing.Size(194, 20);
             this.numCoverTop.TabIndex = 3;
             // 
+            // checkBoxUseDirection
+            // 
+            this.checkBoxUseDirection.AutoSize = true;
+            this.checkBoxUseDirection.Location = new System.Drawing.Point(12, 192);
+            this.checkBoxUseDirection.Name = "checkBoxUseDirection";
+            this.checkBoxUseDirection.Size = new System.Drawing.Size(193, 17);
+            this.checkBoxUseDirection.TabIndex = 5;
+            this.checkBoxUseDirection.Text = "Угол по \"Направлению пролёта\"";
+            this.checkBoxUseDirection.UseVisualStyleBackColor = true;
+            // 
             // DialogWindowFloor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(218, 231);
+            this.ClientSize = new System.Drawing.Size(218, 259);
+            this.Controls.Add(this.checkBoxUseDirection);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.numCoverTop);
@@ -183,5 +195,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numCoverTop;
+        private System.Windows.Forms.CheckBox checkBoxUseDirection;
     }
 }
