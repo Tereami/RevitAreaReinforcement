@@ -95,6 +95,13 @@ namespace RevitAreaReinforcement
 
                 foreach (Wall wall in walls)
                 {
+                    Parameter isStructural = wall.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT);
+                    if (isStructural == null) continue;
+                    if(isStructural.AsInteger() != 1)
+                    {
+                        message = "Стена не несущая, армирование невозможно. Id " + wall.Id.IntegerValue.ToString();
+                        return Result.Failed;
+                    }
                     if (wallsHaveRebarInfo)
                     {
                         RebarInfoWall newRiw = new RebarInfoWall(doc, wall);
