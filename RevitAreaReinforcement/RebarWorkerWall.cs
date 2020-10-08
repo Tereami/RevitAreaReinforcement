@@ -120,11 +120,16 @@ namespace RevitAreaReinforcement
                     else
                     {
                         int count = countCheck - 1;
+
+                        if(addIntervalByAxis <  50 / 304.8 ) //доборный шаг менее 50мм - увеличиваю отступ сверху
+                        {
+                            count--;
+                        }
+
                         double heigthClean = count * wri.horizontalRebarInterval;
                         double offsetMain = heigth - heigthClean - horizontalRebarType.bartype.BarDiameter;
                         List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, -offsetMain, SupportGeometry.LineSide.Top);
                         curvesArray.Add(profileMain);
-
 
                         double heigthAdd = heigth - heigthClean - wri.horizontalRebarInterval;
 

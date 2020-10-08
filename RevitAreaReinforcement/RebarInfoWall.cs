@@ -34,7 +34,7 @@ namespace RevitAreaReinforcement
         public double verticalRebarInterval = 0.65616797900262469;
         public string horizontalRebarTypeName = "12 A240";
         public double horizontalRebarInterval = 0.65616797900262469;
-        public bool horizontalAddInterval = false;
+        public bool horizontalAddInterval = true;
 
         public double verticalFreeLength = 2.1325459317585302;
         public double horizontalFreeLength = 0;
