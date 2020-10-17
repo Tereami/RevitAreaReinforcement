@@ -37,6 +37,7 @@ namespace RevitAreaReinforcement
         public bool horizontalAddInterval = true;
 
         public double verticalFreeLength = 2.1325459317585302;
+        public bool autoVerticalFreeLength = false;
         public double horizontalFreeLength = 0;
 
         public double backOffset = 0;
@@ -94,7 +95,14 @@ namespace RevitAreaReinforcement
             verticalRebarInterval = GetParameter("Арм.ВертШаг", wall).AsDouble();
             horizontalRebarInterval = GetParameter("Арм.ГоризШаг", wall).AsDouble();
 
-            verticalFreeLength = GetParameter("Арм.ДлинаВыпуска", wall).AsDouble();
+            try
+            {
+                verticalFreeLength = GetParameter("Арм.ДлинаВыпуска", wall).AsDouble();
+            }
+            catch
+            {
+                verticalFreeLength = 0;
+            }
 
             rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
         }
@@ -130,10 +138,10 @@ namespace RevitAreaReinforcement
         {
             double distance = 99999;
             double result = 99999;
-            foreach(double u in lengthsUnification)
+            foreach (double u in lengthsUnification)
             {
                 double curDist = u - l;
-                if(curDist >= 0 && curDist < distance)
+                if (curDist >= 0 && curDist < distance)
                 {
                     distance = curDist;
                     result = u;
@@ -141,6 +149,7 @@ namespace RevitAreaReinforcement
             }
             return result;
         }
+
 
         //private bool GetBool(string paramName, Element elem)
         //{

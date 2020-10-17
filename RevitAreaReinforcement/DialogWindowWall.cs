@@ -50,6 +50,7 @@ namespace RevitAreaReinforcement
             txtRebarCover.Text = (reinfInfo.rebarCover * 304.8).ToString();
 
             txtVerticalFreeLength.Text = (reinfInfo.verticalFreeLength * 304.8).ToString();
+            checkBoxAutoVerticalFreeLengh.Checked = wri.autoVerticalFreeLength;
             txtHorizontalFreeLength.Text = (reinfInfo.horizontalFreeLength * 304.8).ToString();
 
             cmbHorizonalType.DataSource = rebarTypes1;
@@ -94,6 +95,7 @@ namespace RevitAreaReinforcement
             wri.rebarCover = double.Parse(txtRebarCover.Text) / 304.8;
 
             wri.verticalFreeLength = double.Parse(txtVerticalFreeLength.Text) / 304.8;
+            wri.autoVerticalFreeLength = checkBoxAutoVerticalFreeLengh.Checked;
             wri.horizontalFreeLength = double.Parse(txtHorizontalFreeLength.Text) / 304.8;
 
             wri.horizontalRebarTypeName = cmbHorizonalType.Text;
@@ -158,6 +160,11 @@ namespace RevitAreaReinforcement
         private void checkBoxUnificateLength_CheckedChanged(object sender, EventArgs e)
         {
             textBoxLengths.Enabled = checkBoxUnificateLength.Checked;
+        }
+
+        private void checkBoxAutoVerticalFreeLengh_CheckedChanged(object sender, EventArgs e)
+        {
+            txtVerticalFreeLength.Enabled = !this.Enabled;
         }
     }
 }

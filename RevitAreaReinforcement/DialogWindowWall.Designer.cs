@@ -49,6 +49,7 @@
             this.txtVerticalOffset = new System.Windows.Forms.TextBox();
             this.checkBoxUnificateLength = new System.Windows.Forms.CheckBox();
             this.textBoxLengths = new System.Windows.Forms.TextBox();
+            this.checkBoxAutoVerticalFreeLengh = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,7 +117,7 @@
             // 
             // txtVerticalFreeLength
             // 
-            this.txtVerticalFreeLength.Location = new System.Drawing.Point(43, 88);
+            this.txtVerticalFreeLength.Location = new System.Drawing.Point(43, 81);
             this.txtVerticalFreeLength.Margin = new System.Windows.Forms.Padding(2);
             this.txtVerticalFreeLength.Name = "txtVerticalFreeLength";
             this.txtVerticalFreeLength.Size = new System.Drawing.Size(50, 20);
@@ -259,11 +260,23 @@
             this.textBoxLengths.Size = new System.Drawing.Size(139, 20);
             this.textBoxLengths.TabIndex = 10;
             // 
+            // checkBoxAutoVerticalFreeLengh
+            // 
+            this.checkBoxAutoVerticalFreeLengh.AutoSize = true;
+            this.checkBoxAutoVerticalFreeLengh.Location = new System.Drawing.Point(43, 107);
+            this.checkBoxAutoVerticalFreeLengh.Name = "checkBoxAutoVerticalFreeLengh";
+            this.checkBoxAutoVerticalFreeLengh.Size = new System.Drawing.Size(50, 17);
+            this.checkBoxAutoVerticalFreeLengh.TabIndex = 11;
+            this.checkBoxAutoVerticalFreeLengh.Text = "Авто";
+            this.checkBoxAutoVerticalFreeLengh.UseVisualStyleBackColor = true;
+            this.checkBoxAutoVerticalFreeLengh.CheckedChanged += new System.EventHandler(this.checkBoxAutoVerticalFreeLengh_CheckedChanged);
+            // 
             // DialogWindowWall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(865, 625);
+            this.Controls.Add(this.checkBoxAutoVerticalFreeLengh);
             this.Controls.Add(this.textBoxLengths);
             this.Controls.Add(this.checkBoxUnificateLength);
             this.Controls.Add(this.txtVerticalOffset);
@@ -318,5 +331,6 @@
         private System.Windows.Forms.TextBox txtVerticalOffset;
         private System.Windows.Forms.CheckBox checkBoxUnificateLength;
         private System.Windows.Forms.TextBox textBoxLengths;
+        private System.Windows.Forms.CheckBox checkBoxAutoVerticalFreeLengh;
     }
 }

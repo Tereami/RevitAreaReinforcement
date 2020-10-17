@@ -25,6 +25,14 @@ namespace RevitAreaReinforcement
     {
         public static void GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
         {
+            double lengthRound = 5 / 304.8;
+            ProjectInfo pi = doc.ProjectInformation;
+            Parameter roundLengthParam = pi.LookupParameter("Арм.ОкруглениеДлины");
+            if(roundLengthParam != null && roundLengthParam.HasValue)
+            {
+                lengthRound = roundLengthParam.AsDouble();
+            }
+
             wall.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER).Set(zeroCover.Id);
 
             Solid sol = SupportGeometry.GetSolidFromElement(wall);
@@ -59,6 +67,16 @@ namespace RevitAreaReinforcement
 
             if (wri.generateVertical)
             {
+                Parameter paramFloorThickinessParam = wall.LookupParameter("Рзм.ТолщинаПерекрытия");
+
+                if (wri.autoVerticalFreeLength && paramFloorThickinessParam != null && paramFloorThickinessParam.HasValue)
+                {
+                    double floorThickness = paramFloorThickinessParam.AsDouble();
+                    double freeLength = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall, lengthRound);
+                    wri.verticalFreeLength = floorThickness + freeLength;
+                }
+                
+
                 List<Curve> curvesVertical = SupportGeometry.MoveLine(wallOutline, wri.verticalFreeLength, SupportGeometry.LineSide.Top);
 
                 if(wri.useUnification)

@@ -55,6 +55,7 @@
     <Compile Include="CommandCreateAreaRebar.cs" />
     <Compile Include="CommandCreateFloorRebar.cs" />
     <Compile Include="CommandRestoreRebarArea.cs" />
+    <Compile Include="ConcreteUtils.cs" />
     <Compile Include="ContiguousCurveSorter.cs" />
     <Compile Include="DialogWindowWall.cs">
       <SubType>Form</SubType>

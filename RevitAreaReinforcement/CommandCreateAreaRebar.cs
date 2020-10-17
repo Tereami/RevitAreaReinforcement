@@ -115,6 +115,7 @@ namespace RevitAreaReinforcement
 
                         newRiw.useUnification = riw.useUnification;
                         newRiw.lengthsUnification = riw.lengthsUnification;
+                        newRiw.autoVerticalFreeLength = riw.autoVerticalFreeLength;
 
                         RebarWorkerWall.GenerateRebar(doc, wall, newRiw, zeroCover, areaTypeId);
                     }
