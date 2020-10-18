@@ -20,6 +20,7 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Structure;
 using System.Xml.Serialization;
 using System.IO;
+using System.Data;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -73,7 +74,11 @@ namespace RevitAreaReinforcement
 
             if (wallsHaveRebarInfo)
             {
-                TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
+                //TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
+                DialogWindowWallAuto dialogWallAuto = new DialogWindowWallAuto(riw);
+                dialogWallAuto.ShowDialog();
+                if (dialogWallAuto.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
+                riw = dialogWallAuto.rebarInfo;
             }
             else
             {

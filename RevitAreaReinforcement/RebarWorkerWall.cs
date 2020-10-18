@@ -69,11 +69,20 @@ namespace RevitAreaReinforcement
             {
                 Parameter paramFloorThickinessParam = wall.LookupParameter("Рзм.ТолщинаПерекрытия");
 
-                if (wri.autoVerticalFreeLength && paramFloorThickinessParam != null && paramFloorThickinessParam.HasValue)
+
+
+                if (wri.autoVerticalFreeLength)
                 {
-                    double floorThickness = paramFloorThickinessParam.AsDouble();
-                    double freeLength = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall, lengthRound);
-                    wri.verticalFreeLength = floorThickness + freeLength;
+                    if (paramFloorThickinessParam != null && paramFloorThickinessParam.HasValue)
+                    {
+                        double floorThickness = paramFloorThickinessParam.AsDouble();
+                        double freeLength = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall, lengthRound);
+                        wri.verticalFreeLength = floorThickness + freeLength;
+                    }
+                    else
+                    {
+                        throw new Exception("Не задан параметр Рзм.ТолщинаПерекрытия в элементе " + wall.Id.IntegerValue.ToString());
+                    }
                 }
                 
 
