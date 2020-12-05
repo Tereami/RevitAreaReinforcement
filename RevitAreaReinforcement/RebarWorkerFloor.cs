@@ -22,9 +22,15 @@ namespace RevitAreaReinforcement
 {
     public static class RebarWorkerFloor
     {
-        public static void Generate(Document doc, Floor floor, RebarInfoFloor rif, ElementId areaTypeId)
+        
+        public static List<string> Generate(Document doc, Floor floor, RebarInfoFloor rif, ElementId areaTypeId)
         {
+            List<string> messages = new List<string>();
             MyRebarType mrt = new MyRebarType(doc, rif.rebarTypeName);
+            if(mrt.isValid == false)
+            {
+                messages.Add("Не удалось получить тип стержня " + rif.rebarTypeName);
+            }
             double interval = rif.interval;
             double topCoverUser = rif.topCover;
             double bottomCoverUser = rif.bottomCover;
@@ -91,6 +97,8 @@ namespace RevitAreaReinforcement
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2_GENERIC).Set(interval);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomCover);
             arBottomY.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ Y фон");
+
+            return messages;
         }
     }
 }

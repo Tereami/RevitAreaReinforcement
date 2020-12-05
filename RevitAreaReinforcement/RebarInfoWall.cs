@@ -25,6 +25,7 @@ namespace RevitAreaReinforcement
     [Serializable]
     public class RebarInfoWall
     {
+
         public bool generateVertical = true;
         public string verticalSectionText = "Осн. верт.";
         public bool generateHorizontal = true;
@@ -75,7 +76,8 @@ namespace RevitAreaReinforcement
             else
             {
                 generateVertical = true;
-                verticalRebarTypeName = new MyRebarType(doc, verticalDiameter, verticalClass, false).bartype.Name;
+                MyRebarType newrebtype = new MyRebarType(doc, verticalDiameter, verticalClass, false);
+                verticalRebarTypeName = newrebtype.bartype.Name;
             }
 
             double horizontalDiameter = GetParameter("Арм.ГоризДиаметр", wall).AsDouble();

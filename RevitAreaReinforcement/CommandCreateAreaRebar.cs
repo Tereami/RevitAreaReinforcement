@@ -45,7 +45,22 @@ namespace RevitAreaReinforcement
             }
             if (walls.Count == 0)
             {
-                message = "Выберите стены для армирования";
+                message = "Предварительно выберите стены для армирования";
+                return Result.Failed;
+            }
+
+            foreach(Wall w in walls)
+            {
+                Parameter isStructural = w.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT);
+                if (isStructural == null) continue;
+                if (isStructural.AsInteger() != 1)
+                {
+                    elements.Insert(w);
+                }
+            }
+            if(elements.Size > 0)
+            {
+                message = "Найдены не несущие стены, армирование не может быть выполнено";
                 return Result.Failed;
             }
 
@@ -100,13 +115,6 @@ namespace RevitAreaReinforcement
 
                 foreach (Wall wall in walls)
                 {
-                    Parameter isStructural = wall.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT);
-                    if (isStructural == null) continue;
-                    if(isStructural.AsInteger() != 1)
-                    {
-                        message = "Стена не несущая, армирование невозможно. Id " + wall.Id.IntegerValue.ToString();
-                        return Result.Failed;
-                    }
                     if (wallsHaveRebarInfo)
                     {
                         RebarInfoWall newRiw = new RebarInfoWall(doc, wall);

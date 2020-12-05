@@ -25,6 +25,7 @@ namespace RevitAreaReinforcement
     public class MyRebarType
     {
         public RebarBarType bartype;
+        public bool isValid = false;
 
         public MyRebarType(RebarBarType BarType)
         {
@@ -55,6 +56,7 @@ namespace RevitAreaReinforcement
             else
             {
                 bartype = mytypes.First();
+                isValid = true;
             }
         }
 
@@ -83,9 +85,13 @@ namespace RevitAreaReinforcement
                 if (commonLengthOn != AsCommonLength) continue;
 
                 bartype = rbt;
+                isValid = true;
                 break;
             }
-
+            if (!isValid)
+            {
+                throw new Exception("Не удалось получить тип стержня d" + (BarDiameter * 304.8).ToString("F0") + " класс " + BarClass.ToString("F0"));
+            }
         }
     }
 }

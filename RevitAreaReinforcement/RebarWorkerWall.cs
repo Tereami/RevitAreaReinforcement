@@ -23,8 +23,10 @@ namespace RevitAreaReinforcement
 {
     public static class RebarWorkerWall
     {
-        public static void GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
+        public static List<string> GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
         {
+            List<string> messages = new List<string>();
+
             double lengthRound = 5 / 304.8;
             ProjectInfo pi = doc.ProjectInformation;
             Parameter roundLengthParam = pi.LookupParameter("Арм.ОкруглениеДлины");
@@ -57,7 +59,15 @@ namespace RevitAreaReinforcement
             double userDefineCover = wri.rebarCover;
 
             MyRebarType verticalRebarType = new MyRebarType(doc, wri.verticalRebarTypeName);
+            if (verticalRebarType.isValid == false)
+            {
+                messages.Add("Не удалось получить тип стержня " + wri.verticalRebarTypeName);
+            }
             MyRebarType horizontalRebarType = new MyRebarType(doc, wri.horizontalRebarTypeName);
+            if(horizontalRebarType.isValid == false)
+            {
+                messages.Add("Не удалось получить тип стержня " + wri.horizontalRebarTypeName);
+            }
 
             double offsetHorizontalExterior = userDefineCover - coverFront.CoverDistance;
             double offsetHorizontalInterior = userDefineCover - coverBack.CoverDistance;
@@ -170,6 +180,7 @@ namespace RevitAreaReinforcement
                     AreaReinforcement ar = Generate(doc, wall, profile, true, true, true, offsetHorizontalInterior, offsetHorizontalExterior, wri.horizontalRebarInterval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
                 }
             }
+            return messages;
         }
 
 

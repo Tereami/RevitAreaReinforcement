@@ -49,59 +49,92 @@ namespace RevitAreaReinforcement
 
             List<string> rebarTypes = SupportDocumentGetter.GetRebarTypes(doc);
 
-            if (floors.Count > 0)
+            if (floors.Count == 0)
             {
-                string floorPath = System.IO.Path.Combine(App.localFolder, "floor.xml");
-                RebarInfoFloor rif = null;
-                XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoFloor));
+                message = "Нет подходящих перекрытий для армирования";
+                return Result.Failed;
+            }
 
-                if (System.IO.File.Exists(floorPath))
+            foreach(Floor fl in floors)
+            {
+                Parameter floorIsStructuralParam = fl.get_Parameter(BuiltInParameter.FLOOR_PARAM_IS_STRUCTURAL);
+                if(floorIsStructuralParam != null)
                 {
-                    using (System.IO.StreamReader reader = new System.IO.StreamReader(floorPath))
+                    if(floorIsStructuralParam.AsInteger() != 1)
                     {
-                        try
-                        {
-                            rif = (RebarInfoFloor)serializer.Deserialize(reader);
-                        }
-                        catch
-                        {
-                            rif = RebarInfoFloor.GetDefault(doc);
-                        }
-                        if (rif == null)
-                        {
-                            throw new Exception("Не удалось сериализовать: " + floorPath);
-                        }
+                        elements.Insert(fl);
                     }
-                }
-                else
-                {
-                    rif = RebarInfoFloor.GetDefault(doc);
-                }
-
-
-
-
-                DialogWindowFloor form = new DialogWindowFloor(rif, rebarTypes);
-                form.ShowDialog();
-                if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
-
-                if (File.Exists(floorPath)) File.Delete(floorPath);
-                using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
-                {
-                    serializer.Serialize(writer, form.rif);
-                }
-
-                using (Transaction t = new Transaction(doc))
-                {
-                    t.Start("Армирование плит");
-
-                    foreach (Floor floor in floors)
-                    {
-                        RebarWorkerFloor.Generate(doc, floor, rif, areaTypeId);
-                    }
-                    t.Commit();
                 }
             }
+            if(elements.Size > 0)
+            {
+                message = "Найдены не несущие плиты, армирование не будет выполнено";
+                return Result.Failed;
+            }
+
+            string floorPath = System.IO.Path.Combine(App.localFolder, "floor.xml");
+            RebarInfoFloor rif = null;
+            XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoFloor));
+
+            if (System.IO.File.Exists(floorPath))
+            {
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(floorPath))
+                {
+                    try
+                    {
+                        rif = (RebarInfoFloor)serializer.Deserialize(reader);
+                    }
+                    catch
+                    {
+                        rif = RebarInfoFloor.GetDefault(doc);
+                    }
+                    if (rif == null)
+                    {
+                        throw new Exception("Не удалось сериализовать: " + floorPath);
+                    }
+                }
+            }
+            else
+            {
+                rif = RebarInfoFloor.GetDefault(doc);
+            }
+
+
+
+
+            DialogWindowFloor form = new DialogWindowFloor(rif, rebarTypes);
+            form.ShowDialog();
+            if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
+
+            if (File.Exists(floorPath)) File.Delete(floorPath);
+            using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
+            {
+                serializer.Serialize(writer, form.rif);
+            }
+
+            List<string> rebarMessages = new List<string>();
+
+            using (Transaction t = new Transaction(doc))
+            {
+                t.Start("Армирование плит");
+
+                foreach (Floor floor in floors)
+                {
+                    List<string> curRebarMessages = RebarWorkerFloor.Generate(doc, floor, rif, areaTypeId);
+                    rebarMessages.AddRange(curRebarMessages);
+                }
+                t.Commit();
+            }
+
+            if(rebarMessages.Count > 0)
+            {
+                foreach(string msg in rebarMessages)
+                {
+                    message += msg + System.Environment.NewLine;
+                }
+                return Result.Failed;
+            }
+
 
             return Result.Succeeded;
         }

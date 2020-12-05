@@ -30,12 +30,19 @@ namespace RevitAreaReinforcement
             RibbonPanel panel1 = application.CreateRibbonPanel(tabName, "Стены");
             PushButton btn = panel1.AddItem(new PushButtonData(
                 "AreaRebar",
-                "Фоновая",
+                "Стены",
                 assemblyPath,
                 "RevitAreaReinforcement.CommandCreateAreaRebar")
                 ) as PushButton;
 
             PushButton btn2 = panel1.AddItem(new PushButtonData(
+                "FloorRebar",
+                "Плиты",
+                assemblyPath,
+                "RevitAreaReinforcement.CommandCreateFloorRebar")
+                ) as PushButton;
+
+            PushButton btn3 = panel1.AddItem(new PushButtonData(
                 "AreaFix",
                 "Ремонт",
                 assemblyPath,
