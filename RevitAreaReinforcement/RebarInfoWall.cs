@@ -12,6 +12,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,18 +67,22 @@ namespace RevitAreaReinforcement
         /// <param name="wall"></param>
         public RebarInfoWall(Document doc, Wall wall)
         {
+            Debug.WriteLine("Start get info from wall id" + wall.Id.IntegerValue.ToString());
             double verticalDiameter = GetParameter("Арм.ВертДиаметр", wall).AsDouble();
             double verticalClass = GetParameter("Арм.ВертКласс", wall).AsDouble();
             if (verticalDiameter == 0 || verticalClass == 0)
             {
                 generateVertical = false;
                 verticalRebarTypeName = null;
+                Debug.WriteLine("Vertical rebar will not be created");
             }
             else
             {
+                Debug.WriteLine("Vertical rebar will be created");
                 generateVertical = true;
                 MyRebarType newrebtype = new MyRebarType(doc, verticalDiameter, verticalClass, false);
                 verticalRebarTypeName = newrebtype.bartype.Name;
+                Debug.WriteLine("Vertical rebar typename: " + verticalRebarTypeName);
             }
 
             double horizontalDiameter = GetParameter("Арм.ГоризДиаметр", wall).AsDouble();
@@ -86,44 +91,58 @@ namespace RevitAreaReinforcement
             {
                 generateHorizontal = false;
                 horizontalRebarTypeName = null;
+                Debug.WriteLine("Horizontal rebar will not be created");
             }
             else
             {
+                Debug.WriteLine("Horizontal rebar will be created");
                 generateHorizontal = true;
                 horizontalRebarTypeName = new MyRebarType(doc, horizontalDiameter, horizontalClass, true).bartype.Name;
+                Debug.WriteLine("Horizontal rebar typename: " + horizontalRebarTypeName);
             }
 
 
             verticalRebarInterval = GetParameter("Арм.ВертШаг", wall).AsDouble();
             horizontalRebarInterval = GetParameter("Арм.ГоризШаг", wall).AsDouble();
+            Debug.WriteLine("Rebar interval: " + verticalRebarInterval.ToString("F3") + "x" + horizontalRebarInterval.ToString("F3"));
 
             try
             {
                 verticalFreeLength = GetParameter("Арм.ДлинаВыпуска", wall).AsDouble();
+                Debug.WriteLine("Vertical free length from parameter. L=" + verticalFreeLength.ToString("F3"));
             }
             catch
             {
                 verticalFreeLength = 0;
+                Debug.WriteLine("Vertical free length = 0");
             }
 
             rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
+            Debug.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
         }
 
 
         public static RebarInfoWall GetDefault(Document doc)
         {
-            RebarBarType bartype = new FilteredElementCollector(doc)
+            Debug.WriteLine("Create default rebar info");
+            List<RebarBarType> bartypes = new FilteredElementCollector(doc)
                 .WhereElementIsElementType()
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
-                .First();
+                .ToList();
+
+            Debug.WriteLine("RebarBarTypes found: " + bartypes.Count.ToString());
+
+            RebarBarType bartype = bartypes.First();
             string bartypename = bartype.Name;
+            Debug.WriteLine("Selected bartype: " + bartypename);
 
             RebarInfoWall info = new RebarInfoWall();
             info.horizontalRebarTypeName = bartypename;
             info.verticalRebarTypeName = bartypename;
             info.lengthsUnification = new List<double> { 38.38582677165354, 25.59055118110236, 19.19291338582677, 12.79527559055118, 9.596456692913386, 7.677165354330709 };
 
+            Debug.WriteLine("RebarInfo was created");
             return info;
         }
 
@@ -131,9 +150,12 @@ namespace RevitAreaReinforcement
         private Parameter GetParameter(string paramName, Element elem)
         {
             Parameter param = elem.LookupParameter(paramName);
-            if (param == null || !param.HasValue) throw new Exception("В элементе " + elem.Id + " нет параметра " + paramName);
+            if (param == null || !param.HasValue)
+            {
+                Debug.WriteLine("Unable to get parameter " + paramName + " from element id" + elem.Id.IntegerValue.ToString());
+                throw new Exception("В элементе " + elem.Id + " нет параметра " + paramName);
+            }
             return param;
-
         }
 
         public double getNearestLength(double l)
@@ -151,14 +173,5 @@ namespace RevitAreaReinforcement
             }
             return result;
         }
-
-
-        //private bool GetBool(string paramName, Element elem)
-        //{
-        //    Parameter param = GetParameter(paramName, elem);
-        //    int val = param.AsInteger();
-        //    if (val == 0) return false;
-        //    return true;
-        //}
     }
 }

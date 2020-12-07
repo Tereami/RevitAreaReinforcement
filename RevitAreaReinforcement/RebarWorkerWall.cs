@@ -12,6 +12,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
@@ -25,6 +26,7 @@ namespace RevitAreaReinforcement
     {
         public static List<string> GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
         {
+            Debug.WriteLine("Start reinforcement for wall: " + wall.Id.IntegerValue.ToString());
             List<string> messages = new List<string>();
 
             double lengthRound = 5 / 304.8;
@@ -36,17 +38,20 @@ namespace RevitAreaReinforcement
             }
 
             wall.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER).Set(zeroCover.Id);
+            Debug.WriteLine("Set zero rebar cover for other faces");
 
             Solid sol = SupportGeometry.GetSolidFromElement(wall);
             List<Face> vertFaces = SupportGeometry.GetVerticalFaces(sol);
             Face mainFace = SupportGeometry.GetLargeFace(vertFaces);
             PlanarFace pface = mainFace as PlanarFace;
+            Debug.WriteLine("Vertical planar face was found");
 
             List<Curve> wallOutlineDraft = SupportGeometry.GetFaceOuterBoundary(pface);
+            Debug.WriteLine("Outline draft curves found: " + wallOutlineDraft.Count.ToString());
 
             //удаляю совпадающие линии
             List<Curve> wallOutline = SupportGeometry.CleanLoop(wallOutlineDraft);
-
+            Debug.WriteLine("Outline clean curves found: " + wallOutline.Count.ToString());
 
 
             //определяю отступы для защитных слоев
@@ -58,15 +63,18 @@ namespace RevitAreaReinforcement
 
             double userDefineCover = wri.rebarCover;
 
+
             MyRebarType verticalRebarType = new MyRebarType(doc, wri.verticalRebarTypeName);
             if (verticalRebarType.isValid == false)
             {
                 messages.Add("Не удалось получить тип стержня " + wri.verticalRebarTypeName);
+                Debug.WriteLine("Unable to get vertical rebartype: " + wri.verticalRebarTypeName);
             }
             MyRebarType horizontalRebarType = new MyRebarType(doc, wri.horizontalRebarTypeName);
             if(horizontalRebarType.isValid == false)
             {
                 messages.Add("Не удалось получить тип стержня " + wri.horizontalRebarTypeName);
+                Debug.WriteLine("Unable to get horizontal rebartype: " + wri.horizontalRebarTypeName);
             }
 
             double offsetHorizontalExterior = userDefineCover - coverFront.CoverDistance;
@@ -77,29 +85,33 @@ namespace RevitAreaReinforcement
 
             if (wri.generateVertical)
             {
+                Debug.WriteLine("Start creating vertical rebar");
                 Parameter paramFloorThickinessParam = wall.LookupParameter("Рзм.ТолщинаПерекрытия");
-
-
 
                 if (wri.autoVerticalFreeLength)
                 {
+                    Debug.WriteLine("Try to auto-calculate vertical free length");
                     if (paramFloorThickinessParam != null && paramFloorThickinessParam.HasValue)
                     {
                         double floorThickness = paramFloorThickinessParam.AsDouble();
                         double freeLength = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall, lengthRound);
                         wri.verticalFreeLength = floorThickness + freeLength;
+                        Debug.WriteLine("Vertical free length = " + wri.verticalFreeLength);
                     }
                     else
                     {
+                        Debug.WriteLine("Unable to auto-calculate vertical free length");
                         throw new Exception("Не задан параметр Рзм.ТолщинаПерекрытия в элементе " + wall.Id.IntegerValue.ToString());
                     }
                 }
                 
 
                 List<Curve> curvesVertical = SupportGeometry.MoveLine(wallOutline, wri.verticalFreeLength, SupportGeometry.LineSide.Top);
+                Debug.WriteLine("Curves for vertical loop: " + curvesVertical.Count.ToString());
 
-                if(wri.useUnification)
+                if (wri.useUnification)
                 {
+                    Debug.WriteLine("Try to unificate vertical length");
                     double verticalZoneHeight = SupportGeometry.GetZoneHeigth(curvesVertical);
                     double unificateLength = wri.getNearestLength(verticalZoneHeight);
                     double moveToUnificate = unificateLength - verticalZoneHeight;
@@ -110,14 +122,17 @@ namespace RevitAreaReinforcement
                     }
                 }
 
+                Debug.WriteLine("Contiguous curves sort");
                 CurveUtils.SortCurvesContiguous(doc.Application.Create, curvesVertical, true);
 
                 if (wri.verticalOffset < 0.0001)
                 {
+                    Debug.WriteLine("Generate vertical rebar area without offset");
                     AreaReinforcement arVertical = Generate(doc, wall, curvesVertical, false, true, true, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
                 }
                 else
                 {
+                    Debug.WriteLine("Generate vertical rebar area with offset");
                     AreaReinforcement arVertical1 = Generate(doc, wall, curvesVertical, false, true, false, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
 
                     List<Curve> curves2 = SupportGeometry.MoveLine(curvesVertical, wri.verticalOffset, SupportGeometry.LineSide.Top);
@@ -128,6 +143,7 @@ namespace RevitAreaReinforcement
 
             if (wri.generateHorizontal)
             {
+                Debug.WriteLine("Start creating horizontal rebar");
                 //определяю контур
                 double horizontalTopOffset = 0.5 * horizontalRebarType.bartype.BarDiameter - wri.topOffset;
                 double horizintalBottomOffset = wri.bottomOffset - 0.5 * horizontalRebarType.bartype.BarDiameter;
@@ -139,10 +155,12 @@ namespace RevitAreaReinforcement
 
                 if (!wri.horizontalAddInterval)
                 {
+                    Debug.WriteLine("Create without additional offset");
                     curvesArray.Add(curvesHorizontal);
                 }
                 else
                 {
+                    Debug.WriteLine("Create with additional offset");
                     double heigth = SupportGeometry.GetZoneHeigth(curvesHorizontal);
                     double heigthByAxis = heigth - horizontalRebarType.bartype.BarDiameter;
                     double countCheckAsDouble1 = heigthByAxis / wri.horizontalRebarInterval;
@@ -152,10 +170,12 @@ namespace RevitAreaReinforcement
                     double addIntervalByAxis = heigthByAxis - countCheck * wri.horizontalRebarInterval;
                     if (addIntervalByAxis < horizontalRebarType.bartype.BarDiameter) //доборный шаг не требуется
                     {
+                        Debug.WriteLine("Additional offset not needed");
                         curvesArray.Add(curvesHorizontal);
                     }
                     else
                     {
+                        Debug.WriteLine("Additional offset = " + (addIntervalByAxis * 304.8).ToString("F3"));
                         int count = countCheck - 1;
 
                         if(addIntervalByAxis <  50 / 304.8 ) //доборный шаг менее 50мм - увеличиваю отступ сверху
@@ -175,6 +195,8 @@ namespace RevitAreaReinforcement
                     }
                 }
 
+                Debug.WriteLine("Loops for horizontal rebar: " + curvesArray.Count.ToString());
+
                 foreach (List<Curve> profile in curvesArray)
                 {
                     AreaReinforcement ar = Generate(doc, wall, profile, true, true, true, offsetHorizontalInterior, offsetHorizontalExterior, wri.horizontalRebarInterval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
@@ -186,6 +208,8 @@ namespace RevitAreaReinforcement
 
         private static AreaReinforcement Generate(Document doc, Wall wall, List<Curve> profile, bool isHorizontal, bool createInterior, bool createExterior, double offsetInt, double offsetExt, double interval, ElementId areaId, RebarBarType barType, string partition)
         {
+            Debug.WriteLine("Start generating area rebar. Profile debug info: ");
+            Debug.WriteLine(Util.ProfileDebugInfo(profile));
             CurveUtils.SortCurvesContiguous(doc.Application.Create, profile, true);
             AreaReinforcement arein = AreaReinforcement.Create(doc, wall, profile, new XYZ(0, 0, 1), areaId, barType.Id, ElementId.InvalidElementId);
 
@@ -222,6 +246,7 @@ namespace RevitAreaReinforcement
             arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_EXTERIOR_OFFSET).Set(offsetExt);
             arein.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set(partition);
 
+            Debug.WriteLine("Rebar area created");
             return arein;
         }
     }

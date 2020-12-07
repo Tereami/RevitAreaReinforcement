@@ -109,13 +109,11 @@ namespace RevitAreaReinforcement
         }
         #endregion // Formatting
 
-        const string _caption = "The Building Coder";
-
         static public void InfoMsg(string msg)
         {
             Debug.WriteLine(msg);
             System.Windows.Forms.MessageBox.Show(msg,
-              _caption,
+              "AreaReinforcement",
               System.Windows.Forms.MessageBoxButtons.OK,
               System.Windows.Forms.MessageBoxIcon.Information);
         }
@@ -136,6 +134,37 @@ namespace RevitAreaReinforcement
 
             return string.Format("{0} {1}<{2} {3}>",
               cn, fn, e.Id.IntegerValue, e.Name);
+        }
+
+        public static string ProfileDebugInfo(List<Curve> profile)
+        {
+            string msg = "Curves count: " + profile.Count.ToString();
+
+            for (int i = 0; i < profile.Count; i++)
+            {
+                Curve c = profile[i];
+                msg += CurveDebugInfo(c);
+            }
+
+            return msg;
+        }
+
+        public static string CurveDebugInfo(Curve c)
+        {
+            double length = c.Length;
+            string msg = Environment.NewLine + "Curve length: " + (length * 304.8).ToString("F1") ;
+            msg += Environment.NewLine + GetPointDegunInfo(c.GetEndPoint(0));
+            msg += Environment.NewLine + GetPointDegunInfo(c.GetEndPoint(1));
+            msg += Environment.NewLine;
+            return msg;
+        }
+
+        public static string GetPointDegunInfo(XYZ point)
+        {
+            string msg = "X: " + (point.X * 304.8).ToString();
+            msg += "\t Y: " + (point.Y * 304.8).ToString();
+            msg += "\t Z: " + (point.Z * 304.8).ToString();
+            return msg;
         }
     }
 }

@@ -120,7 +120,7 @@ namespace RevitAreaReinforcement
 
                 if (debug_output)
                 {
-                    Debug.Print("{0} endPoint {1}", i,
+                    Debug.WriteLine("{0} endPoint {1}", i,
                       Util.PointString(endPoint));
                 }
 
@@ -143,7 +143,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.Print(
+                                Debug.WriteLine(
                                   "{0} start point match, no need to swap",
                                   j, i + 1);
                             }
@@ -152,7 +152,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.Print(
+                                Debug.WriteLine(
                                   "{0} start point, swap with {1}",
                                   j, i + 1);
                             }
@@ -175,7 +175,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.Print(
+                                Debug.WriteLine(
                                   "{0} end point, reverse {1}",
                                   j, i + 1);
                             }
@@ -187,7 +187,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.Print(
+                                Debug.WriteLine(
                                   "{0} end point, swap with reverse {1}",
                                   j, i + 1);
                             }

@@ -57,6 +57,12 @@
     <Compile Include="CommandRestoreRebarArea.cs" />
     <Compile Include="ConcreteUtils.cs" />
     <Compile Include="ContiguousCurveSorter.cs" />
+    <Compile Include="DialogWindowRestoreAreaRebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogWindowRestoreAreaRebar.Designer.cs">
+      <DependentUpon>DialogWindowRestoreAreaRebar.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogWindowWall.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,7 @@
     <Compile Include="DialogWindowWallAuto.Designer.cs">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="RebarInfoFloor.cs" />
     <Compile Include="MyRebarType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +100,9 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DialogWindowRestoreAreaRebar.resx">
+      <DependentUpon>DialogWindowRestoreAreaRebar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogWindowWall.resx">
       <DependentUpon>DialogWindowWall.cs</DependentUpon>
     </EmbeddedResource>

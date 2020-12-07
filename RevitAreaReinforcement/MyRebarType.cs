@@ -12,6 +12,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,7 @@ namespace RevitAreaReinforcement
 
         public MyRebarType(Document Doc, double BarDiameter, double BarClass, bool AsCommonLength)
         {
+            Debug.WriteLine("Try to create MyRebarType, d=" + BarDiameter + " class=" + BarClass);
             List<RebarBarType> bartypes = new FilteredElementCollector(Doc)
                 .WhereElementIsElementType()
                 .OfClass(typeof(RebarBarType))
@@ -86,11 +88,14 @@ namespace RevitAreaReinforcement
 
                 bartype = rbt;
                 isValid = true;
+                Debug.WriteLine("Type found: " + bartype.Name);
                 break;
             }
             if (!isValid)
             {
-                throw new Exception("Не удалось получить тип стержня d" + (BarDiameter * 304.8).ToString("F0") + " класс " + BarClass.ToString("F0"));
+                string errmsg = "Не удалось получить тип стержня d" + (BarDiameter * 304.8).ToString("F0") + " класс " + BarClass.ToString("F0");
+                Debug.WriteLine(errmsg);
+                throw new Exception(errmsg);
             }
         }
     }

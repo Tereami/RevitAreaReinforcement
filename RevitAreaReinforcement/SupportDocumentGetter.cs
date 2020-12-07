@@ -12,6 +12,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,18 +33,32 @@ namespace RevitAreaReinforcement
                 .Where(i => i.CoverDistance == coverDistance)
                 .ToList();
 
-            if (types.Count == 0) return null;
+            Debug.WriteLine("RebarCoverTypes found: " + types.Count.ToString());
+
+            if (types.Count == 0)
+            {
+                throw new Exception("RebarCoverTypes not found");
+            }
 
             return types.First();
         }
 
         public static AreaReinforcementType GetDefaultArea(Document doc)
         {
-            AreaReinforcementType ar = new FilteredElementCollector(doc)
+            List<AreaReinforcementType> areaTypes = new FilteredElementCollector(doc)
                 .WhereElementIsElementType()
                 .OfClass(typeof(AreaReinforcementType))
                 .Cast<AreaReinforcementType>()
-                .First();
+                .ToList();
+
+            Debug.WriteLine("Area reinforcement types found: " + areaTypes.Count.ToString());
+            if (areaTypes.Count == 0)
+            {
+                throw new Exception("Area reinforcement types not found");
+            }
+
+            AreaReinforcementType ar = areaTypes.First();
+
             return ar;
         }
 
@@ -56,6 +71,7 @@ namespace RevitAreaReinforcement
                 double diam = param.AsDouble();
                 if (diam < 0.001) return false; //если указан 0 то тоже пропускаем
             }
+            Debug.WriteLine("Walls have info for auto-reinforcement");
             return true;
         }
 
@@ -68,6 +84,7 @@ namespace RevitAreaReinforcement
                 .Select(i => i.Name)
                 .OrderBy(i => i)
                 .ToList();
+            Debug.WriteLine("RebarBarTypes found: " + rebarTypes.Count.ToString());
             return rebarTypes;
         }
     }

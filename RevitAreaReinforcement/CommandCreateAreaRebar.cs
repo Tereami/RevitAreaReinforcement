@@ -13,6 +13,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #region Usings
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -30,12 +31,17 @@ namespace RevitAreaReinforcement
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            Debug.Listeners.Clear();
+            Debug.Listeners.Add(new Logger());
+            Debug.WriteLine("Wall reinforcement start");
+
             App.ActivateConfigFolder();
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
             List<Wall> walls = new List<Wall>();
+            
 
             foreach (ElementId id in sel.GetElementIds())
             {
@@ -49,7 +55,8 @@ namespace RevitAreaReinforcement
                 return Result.Failed;
             }
 
-            foreach(Wall w in walls)
+            Debug.WriteLine("Selected walls count: " + walls.Count.ToString());
+            foreach (Wall w in walls)
             {
                 Parameter isStructural = w.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT);
                 if (isStructural == null) continue;
@@ -61,6 +68,7 @@ namespace RevitAreaReinforcement
             if(elements.Size > 0)
             {
                 message = "Найдены не несущие стены, армирование не может быть выполнено";
+                Debug.WriteLine("Non-structural walls were found");
                 return Result.Failed;
             }
 
@@ -73,6 +81,7 @@ namespace RevitAreaReinforcement
 
             RebarInfoWall riw = RebarInfoWall.GetDefault(doc);
             string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
+            Debug.WriteLine("Try to deserialize xml: " + wallPath);
             XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
 
             if (System.IO.File.Exists(wallPath))
@@ -83,40 +92,50 @@ namespace RevitAreaReinforcement
                     {
                         riw = (RebarInfoWall)serializer.Deserialize(reader);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Debug.WriteLine("Deserialize fault!");
+                    }
                 }
             }
 
             if (wallsHaveRebarInfo)
             {
                 //TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
+                Debug.WriteLine("DialogWindow for auto-reinforcement");
                 DialogWindowWallAuto dialogWallAuto = new DialogWindowWallAuto(riw);
                 dialogWallAuto.ShowDialog();
                 if (dialogWallAuto.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
                 riw = dialogWallAuto.rebarInfo;
+                Debug.WriteLine("RebarInfo created");
             }
             else
             {
+                Debug.WriteLine("Dialog window for manual-reinforcement");
                 DialogWindowWall form = new DialogWindowWall(riw, rebarTypes, rebarTypes2);
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
             }
 
+            Debug.Write("Delete xml file and rewrite: " + wallPath);
             if (File.Exists(wallPath)) File.Delete(wallPath);
             using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
             {
                 serializer.Serialize(writer, riw);
             }
+            Debug.WriteLine("... Success!");
 
 
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Армирование стен");
+                Debug.WriteLine("Start transaction");
 
                 foreach (Wall wall in walls)
                 {
                     if (wallsHaveRebarInfo)
                     {
+                        Debug.WriteLine("Start auto-reinforcement");
                         RebarInfoWall newRiw = new RebarInfoWall(doc, wall);
                         newRiw.topOffset = riw.topOffset;
                         newRiw.bottomOffset = riw.bottomOffset;
@@ -134,10 +153,12 @@ namespace RevitAreaReinforcement
                     }
                     else
                     {
+                        Debug.WriteLine("Start manual reinforcement");
                         RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
                     }
                 }
                 t.Commit();
+                Debug.WriteLine("Finish transaction");
             }
             return Result.Succeeded;
         }

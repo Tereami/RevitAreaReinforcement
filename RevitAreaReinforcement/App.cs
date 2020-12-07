@@ -11,6 +11,7 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 using Autodesk.Revit.UI;
+using System.Diagnostics;
 
 namespace RevitAreaReinforcement
 {
@@ -59,6 +60,7 @@ namespace RevitAreaReinforcement
 
         public static void ActivateConfigFolder()
         {
+            Debug.WriteLine("Activate config folder");
             if (string.IsNullOrEmpty(App.assemblyFolder))
             {
                 App.assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -75,7 +77,7 @@ namespace RevitAreaReinforcement
                 System.IO.Path.Combine(rbspath, solutionName);
             if (!System.IO.Directory.Exists(localFolder))
                 System.IO.Directory.CreateDirectory(localFolder);
-
+            Debug.WriteLine("Activate folder " + localFolder);
         }
 
     }

@@ -26,6 +26,26 @@ namespace RevitAreaReinforcement
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            string assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string assemblyFolder = System.IO.Path.GetDirectoryName(assemblyPath);
+
+            string shortcutsXmlPath = System.IO.Path.Combine(assemblyFolder, "KeyboardShortcuts.xml");
+            string idsFilePath = System.IO.Path.Combine(assemblyFolder, "ids.txt");
+            string speedFilePath = System.IO.Path.Combine(assemblyFolder, "speed.txt");
+
+            string speedString = "5";
+            if (System.IO.File.Exists(speedFilePath))
+            {
+                speedString = System.IO.File.ReadAllText(speedFilePath);
+            }
+            int speed = int.Parse(speedString);
+            DialogWindowRestoreAreaRebar form = new DialogWindowRestoreAreaRebar(shortcutsXmlPath, speed);
+            if(form.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return Result.Cancelled;
+            }
+            speed = form.speed;
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
             List<ElementId> selids = sel.GetElementIds().ToList();
@@ -43,32 +63,35 @@ namespace RevitAreaReinforcement
                 return Result.Failed;
             }
 
-            bool checkFile = System.IO.File.Exists(@"C:\revitarea\ids.txt");
-            if(checkFile)
+            
+            if(System.IO.File.Exists(idsFilePath))
             {
-                System.IO.File.Delete(@"C:\revitarea\ids.txt");
-                System.IO.Directory.Delete(@"C:\revitarea");
+                System.IO.File.Delete(idsFilePath);
             }
 
-            System.IO.Directory.CreateDirectory(@"C:\revitarea");
-            System.IO.StreamWriter sw = System.IO.File.CreateText(@"C:\revitarea\ids.txt");
-
-            foreach (AreaReinforcement ar in ars)
+            using (System.IO.StreamWriter idsFileWriter = System.IO.File.CreateText(idsFilePath))
             {
-                string line = ar.Id.IntegerValue.ToString() + ":";
-                List<ElementId> curveIds = ar.GetBoundaryCurveIds().ToList();
-                foreach (ElementId id in curveIds)
+                foreach (AreaReinforcement ar in ars)
                 {
-                    line = line + id.IntegerValue.ToString() + ",";
+                    string line = ar.Id.IntegerValue.ToString() + ":";
+                    List<ElementId> curveIds = ar.GetBoundaryCurveIds().ToList();
+                    foreach (ElementId id in curveIds)
+                    {
+                        line = line + id.IntegerValue.ToString() + ",";
+                    }
+                    idsFileWriter.WriteLine(line);
                 }
-                sw.WriteLine(line);
+                idsFileWriter.Close();
             }
-            sw.Close();
 
-            string assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string assemblyFolder = System.IO.Path.GetDirectoryName(assemblyPath);
+            using (System.IO.StreamWriter speedFileWriter = System.IO.File.CreateText(speedFilePath))
+            {
+                speedFileWriter.Write(speed.ToString());
+                speedFileWriter.Close();
+            }
 
-            string scriptPath = System.IO.Path.Combine(assemblyFolder, "RestoreAreaRebar.exe");
+
+                string scriptPath = System.IO.Path.Combine(assemblyFolder, "RestoreAreaRebar.exe");
 
             //нужно сбросить выделение, если есть выбранные элементы
             commandData.Application.ActiveUIDocument.Selection.SetElementIds(new List<ElementId>());
