@@ -40,6 +40,7 @@ namespace RevitAreaReinforcement
             numCoverBottom.Value = (decimal)(Info.bottomCover * 304.8);
             numCoverTop.Value = (decimal)(Info.topCover * 304.8);
             checkBoxUseDirection.Checked = Info.useDirection;
+            this.Text = "Армирование плит v" + System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
 
         }
 
