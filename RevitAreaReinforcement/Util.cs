@@ -75,25 +75,25 @@ namespace RevitAreaReinforcement
         /// Return an English plural suffix 's' or 
         /// nothing for the given number of items.
         /// </summary>
-        public static string PluralSuffix(int n)
-        {
-            return 1 == n ? "" : "s";
-        }
+        //public static string PluralSuffix(int n)
+        //{
+        //    return 1 == n ? "" : "s";
+        //}
 
-        public static string DotOrColon(int n)
-        {
-            return 1 < n ? ":" : ".";
-        }
+        //public static string DotOrColon(int n)
+        //{
+        //    return 1 < n ? ":" : ".";
+        //}
 
         static public string RealString(double a)
         {
             return a.ToString("0.##");
         }
 
-        static public string AngleString(double a)
-        {
-            return RealString(a * 180 / Math.PI) + " degrees";
-        }
+        //static public string AngleString(double a)
+        //{
+        //    return RealString(a * 180 / Math.PI) + " degrees";
+        //}
 
         static public string PointString(XYZ p)
         {
@@ -102,39 +102,38 @@ namespace RevitAreaReinforcement
               RealString(p.Z));
         }
 
-        static public string TransformString(Transform t)
-        {
-            return string.Format("({0},{1},{2},{3})", PointString(t.Origin),
-              PointString(t.BasisX), PointString(t.BasisY), PointString(t.BasisZ));
-        }
+        //static public string TransformString(Transform t)
+        //{
+        //    return string.Format("({0},{1},{2},{3})", PointString(t.Origin),
+        //      PointString(t.BasisX), PointString(t.BasisY), PointString(t.BasisZ));
+        //}
         #endregion // Formatting
 
-        static public void InfoMsg(string msg)
-        {
-            Debug.WriteLine(msg);
-            System.Windows.Forms.MessageBox.Show(msg,
-              "AreaReinforcement",
-              System.Windows.Forms.MessageBoxButtons.OK,
-              System.Windows.Forms.MessageBoxIcon.Information);
-        }
+        //static public void InfoMsg(string msg)
+        //{
+        //    System.Windows.Forms.MessageBox.Show(msg,
+        //      "AreaReinforcement",
+        //      System.Windows.Forms.MessageBoxButtons.OK,
+        //      System.Windows.Forms.MessageBoxIcon.Information);
+        //}
 
-        public static string ElementDescription(Element e)
-        {
-            // for a wall, the element name equals the 
-            // wall type name, which is equivalent to the 
-            // family name ...
-            FamilyInstance fi = e as FamilyInstance;
-            string fn = (null == fi)
-              ? string.Empty
-              : fi.Symbol.Family.Name + " ";
+        //public static string ElementDescription(Element e)
+        //{
+        //    // for a wall, the element name equals the 
+        //    // wall type name, which is equivalent to the 
+        //    // family name ...
+        //    FamilyInstance fi = e as FamilyInstance;
+        //    string fn = (null == fi)
+        //      ? string.Empty
+        //      : fi.Symbol.Family.Name + " ";
 
-            string cn = (null == e.Category)
-              ? e.GetType().Name
-              : e.Category.Name;
+        //    string cn = (null == e.Category)
+        //      ? e.GetType().Name
+        //      : e.Category.Name;
 
-            return string.Format("{0} {1}<{2} {3}>",
-              cn, fn, e.Id.IntegerValue, e.Name);
-        }
+        //    return string.Format("{0} {1}<{2} {3}>",
+        //      cn, fn, e.Id.IntegerValue, e.Name);
+        //}
 
         public static string ProfileDebugInfo(List<Curve> profile)
         {
@@ -153,13 +152,13 @@ namespace RevitAreaReinforcement
         {
             double length = c.Length;
             string msg = Environment.NewLine + "Curve length: " + (length * 304.8).ToString("F1") ;
-            msg += Environment.NewLine + GetPointDegunInfo(c.GetEndPoint(0));
-            msg += Environment.NewLine + GetPointDegunInfo(c.GetEndPoint(1));
+            msg += Environment.NewLine + GetPointDebugInfo(c.GetEndPoint(0));
+            msg += Environment.NewLine + GetPointDebugInfo(c.GetEndPoint(1));
             msg += Environment.NewLine;
             return msg;
         }
 
-        public static string GetPointDegunInfo(XYZ point)
+        public static string GetPointDebugInfo(XYZ point)
         {
             string msg = "X: " + (point.X * 304.8).ToString();
             msg += "\t Y: " + (point.Y * 304.8).ToString();

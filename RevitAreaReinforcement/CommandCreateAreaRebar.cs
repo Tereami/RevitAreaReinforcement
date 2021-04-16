@@ -32,7 +32,7 @@ namespace RevitAreaReinforcement
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Debug.Listeners.Clear();
-            Debug.Listeners.Add(new Logger());
+            Debug.Listeners.Add(new RbsLogger.Logger("WallAreaRebar"));
             Debug.WriteLine("Wall reinforcement start");
 
             App.ActivateConfigFolder();

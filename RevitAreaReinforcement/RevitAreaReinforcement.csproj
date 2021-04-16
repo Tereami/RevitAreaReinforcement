@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RbsLogger">
+      <HintPath>..\..\..\RbsLogger\RbsLogger\bin\Debug\RbsLogger.dll</HintPath>
+    </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -81,7 +84,6 @@
     <Compile Include="DialogWindowWallAuto.Designer.cs">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logger.cs" />
     <Compile Include="RebarInfoFloor.cs" />
     <Compile Include="MyRebarType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

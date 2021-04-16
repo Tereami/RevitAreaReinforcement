@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System.Diagnostics;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Structure;
 using System.Xml.Serialization;
@@ -29,6 +30,9 @@ namespace RevitAreaReinforcement
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            Debug.Listeners.Clear();
+            Debug.Listeners.Add(new RbsLogger.Logger("FloorAreaRebar"));
+            Debug.WriteLine("Floor reinforcement start");
             App.ActivateConfigFolder();
             Document doc = commandData.Application.ActiveUIDocument.Document;
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
@@ -38,6 +42,7 @@ namespace RevitAreaReinforcement
                 Element elem = doc.GetElement(id);
                 if (elem is Floor) floors.Add(elem as Floor);
             }
+            Debug.WriteLine("Selected floors: " + floors.Count);
             if (floors.Count == 0)
             {
                 message = "Выберите плиты для армирования";
@@ -45,9 +50,12 @@ namespace RevitAreaReinforcement
             }
 
             ElementId areaTypeId = SupportDocumentGetter.GetDefaultArea(doc).Id;
+            Debug.WriteLine("AreaTypeId: " + areaTypeId.IntegerValue);
             RebarCoverType zeroCover = SupportDocumentGetter.GetRebarCoverType(doc, 0);
+            Debug.WriteLine("Zero cover type id: " + zeroCover.Id.IntegerValue);
 
             List<string> rebarTypes = SupportDocumentGetter.GetRebarTypes(doc);
+            Debug.WriteLine("Rebar types: " + rebarTypes.Count);
 
             if (floors.Count == 0)
             {
@@ -66,6 +74,7 @@ namespace RevitAreaReinforcement
                     }
                 }
             }
+            Debug.WriteLine("Structural floors: " + (floors.Count - elements.Size));
             if(elements.Size > 0)
             {
                 message = "Найдены не несущие плиты, армирование не будет выполнено";
@@ -84,32 +93,41 @@ namespace RevitAreaReinforcement
                     {
                         rif = (RebarInfoFloor)serializer.Deserialize(reader);
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        Debug.WriteLine("Unable to deserialize, create new one: " + ex.Message);
                         rif = RebarInfoFloor.GetDefault(doc);
                     }
                     if (rif == null)
                     {
-                        throw new Exception("Не удалось сериализовать: " + floorPath);
+                        Debug.WriteLine("Deserialize error: " + floorPath);
+                        throw new Exception("Не удалось десериализовать: " + floorPath);
                     }
                 }
             }
             else
             {
+                Debug.WriteLine("No xml file, create new one");
                 rif = RebarInfoFloor.GetDefault(doc);
             }
 
-
-
-
             DialogWindowFloor form = new DialogWindowFloor(rif, rebarTypes);
             form.ShowDialog();
-            if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
+            if (form.DialogResult != System.Windows.Forms.DialogResult.OK)
+            {
+                Debug.WriteLine("Cancelled by user");
+                return Result.Cancelled;
+            }
 
-            if (File.Exists(floorPath)) File.Delete(floorPath);
+            if (File.Exists(floorPath))
+            {
+                Debug.WriteLine("File is deleted: " + floorPath);
+                File.Delete(floorPath);
+            }
             using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
             {
                 serializer.Serialize(writer, form.rif);
+                Debug.WriteLine("New file is created: " + floorPath);
             }
 
             List<string> rebarMessages = new List<string>();
@@ -120,6 +138,7 @@ namespace RevitAreaReinforcement
 
                 foreach (Floor floor in floors)
                 {
+                    Debug.WriteLine("Current reinforcement floor: " + floor.Id.IntegerValue);
                     List<string> curRebarMessages = RebarWorkerFloor.Generate(doc, floor, rif, areaTypeId);
                     rebarMessages.AddRange(curRebarMessages);
                 }
@@ -132,10 +151,10 @@ namespace RevitAreaReinforcement
                 {
                     message += msg + System.Environment.NewLine;
                 }
+                Debug.WriteLine("Errors: " + message);
                 return Result.Failed;
             }
-
-
+            Debug.WriteLine("All done");
             return Result.Succeeded;
         }
     }
