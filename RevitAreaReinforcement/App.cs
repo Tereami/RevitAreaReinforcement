@@ -26,7 +26,7 @@ namespace RevitAreaReinforcement
             assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             assemblyFolder = System.IO.Path.GetDirectoryName(assemblyPath);
 
-            string tabName = "Weandrevit";
+            string tabName = "BIM-STARTER TEST";
             try { application.CreateRibbonTab(tabName); } catch { }
             RibbonPanel panel1 = application.CreateRibbonPanel(tabName, "Стены");
             PushButton btn = panel1.AddItem(new PushButtonData(

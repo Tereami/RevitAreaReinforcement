@@ -32,6 +32,8 @@ namespace RevitAreaReinforcement
         public double topCover = 0.098425196850393692;
         public double bottomCover = 0.13123359580052493;
         public bool useDirection = false;
+        public bool turnTopBars = false;
+        public bool turnBottomBars = true;
 
 
         public RebarInfoFloor()

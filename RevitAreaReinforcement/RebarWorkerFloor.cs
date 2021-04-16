@@ -41,8 +41,22 @@ namespace RevitAreaReinforcement
             if (coverTop == null) coverTop = coverBottom;
             if (coverBottom == null) coverBottom = coverTop;
 
-            double topCover = topCoverUser - coverTop.CoverDistance;
-            double bottomCover = bottomCoverUser - coverBottom.CoverDistance;
+            double topCoverDir1 = topCoverUser - coverTop.CoverDistance;
+            double topCoverDir2 = topCoverDir1 + mrt.bartype.BarDiameter;
+            if(rif.turnTopBars)
+            {
+                topCoverDir1 += mrt.bartype.BarDiameter;
+                topCoverDir2 -= mrt.bartype.BarDiameter;
+            }
+
+            double bottomCoverDir1 = bottomCoverUser - coverBottom.CoverDistance;
+            double bottomCoverDir2 = bottomCoverDir1 + mrt.bartype.BarDiameter;
+            if(rif.turnBottomBars)
+            {
+                bottomCoverDir1 += mrt.bartype.BarDiameter;
+                bottomCoverDir2 -= mrt.bartype.BarDiameter;
+            }
+
 
             List<Curve> curves = SupportGeometry.GetFloorOuterBoundary(floor);
 
@@ -65,7 +79,7 @@ namespace RevitAreaReinforcement
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2_GENERIC).Set(0);
             arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_1_GENERIC).Set(interval);
-            arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topCover);
+            arTopX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topCoverDir1);
             arTopX.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх X фон");
 
             AreaReinforcement arTopY = AreaReinforcement
@@ -75,7 +89,7 @@ namespace RevitAreaReinforcement
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2_GENERIC).Set(0);
             arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2_GENERIC).Set(interval);
-            arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topCover + mrt.bartype.BarDiameter);
+            arTopY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topCoverDir2);
             arTopY.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
 
             AreaReinforcement arBottomX = AreaReinforcement
@@ -85,7 +99,7 @@ namespace RevitAreaReinforcement
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(1);
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2_GENERIC).Set(0);
             arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1_GENERIC).Set(interval);
-            arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomCover + mrt.bartype.BarDiameter);
+            arBottomX.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomCoverDir1);
             arBottomX.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ X фон");
 
             AreaReinforcement arBottomY = AreaReinforcement
@@ -95,7 +109,7 @@ namespace RevitAreaReinforcement
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1_GENERIC).Set(0);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2_GENERIC).Set(1);
             arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2_GENERIC).Set(interval);
-            arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomCover);
+            arBottomY.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomCoverDir2);
             arBottomY.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ Y фон");
 
             return messages;

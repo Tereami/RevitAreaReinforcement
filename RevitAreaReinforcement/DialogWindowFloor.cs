@@ -40,6 +40,8 @@ namespace RevitAreaReinforcement
             numCoverBottom.Value = (decimal)(Info.bottomCover * 304.8);
             numCoverTop.Value = (decimal)(Info.topCover * 304.8);
             checkBoxUseDirection.Checked = Info.useDirection;
+            checkBoxTurnTopBars.Checked = Info.turnTopBars;
+            checkBoxTurnBottomBars.Checked = Info.turnBottomBars;
             this.Text = "Армирование плит v" + System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
 
         }
@@ -56,6 +58,8 @@ namespace RevitAreaReinforcement
             rif.bottomCover = ((double)numCoverBottom.Value) / 304.8;
             rif.topCover = ((double)numCoverTop.Value) / 304.8;
             rif.useDirection = checkBoxUseDirection.Checked;
+            rif.turnTopBars = checkBoxTurnTopBars.Checked;
+            rif.turnBottomBars = checkBoxTurnBottomBars.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

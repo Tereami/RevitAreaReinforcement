@@ -39,6 +39,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.numCoverTop = new System.Windows.Forms.NumericUpDown();
             this.checkBoxUseDirection = new System.Windows.Forms.CheckBox();
+            this.checkBoxTurnTopBars = new System.Windows.Forms.CheckBox();
+            this.checkBoxTurnBottomBars = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverBottom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverTop)).BeginInit();
@@ -89,7 +91,7 @@
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOk.Location = new System.Drawing.Point(9, 224);
+            this.buttonOk.Location = new System.Drawing.Point(9, 276);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -100,7 +102,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(131, 224);
+            this.buttonCancel.Location = new System.Drawing.Point(131, 276);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -154,11 +156,35 @@
             this.checkBoxUseDirection.Text = "Угол по \"Направлению пролёта\"";
             this.checkBoxUseDirection.UseVisualStyleBackColor = true;
             // 
+            // checkBoxTurnTopBars
+            // 
+            this.checkBoxTurnTopBars.AutoSize = true;
+            this.checkBoxTurnTopBars.Location = new System.Drawing.Point(12, 215);
+            this.checkBoxTurnTopBars.Name = "checkBoxTurnTopBars";
+            this.checkBoxTurnTopBars.Size = new System.Drawing.Size(171, 17);
+            this.checkBoxTurnTopBars.TabIndex = 5;
+            this.checkBoxTurnTopBars.Text = "Перевернуть верхнюю сетку";
+            this.checkBoxTurnTopBars.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTurnBottomBars
+            // 
+            this.checkBoxTurnBottomBars.AutoSize = true;
+            this.checkBoxTurnBottomBars.Checked = true;
+            this.checkBoxTurnBottomBars.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTurnBottomBars.Location = new System.Drawing.Point(12, 238);
+            this.checkBoxTurnBottomBars.Name = "checkBoxTurnBottomBars";
+            this.checkBoxTurnBottomBars.Size = new System.Drawing.Size(168, 17);
+            this.checkBoxTurnBottomBars.TabIndex = 5;
+            this.checkBoxTurnBottomBars.Text = "Перевернуть нижнюю сетку";
+            this.checkBoxTurnBottomBars.UseVisualStyleBackColor = true;
+            // 
             // DialogWindowFloor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(218, 259);
+            this.ClientSize = new System.Drawing.Size(218, 311);
+            this.Controls.Add(this.checkBoxTurnBottomBars);
+            this.Controls.Add(this.checkBoxTurnTopBars);
             this.Controls.Add(this.checkBoxUseDirection);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -196,5 +222,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numCoverTop;
         private System.Windows.Forms.CheckBox checkBoxUseDirection;
+        private System.Windows.Forms.CheckBox checkBoxTurnTopBars;
+        private System.Windows.Forms.CheckBox checkBoxTurnBottomBars;
     }
 }
