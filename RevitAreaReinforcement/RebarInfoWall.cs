@@ -40,9 +40,9 @@ namespace RevitAreaReinforcement
 
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
-        public double horizontalFreeLength = 0;
+        public double horizontalFreeLength = 0.590551181102362205;
 
-        public double backOffset = 0;
+        public double backOffset = 0.16404199475065617;
         public double bottomOffset = 0.16404199475065617;
         public double topOffset = 0.16404199475065617;
         public double verticalOffset = 0;

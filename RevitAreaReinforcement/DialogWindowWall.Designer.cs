@@ -97,7 +97,6 @@
             // 
             // txtBackOffset
             // 
-            this.txtBackOffset.Enabled = false;
             this.txtBackOffset.Location = new System.Drawing.Point(241, 494);
             this.txtBackOffset.Margin = new System.Windows.Forms.Padding(2);
             this.txtBackOffset.Name = "txtBackOffset";
@@ -107,7 +106,6 @@
             // 
             // txtHorizontalFreeLength
             // 
-            this.txtHorizontalFreeLength.Enabled = false;
             this.txtHorizontalFreeLength.Location = new System.Drawing.Point(150, 494);
             this.txtHorizontalFreeLength.Margin = new System.Windows.Forms.Padding(2);
             this.txtHorizontalFreeLength.Name = "txtHorizontalFreeLength";

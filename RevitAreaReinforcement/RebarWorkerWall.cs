@@ -122,8 +122,18 @@ namespace RevitAreaReinforcement
                     }
                 }
 
-                Debug.WriteLine("Contiguous curves sort");
+
+                /*LocationCurve wallLocCurve = wall.Location as LocationCurve;
+                Line wallCurve = wallLocCurve.Curve as Line;
+                if (wallCurve == null) throw new Exception("Curved wall!");*/
+
+                double sideOffset = wri.backOffset - 0.5 * verticalRebarType.bartype.BarDiameter;
+
+                curvesVertical = SupportGeometry.MoveLine(curvesVertical, sideOffset, SupportGeometry.LineSide.Left);
+                curvesVertical = SupportGeometry.MoveLine(curvesVertical, sideOffset, SupportGeometry.LineSide.Right);
+
                 CurveUtils.SortCurvesContiguous(doc.Application.Create, curvesVertical, true);
+                Debug.WriteLine("Contiguous curves sort");
 
                 if (wri.verticalOffset < 0.0001)
                 {
@@ -149,7 +159,10 @@ namespace RevitAreaReinforcement
                 double horizintalBottomOffset = wri.bottomOffset - 0.5 * horizontalRebarType.bartype.BarDiameter;
                 List<Curve> curvesHorizontal = SupportGeometry.MoveLine(wallOutline, horizontalTopOffset, SupportGeometry.LineSide.Top);
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, horizintalBottomOffset, SupportGeometry.LineSide.Bottom);
-               
+
+                double sideOffset = wri.horizontalFreeLength * -1;
+                curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Left);
+                curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Right);
 
                 List<List<Curve>> curvesArray = new List<List<Curve>>();
 

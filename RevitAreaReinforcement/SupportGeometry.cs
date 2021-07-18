@@ -67,34 +67,59 @@ namespace RevitAreaReinforcement
 
             List<Line> sideLines = GetSideLines(loop, side);
 
+            XYZ moveVector = null;
+            if(side == LineSide.Top)
+                moveVector = new XYZ(0, 0, delta);
+            else if(side == LineSide.Bottom)
+                moveVector = new XYZ(0, 0, delta);
+            else
+            {
+                List<Line> verticalLines = loop.Where(i => Math.Abs(i.Direction.Z) == 1).ToList();
+                XYZ directionPoint0 = new XYZ(verticalLines[0].GetEndPoint(0).X, verticalLines[0].GetEndPoint(0).Y, 0);
+                XYZ directionPoint1 = new XYZ(verticalLines[1].GetEndPoint(0).X, verticalLines[1].GetEndPoint(0).Y, 0);
+
+                XYZ wallDirectionVector = getVectorFromTwoPoints(directionPoint1, directionPoint0);
+                XYZ normalizedDirection = normalizeVector(wallDirectionVector);
+
+                if (side == LineSide.Left) delta= -delta;
+
+                moveVector = new XYZ(normalizedDirection.X * delta, normalizedDirection.Y * delta, 0);
+            }
+                
+
             foreach (Line curLine in sideLines)
             {
                 XYZ p1 = curLine.GetEndPoint(0);
-                XYZ p1new = new XYZ(p1.X, p1.Y, p1.Z + delta);
+                XYZ p1new = new XYZ(p1.X + moveVector.X, p1.Y + moveVector.Y, p1.Z + moveVector.Z);
 
                 XYZ p2 = curLine.GetEndPoint(1);
-                XYZ p2new = new XYZ(p2.X, p2.Y, p2.Z + delta);
+                XYZ p2new = new XYZ(p2.X + moveVector.X, p2.Y + moveVector.Y, p2.Z + moveVector.Z);
 
                 Line mainLineNew = Line.CreateBound(p1new, p2new);
                 SearchLineResult res0 = GetJointLineAtEnd(curLine, loop, 0);
-                Line prevLine = res0.Line;
-                Line prevLineNew = MoveJointLine(curLine, res0, delta);
+                
+                Line prevLineNew = MoveJointLine(res0, moveVector);
 
                 SearchLineResult res1 = GetJointLineAtEnd(curLine, loop, 1);
                 Line nextLine = res1.Line;
-                Line nextLineNew = MoveJointLine(curLine, res1, delta);
+                
+                Line nextLineNew = MoveJointLine(res1, moveVector);
 
-                loop.Remove(curLine);
-                loop.Remove(prevLine);
-                loop.Remove(nextLine);
+                loop[loop.IndexOf(curLine)] = mainLineNew;
+                loop[loop.IndexOf(res0.Line)] = prevLineNew;
+                loop[loop.IndexOf(res1.Line)] = nextLineNew;
 
+                /*loop.Remove(curLine);
+                loop.Remove(res0.Line);
+                loop.Remove(res1.Line);
                 loop.Add(mainLineNew);
                 loop.Add(prevLineNew);
-                loop.Add(nextLineNew);
+                loop.Add(nextLineNew);*/
             }
 
             return loop.Cast<Curve>().ToList();
         }
+
 
 
         /// <summary>
@@ -129,26 +154,26 @@ namespace RevitAreaReinforcement
         }
 
 
-        private static Line MoveJointLine(Line mainLine, SearchLineResult res, double delta)
+        private static Line MoveJointLine(SearchLineResult res, XYZ delta)
         {
             Line prevLine = res.Line;
             Line prevLineNew = null;
             if (res.EndpointNumber == 0)
             {
                 XYZ p = prevLine.GetEndPoint(0);
-                XYZ newp = new XYZ(p.X, p.Y, p.Z + delta);
+                XYZ newp = new XYZ(p.X + delta.X, p.Y + delta.Y, p.Z + delta.Z);
                 prevLineNew = Line.CreateBound(newp, prevLine.GetEndPoint(1));
             }
             if (res.EndpointNumber == 1)
             {
                 XYZ p = prevLine.GetEndPoint(1);
-                XYZ newp = new XYZ(p.X, p.Y, p.Z + delta);
+                XYZ newp = new XYZ(p.X + delta.X, p.Y + delta.Y, p.Z + delta.Z);
                 prevLineNew = Line.CreateBound(prevLine.GetEndPoint(0), newp);
             }
             return prevLineNew;
         }
 
-        public enum LineSide { Top, Bottom, Right, Left }
+        public enum LineSide { Top, Bottom, Left, Right }
 
 
         /// <summary>
@@ -158,65 +183,85 @@ namespace RevitAreaReinforcement
         /// <returns></returns>
         public static List<Line> GetSideLines(List<Line> lines, LineSide side)
         {
-            List<Line> horizontalLines = lines
-                .Where(i => CheckDoubleEquals(i.Direction.Z, 0))
-                .ToList();
-
-            Line l = lines.First();
-            double heigth = 0;
-            if (side == LineSide.Top)  heigth = -999999;
-            if (side == LineSide.Bottom) heigth = 999999;
-
-            foreach (Line curLine in horizontalLines)
+            if (side == LineSide.Bottom || side == LineSide.Top)
             {
-                double curHeigth = curLine.GetEndPoint(0).Z;
-                if (side == LineSide.Top)
+                List<Line> horizontalLines = lines
+                    .Where(i => CheckDoubleEquals(i.Direction.Z, 0))
+                    .ToList();
+
+                Line l = lines.First();
+                double heigth = 0;
+                if (side == LineSide.Top) heigth = -999999;
+                if (side == LineSide.Bottom) heigth = 999999;
+
+                foreach (Line curLine in horizontalLines)
                 {
-                    if (curHeigth > heigth)
+                    double curHeigth = curLine.GetEndPoint(0).Z;
+                    if (side == LineSide.Top)
                     {
-                        l = curLine;
-                        heigth = curHeigth;
+                        if (curHeigth > heigth)
+                        {
+                            l = curLine;
+                            heigth = curHeigth;
+                        }
+                    }
+                    else if (side == LineSide.Bottom)
+                    {
+                        if (curHeigth < heigth)
+                        {
+                            l = curLine;
+                            heigth = curHeigth;
+                        }
                     }
                 }
-                else if(side == LineSide.Bottom)
-                {
-                    if (curHeigth < heigth)
-                    {
-                        l = curLine;
-                        heigth = curHeigth;
-                    }
-                }
+
+                //определю все линии на такой же высоте
+                List<Line> resultLines = horizontalLines
+                    .Where(i => CheckDoubleEquals(i.Origin.Z, l.Origin.Z))
+                    .ToList();
+
+                return resultLines;
             }
+            else
+            {
+                List<Line> verticalLines = lines.Where(i => Math.Abs(i.Direction.Z) == 1).ToList();
+                Line[] leftAndRightLines = GetLeftAndRightLine(verticalLines);
+                Line l = null;
+                if (side == LineSide.Left)
+                    l = leftAndRightLines[0];
+                else
+                    l = leftAndRightLines[1];
 
+                List<Line> resultLines = verticalLines
+                    .Where(i => CheckDoubleEquals(i.Origin.X, l.Origin.X) && CheckDoubleEquals(i.Origin.Y, l.Origin.Y))
+                    .ToList();
 
-            //определю все линии на такой же высоте
-            List<Line> resultLines = horizontalLines
-                .Where(i => CheckDoubleEquals(i.Origin.Z, l.Origin.Z))
-                .ToList();
-
-            return resultLines;
+                return resultLines;
+            }
         }
+
 
 
         /// <summary>
         /// ПОлучает крайнюю правую и левую вертикальную линию из контура
         /// </summary>
-        /// <param name="lines"></param>
+        /// <param name="verticalLines"></param>
         /// <returns></returns>
-        public static Line[] GetLeftAndRightLine(List<Line> lines)
+        public static Line[] GetLeftAndRightLine(List<Line> verticalLines)
         {
             double distance = 0;
-
-            lines = lines.Where(i => i.Direction.Z == 1).ToList();
+            
             Line[] result = new Line[2];
-            for (int i = 0; i < (lines.Count - 1); i++)
+            for (int i = 0; i < (verticalLines.Count - 1); i++)
             {
-                Line l1 = lines[i];
-                XYZ p1 = GetBottomPoint(l1);
-                for (int j = 1; j < lines.Count; j++)
+                Line l1 = verticalLines[i];
+                XYZ point1 = l1.GetEndPoint(0);
+                XYZ p1 = new XYZ(point1.X, point1.Y, 0);
+                for (int j = 1; j < verticalLines.Count; j++)
                 {
-                    Line l2 = lines[j];
-                    XYZ p2 = GetBottomPoint(l2);
+                    Line l2 = verticalLines[j];
+                    XYZ point2 = l2.GetEndPoint(0);
+                    XYZ p2 = new XYZ(point2.X, point2.Y, 0);
                     double temp = GetLengthBetweenPoints(p1, p2);
                     if(temp > distance)
                     {
@@ -504,6 +549,18 @@ namespace RevitAreaReinforcement
             double d1 = Math.Pow(v.X, 2) + Math.Pow(v.Y, 2) + Math.Pow(v.Z, 2);
             double l = Math.Sqrt(d1);
             return l;
+        }
+
+        /// <summary>
+        /// Создает вектор с длиной 1 и направлением как у заданного вектора
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        private static XYZ normalizeVector(XYZ vector)
+        {
+            double l = GetVectorLength(vector);
+            XYZ newVector = new XYZ(vector.X / l, vector.Y / l, vector.Z / l);
+            return newVector;
         }
 
 
