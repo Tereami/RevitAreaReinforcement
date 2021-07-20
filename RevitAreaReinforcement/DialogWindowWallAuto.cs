@@ -22,6 +22,8 @@ namespace RevitAreaReinforcement
             radioButtonFreeLengthAuto.Checked = riw.autoVerticalFreeLength;
             numericUpDownHorizOffset.Value = (decimal)(304.8 * riw.bottomOffset);
             checkBoxAddHorizStep.Checked = riw.horizontalAddInterval;
+            checkBoxAdditionalStepSpace.Checked = riw.horizontalAdditionalStepSpace;
+
             textBoxRazdelVert.Text = riw.verticalSectionText;
             textBoxRazdelHoris.Text = riw.horizontalSectionText;
         }
@@ -31,6 +33,8 @@ namespace RevitAreaReinforcement
             rebarInfo.autoVerticalFreeLength = radioButtonFreeLengthAuto.Checked;
             rebarInfo.bottomOffset = ((double)numericUpDownHorizOffset.Value) / 304.8;
             rebarInfo.horizontalAddInterval = checkBoxAddHorizStep.Checked;
+            rebarInfo.horizontalAdditionalStepSpace = checkBoxAdditionalStepSpace.Checked;
+
             rebarInfo.verticalSectionText = textBoxRazdelVert.Text;
             rebarInfo.horizontalSectionText = textBoxRazdelHoris.Text;
 

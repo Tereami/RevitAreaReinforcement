@@ -128,8 +128,13 @@ namespace RevitAreaReinforcement
         /// <param name="lines"></param>
         /// <param name="delta"></param>
         /// <returns></returns>
-        public static List<List<Curve>> CopyTopLines(List<Curve> lines, double delta)
+        public static List<List<Curve>> CopyTopOrBottomLines(List<Curve> lines, double delta, bool topOrBottom)
         {
+            if(!topOrBottom)
+            {
+                delta = -delta;
+            }
+
             List<Line> loop = lines.Cast<Line>().ToList();
 
             List<Line> topLines = GetSideLines(loop, LineSide.Top);

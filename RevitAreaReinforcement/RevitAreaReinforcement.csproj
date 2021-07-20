@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RbsLogger">
-      <HintPath>..\..\..\RbsLogger\RbsLogger\bin\Debug\RbsLogger.dll</HintPath>
+      <HintPath>..\..\..\..\..\AppData\Roaming\Autodesk\Revit\Addins\20xx\BimStarter\RbsLogger.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="AreaRebarInfo.cs" />
     <Compile Include="CommandCreateAreaRebar.cs" />
     <Compile Include="CommandCreateFloorRebar.cs" />
     <Compile Include="CommandRestoreRebarArea.cs" />

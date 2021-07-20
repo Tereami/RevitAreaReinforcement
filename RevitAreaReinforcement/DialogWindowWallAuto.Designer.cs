@@ -30,21 +30,23 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonFreeLengthManual = new System.Windows.Forms.RadioButton();
             this.radioButtonFreeLengthAuto = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
+            this.radioButtonFreeLengthManual = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.checkBoxAddHorizStep = new System.Windows.Forms.CheckBox();
             this.numericUpDownHorizOffset = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxAddHorizStep = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxRazdelHoris = new System.Windows.Forms.TextBox();
             this.textBoxRazdelVert = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBoxRazdelHoris = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.checkBoxAdditionalStepSpace = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizOffset)).BeginInit();
@@ -75,18 +77,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выпуски вертикальной арматуры";
             // 
-            // radioButtonFreeLengthManual
-            // 
-            this.radioButtonFreeLengthManual.AutoSize = true;
-            this.radioButtonFreeLengthManual.Checked = true;
-            this.radioButtonFreeLengthManual.Location = new System.Drawing.Point(7, 20);
-            this.radioButtonFreeLengthManual.Name = "radioButtonFreeLengthManual";
-            this.radioButtonFreeLengthManual.Size = new System.Drawing.Size(201, 17);
-            this.radioButtonFreeLengthManual.TabIndex = 0;
-            this.radioButtonFreeLengthManual.TabStop = true;
-            this.radioButtonFreeLengthManual.Text = "Из параметра Арм.ДлинаВыпуска";
-            this.radioButtonFreeLengthManual.UseVisualStyleBackColor = true;
-            // 
             // radioButtonFreeLengthAuto
             // 
             this.radioButtonFreeLengthAuto.AutoSize = true;
@@ -107,41 +97,34 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Требуются параметры Рзм.ТолщинаПерекрытия, Арм.КлассЧисло, Мтрл.КодМатериала";
             // 
+            // radioButtonFreeLengthManual
+            // 
+            this.radioButtonFreeLengthManual.AutoSize = true;
+            this.radioButtonFreeLengthManual.Checked = true;
+            this.radioButtonFreeLengthManual.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonFreeLengthManual.Name = "radioButtonFreeLengthManual";
+            this.radioButtonFreeLengthManual.Size = new System.Drawing.Size(201, 17);
+            this.radioButtonFreeLengthManual.TabIndex = 0;
+            this.radioButtonFreeLengthManual.TabStop = true;
+            this.radioButtonFreeLengthManual.Text = "Из параметра Арм.ДлинаВыпуска";
+            this.radioButtonFreeLengthManual.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.numericUpDownHorizOffset);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.checkBoxAdditionalStepSpace);
             this.groupBox2.Controls.Add(this.checkBoxAddHorizStep);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(12, 165);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(288, 77);
+            this.groupBox2.Size = new System.Drawing.Size(288, 129);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Горизонтальная арматура";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Отступы";
-            // 
-            // checkBoxAddHorizStep
-            // 
-            this.checkBoxAddHorizStep.AutoSize = true;
-            this.checkBoxAddHorizStep.Checked = true;
-            this.checkBoxAddHorizStep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAddHorizStep.Location = new System.Drawing.Point(9, 45);
-            this.checkBoxAddHorizStep.Name = "checkBoxAddHorizStep";
-            this.checkBoxAddHorizStep.Size = new System.Drawing.Size(101, 17);
-            this.checkBoxAddHorizStep.TabIndex = 3;
-            this.checkBoxAddHorizStep.Text = "Доборный шаг";
-            this.checkBoxAddHorizStep.UseVisualStyleBackColor = true;
             // 
             // numericUpDownHorizOffset
             // 
@@ -155,6 +138,18 @@
             0,
             0});
             // 
+            // checkBoxAddHorizStep
+            // 
+            this.checkBoxAddHorizStep.AutoSize = true;
+            this.checkBoxAddHorizStep.Checked = true;
+            this.checkBoxAddHorizStep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAddHorizStep.Location = new System.Drawing.Point(9, 45);
+            this.checkBoxAddHorizStep.Name = "checkBoxAddHorizStep";
+            this.checkBoxAddHorizStep.Size = new System.Drawing.Size(101, 17);
+            this.checkBoxAddHorizStep.TabIndex = 3;
+            this.checkBoxAddHorizStep.Text = "Доборный шаг";
+            this.checkBoxAddHorizStep.UseVisualStyleBackColor = true;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -164,6 +159,15 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "мм";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Отступы";
+            // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -172,21 +176,21 @@
             this.groupBox3.Controls.Add(this.textBoxRazdelVert);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 248);
+            this.groupBox3.Location = new System.Drawing.Point(12, 300);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(288, 84);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Параметр \"Раздел\"";
             // 
-            // label5
+            // textBoxRazdelHoris
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 50);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(116, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Для горизонтальной:";
+            this.textBoxRazdelHoris.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxRazdelHoris.Location = new System.Drawing.Point(128, 47);
+            this.textBoxRazdelHoris.Name = "textBoxRazdelHoris";
+            this.textBoxRazdelHoris.Size = new System.Drawing.Size(153, 20);
+            this.textBoxRazdelHoris.TabIndex = 5;
             // 
             // textBoxRazdelVert
             // 
@@ -206,20 +210,20 @@
             this.label6.TabIndex = 4;
             this.label6.Text = "Для вертикальной:";
             // 
-            // textBoxRazdelHoris
+            // label5
             // 
-            this.textBoxRazdelHoris.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxRazdelHoris.Location = new System.Drawing.Point(128, 47);
-            this.textBoxRazdelHoris.Name = "textBoxRazdelHoris";
-            this.textBoxRazdelHoris.Size = new System.Drawing.Size(153, 20);
-            this.textBoxRazdelHoris.TabIndex = 5;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 50);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(116, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Для горизонтальной:";
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(225, 354);
+            this.buttonCancel.Location = new System.Drawing.Point(225, 395);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -230,7 +234,7 @@
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(145, 354);
+            this.buttonOk.Location = new System.Drawing.Point(145, 395);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -238,13 +242,35 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
+            // checkBoxAdditionalStepSpace
+            // 
+            this.checkBoxAdditionalStepSpace.AutoSize = true;
+            this.checkBoxAdditionalStepSpace.Checked = true;
+            this.checkBoxAdditionalStepSpace.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAdditionalStepSpace.Location = new System.Drawing.Point(9, 68);
+            this.checkBoxAdditionalStepSpace.Name = "checkBoxAdditionalStepSpace";
+            this.checkBoxAdditionalStepSpace.Size = new System.Drawing.Size(152, 17);
+            this.checkBoxAdditionalStepSpace.TabIndex = 3;
+            this.checkBoxAdditionalStepSpace.Text = "Учащение по низу/верху";
+            this.checkBoxAdditionalStepSpace.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.Location = new System.Drawing.Point(6, 88);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(276, 38);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Требуются параметры Арм.ВысотаУчащенияНиз и Арм.ВысотаУчащенияВерх";
+            // 
             // DialogWindowWallAuto
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(312, 389);
+            this.ClientSize = new System.Drawing.Size(312, 430);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.groupBox3);
@@ -285,5 +311,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBoxAdditionalStepSpace;
     }
 }

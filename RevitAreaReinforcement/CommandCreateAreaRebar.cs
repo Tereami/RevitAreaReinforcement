@@ -79,7 +79,7 @@ namespace RevitAreaReinforcement
             bool wallsHaveRebarInfo = SupportDocumentGetter.CheckWallsHaveRebarInfo(walls);
 
 
-            RebarInfoWall riw = RebarInfoWall.GetDefault(doc);
+            RebarInfoWall riw = new RebarInfoWall(); //RebarInfoWall.GetDefault(doc);
             string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
             Debug.WriteLine("Try to deserialize xml: " + wallPath);
             XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
@@ -139,8 +139,9 @@ namespace RevitAreaReinforcement
                         RebarInfoWall newRiw = new RebarInfoWall(doc, wall);
                         newRiw.topOffset = riw.topOffset;
                         newRiw.bottomOffset = riw.bottomOffset;
-                        newRiw.backOffset = riw.backOffset;
+                        
                         newRiw.horizontalAddInterval = riw.horizontalAddInterval;
+                        newRiw.horizontalAdditionalStepSpace = riw.horizontalAdditionalStepSpace;
                         newRiw.verticalSectionText = riw.verticalSectionText;
                         newRiw.horizontalSectionText = riw.horizontalSectionText;
                         newRiw.verticalOffset = riw.verticalOffset;

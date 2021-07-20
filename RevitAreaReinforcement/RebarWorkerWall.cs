@@ -32,7 +32,7 @@ namespace RevitAreaReinforcement
             double lengthRound = 5 / 304.8;
             ProjectInfo pi = doc.ProjectInformation;
             Parameter roundLengthParam = pi.LookupParameter("Арм.ОкруглениеДлины");
-            if(roundLengthParam != null && roundLengthParam.HasValue)
+            if (roundLengthParam != null && roundLengthParam.HasValue)
             {
                 lengthRound = roundLengthParam.AsDouble();
             }
@@ -71,7 +71,7 @@ namespace RevitAreaReinforcement
                 Debug.WriteLine("Unable to get vertical rebartype: " + wri.verticalRebarTypeName);
             }
             MyRebarType horizontalRebarType = new MyRebarType(doc, wri.horizontalRebarTypeName);
-            if(horizontalRebarType.isValid == false)
+            if (horizontalRebarType.isValid == false)
             {
                 messages.Add("Не удалось получить тип стержня " + wri.horizontalRebarTypeName);
                 Debug.WriteLine("Unable to get horizontal rebartype: " + wri.horizontalRebarTypeName);
@@ -104,7 +104,7 @@ namespace RevitAreaReinforcement
                         throw new Exception("Не задан параметр Рзм.ТолщинаПерекрытия в элементе " + wall.Id.IntegerValue.ToString());
                     }
                 }
-                
+
 
                 List<Curve> curvesVertical = SupportGeometry.MoveLine(wallOutline, wri.verticalFreeLength, SupportGeometry.LineSide.Top);
                 Debug.WriteLine("Curves for vertical loop: " + curvesVertical.Count.ToString());
@@ -115,7 +115,7 @@ namespace RevitAreaReinforcement
                     double verticalZoneHeight = SupportGeometry.GetZoneHeigth(curvesVertical);
                     double unificateLength = wri.getNearestLength(verticalZoneHeight);
                     double moveToUnificate = unificateLength - verticalZoneHeight;
-                    if(moveToUnificate > 0.005)
+                    if (moveToUnificate > 0.005)
                     {
                         List<Curve> curvesVerticalUnificate = SupportGeometry.MoveLine(curvesVertical, moveToUnificate, SupportGeometry.LineSide.Top);
                         curvesVertical = curvesVerticalUnificate;
@@ -164,55 +164,90 @@ namespace RevitAreaReinforcement
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Left);
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Right);
 
-                List<List<Curve>> curvesArray = new List<List<Curve>>();
+                List<AreaRebarInfo> curvesBase = new List<AreaRebarInfo>();
 
-                if (!wri.horizontalAddInterval)
-                {
-                    Debug.WriteLine("Create without additional offset");
-                    curvesArray.Add(curvesHorizontal);
-                }
-                else
+
+                if (wri.horizontalAddInterval)
                 {
                     Debug.WriteLine("Create with additional offset");
+
+                    double horizRebarInterval = wri.horizontalRebarInterval;
+
+                    if (wri.horizontalAdditionalStepSpace)
+                        horizRebarInterval = horizRebarInterval / 2;
+
                     double heigth = SupportGeometry.GetZoneHeigth(curvesHorizontal);
                     double heigthByAxis = heigth - horizontalRebarType.bartype.BarDiameter;
-                    double countCheckAsDouble1 = heigthByAxis / wri.horizontalRebarInterval;
+                    double countCheckAsDouble1 = heigthByAxis / horizRebarInterval;
                     double countCheckAsDouble2 = Math.Round(countCheckAsDouble1, 2);
                     double countCheckAsDouble3 = Math.Truncate(countCheckAsDouble2);
                     int countCheck = (int)countCheckAsDouble3;
-                    double addIntervalByAxis = heigthByAxis - countCheck * wri.horizontalRebarInterval;
+                    double addIntervalByAxis = heigthByAxis - countCheck * horizRebarInterval;
                     if (addIntervalByAxis < horizontalRebarType.bartype.BarDiameter) //доборный шаг не требуется
                     {
                         Debug.WriteLine("Additional offset not needed");
-                        curvesArray.Add(curvesHorizontal);
+                        curvesBase.Add(new AreaRebarInfo(curvesHorizontal, horizRebarInterval));
                     }
                     else
                     {
                         Debug.WriteLine("Additional offset = " + (addIntervalByAxis * 304.8).ToString("F3"));
                         int count = countCheck - 1;
 
-                        if(addIntervalByAxis <  50 / 304.8 ) //доборный шаг менее 50мм - увеличиваю отступ сверху
+                        if (addIntervalByAxis < 50 / 304.8) //доборный шаг менее 50мм - увеличиваю отступ сверху
                         {
                             count--;
                         }
 
-                        double heigthClean = count * wri.horizontalRebarInterval;
+                        double heigthClean = count * horizRebarInterval;
                         double offsetMain = heigth - heigthClean - horizontalRebarType.bartype.BarDiameter;
                         List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, -offsetMain, SupportGeometry.LineSide.Top);
-                        curvesArray.Add(profileMain);
 
-                        double heigthAdd = heigth - heigthClean - wri.horizontalRebarInterval;
+                        if (wri.horizontalAdditionalStepSpace)
+                        {
+                            if(wri.horizontalAddStepHeightBottom > 0)
+                            {
+                                List<List<Curve>> profilesAddBottom = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, wri.horizontalAddStepHeightBottom, false);
+                                foreach (var prof in profilesAddBottom)
+                                    curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
 
-                        List<List<Curve>> profilesAdd = SupportGeometry.CopyTopLines(curvesHorizontal, heigthAdd);
-                        curvesArray.AddRange(profilesAdd);
+                                profileMain = SupportGeometry.MoveLine(profileMain, wri.horizontalAddStepHeightBottom, SupportGeometry.LineSide.Bottom);
+                            }
+                            else if (wri.horizontalAddStepHeightTop > 0)
+                            {
+                                List<List<Curve>> profilesAddTop = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, wri.horizontalAddStepHeightTop, true);
+                                foreach (var prof in profilesAddTop)
+                                    curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
+
+                                profileMain = SupportGeometry.MoveLine(profileMain, -wri.horizontalAddStepHeightTop, SupportGeometry.LineSide.Top);
+                            }
+                            curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval * 2));
+                        }
+                        else
+                        {
+                            curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval));
+                        }
+
+                        double heigthAdd = heigth - heigthClean - horizRebarInterval;
+
+                        List<List<Curve>> profilesAdd = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, heigthAdd, true);
+                        foreach (var prof in profilesAdd)
+                            curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
                     }
                 }
-
-                Debug.WriteLine("Loops for horizontal rebar: " + curvesArray.Count.ToString());
-
-                foreach (List<Curve> profile in curvesArray)
+                else
                 {
-                    AreaReinforcement ar = Generate(doc, wall, profile, true, true, true, offsetHorizontalInterior, offsetHorizontalExterior, wri.horizontalRebarInterval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
+                    Debug.WriteLine("Create only one zone for horizontal rebars");
+                    curvesBase.Add(new AreaRebarInfo(curvesHorizontal, wri.horizontalRebarInterval));
+                }
+
+
+                Debug.WriteLine("Loops for horizontal rebar: " + curvesBase.Count.ToString());
+
+                foreach (var profileInfo in curvesBase)
+                {
+                    double interval = profileInfo.interval;
+                    List<Curve> curves = profileInfo.curves;
+                    AreaReinforcement ar = Generate(doc, wall, curves, true, true, true, offsetHorizontalInterior, offsetHorizontalExterior, interval, areaTypeId, horizontalRebarType.bartype, wri.horizontalSectionText);
                 }
             }
             return messages;
@@ -235,10 +270,10 @@ namespace RevitAreaReinforcement
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2_GENERIC).Set(interval);
                 arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2_GENERIC).Set(interval);
 
-                if(!createInterior)
+                if (!createInterior)
                     arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BACK_DIR_2).Set(0);
 
-                if(!createExterior)
+                if (!createExterior)
                     arein.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_FRONT_DIR_2).Set(0);
             }
             else

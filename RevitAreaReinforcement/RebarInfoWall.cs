@@ -38,6 +38,11 @@ namespace RevitAreaReinforcement
         public double horizontalRebarInterval = 0.65616797900262469;
         public bool horizontalAddInterval = true;
 
+        public bool horizontalAdditionalStepSpace = false;
+        public double horizontalAddStepHeightBottom = 0;
+        public double horizontalAddStepHeightTop = 0;
+
+
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
         public double horizontalFreeLength = 0.590551181102362205;
@@ -119,10 +124,34 @@ namespace RevitAreaReinforcement
 
             rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
             Debug.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
+
+            horizontalFreeLength = wall.Width - rebarCover;
+            backOffset = bottomOffset;
+
+            Parameter addStepHeightBottomParam = wall.LookupParameter("Арм.ВысотаУчащенияНиз");
+            Parameter addStepHeightTopParam = wall.LookupParameter("Арм.ВысотаУчащенияВерх");
+            if (addStepHeightBottomParam != null && addStepHeightTopParam != null)
+            {
+                if (addStepHeightBottomParam != null && addStepHeightBottomParam.HasValue)
+                {
+                    horizontalAddStepHeightBottom = addStepHeightBottomParam.AsDouble();
+                    horizontalAdditionalStepSpace = true;
+                }
+                else
+                    horizontalAddStepHeightBottom = 0;
+
+                if (addStepHeightTopParam != null && addStepHeightTopParam.HasValue)
+                {
+                    horizontalAddStepHeightTop = addStepHeightTopParam.AsDouble();
+                    horizontalAdditionalStepSpace = true;
+                }
+                else
+                    horizontalAddStepHeightTop = 0;
+            }
         }
 
 
-        public static RebarInfoWall GetDefault(Document doc)
+        /*public static RebarInfoWall GetDefault(Document doc)
         {
             Debug.WriteLine("Create default rebar info");
             List<RebarBarType> bartypes = new FilteredElementCollector(doc)
@@ -144,7 +173,7 @@ namespace RevitAreaReinforcement
 
             Debug.WriteLine("RebarInfo was created");
             return info;
-        }
+        }*/
 
 
         private Parameter GetParameter(string paramName, Element elem)
