@@ -164,7 +164,7 @@ namespace RevitAreaReinforcement
 
         private void checkBoxAutoVerticalFreeLengh_CheckedChanged(object sender, EventArgs e)
         {
-            txtVerticalFreeLength.Enabled = !this.Enabled;
+            txtVerticalFreeLength.Enabled = !checkBoxAutoVerticalFreeLengh.Checked;
         }
     }
 }

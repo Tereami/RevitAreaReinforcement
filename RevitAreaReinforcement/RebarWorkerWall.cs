@@ -77,10 +77,11 @@ namespace RevitAreaReinforcement
                 Debug.WriteLine("Unable to get horizontal rebartype: " + wri.horizontalRebarTypeName);
             }
 
-            double offsetHorizontalExterior = userDefineCover - coverFront.CoverDistance;
-            double offsetHorizontalInterior = userDefineCover - coverBack.CoverDistance;
-            double offsetVerticalExterior = offsetHorizontalExterior + horizontalRebarType.bartype.BarDiameter;
-            double offsetVerticalInterior = offsetHorizontalInterior + horizontalRebarType.bartype.BarDiameter;
+            
+            double offsetVerticalExterior = userDefineCover - coverFront.CoverDistance - 0.5 * verticalRebarType.bartype.BarDiameter;
+            double offsetVerticalInterior = userDefineCover - coverBack.CoverDistance - 0.5 * verticalRebarType.bartype.BarDiameter;
+            double offsetHorizontalExterior = offsetVerticalExterior - horizontalRebarType.bartype.BarDiameter;
+            double offsetHorizontalInterior = offsetVerticalInterior - horizontalRebarType.bartype.BarDiameter;
 
 
             if (wri.generateVertical)
@@ -204,7 +205,7 @@ namespace RevitAreaReinforcement
 
                         if (wri.horizontalAdditionalStepSpace)
                         {
-                            if(wri.horizontalAddStepHeightBottom > 0)
+                            if (wri.horizontalAddStepHeightBottom > 0)
                             {
                                 List<List<Curve>> profilesAddBottom = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, wri.horizontalAddStepHeightBottom, false);
                                 foreach (var prof in profilesAddBottom)

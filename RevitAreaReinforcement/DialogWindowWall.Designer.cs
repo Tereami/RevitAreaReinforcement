@@ -88,7 +88,7 @@
             // 
             // txtRebarCover
             // 
-            this.txtRebarCover.Location = new System.Drawing.Point(687, 494);
+            this.txtRebarCover.Location = new System.Drawing.Point(685, 492);
             this.txtRebarCover.Margin = new System.Windows.Forms.Padding(2);
             this.txtRebarCover.Name = "txtRebarCover";
             this.txtRebarCover.Size = new System.Drawing.Size(45, 20);
