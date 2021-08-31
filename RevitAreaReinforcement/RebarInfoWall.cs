@@ -55,7 +55,13 @@ namespace RevitAreaReinforcement
         public double rebarCover = 0.082020997375328086;
 
         public bool useUnification = false;
-        public List<double> lengthsUnification;
+        public List<double> lengthsUnification = new List<double> {
+            38.385826771653541,
+            25.590551181102363,
+            19.19291338582677,
+            12.795275590551181,
+            9.5964566929133852,
+            7.6771653543307083 };
 
 
         /// <summary>
