@@ -45,7 +45,7 @@ namespace RevitAreaReinforcement
 
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
-        public double horizontalFreeLength = 0.590551181102362205;
+        public double horizontalFreeLength = -0.0656167979; //0.590551181102362205;
 
         public double backOffset = 0.16404199475065617;
         public double bottomOffset = 0.16404199475065617;
@@ -131,7 +131,7 @@ namespace RevitAreaReinforcement
             rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
             Debug.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
 
-            horizontalFreeLength = wall.Width - rebarCover;
+            //horizontalFreeLength = wall.Width - rebarCover;
             backOffset = bottomOffset;
 
             Parameter addStepHeightBottomParam = wall.LookupParameter("Арм.ВысотаУчащенияНиз");
