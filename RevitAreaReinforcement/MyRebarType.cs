@@ -38,7 +38,7 @@ namespace RevitAreaReinforcement
             return bartype.Name;
         }
 
-        public MyRebarType (Document doc, string typeName)
+        public MyRebarType(Document doc, string typeName)
         {
             List<RebarBarType> bartypes = new FilteredElementCollector(doc)
                 .WhereElementIsElementType()
@@ -70,9 +70,14 @@ namespace RevitAreaReinforcement
                 .Cast<RebarBarType>()
                 .ToList();
 
-            foreach(RebarBarType rbt in bartypes)
+            foreach (RebarBarType rbt in bartypes)
             {
+#if R2017 || R2018 || R2019 || R2020 || R2021
                 double diam = rbt.BarDiameter;
+#else
+                double diam = rbt.BarNominalDiameter;
+#endif
+
                 if (Math.Abs(diam - BarDiameter) > 0.00001) continue;
 
                 Parameter classParam = rbt.LookupParameter("Арм.КлассЧисло");

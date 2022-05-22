@@ -15,12 +15,16 @@ namespace RevitAreaReinforcement
             int rebarClass = GetRebarClass(barType);
             double Rs = GetRebarRsByClass(rebarClass);
             double n1 = rebarClass > 240 ? 2.5 : 2;
+#if R2017 || R2018 || R2019 || R2020 || R2021
             double barDiameter = barType.BarDiameter;
+#else
+            double barDiameter = barType.BarNominalDiameter;
+#endif
             double n2 = (barDiameter * 304.8) > 33 ? 0.9 : 1;
-            
+
             int concreteClass = GetConcreteClass(elem);
             double Rbt = GetConcreteRbtByClass(concreteClass);
-            
+
 
             double alpha = GetCoeffAlpha(false, true);
 
@@ -33,7 +37,7 @@ namespace RevitAreaReinforcement
         public static int GetRebarClass(RebarBarType barType)
         {
             Parameter rebarClassParam = barType.LookupParameter("Арм.КлассЧисло");
-            if(rebarClassParam == null || !rebarClassParam.HasValue)
+            if (rebarClassParam == null || !rebarClassParam.HasValue)
             {
                 throw new Exception("Нет параметра Арм.КлассЧисло в элементе " + barType.Id.IntegerValue.ToString());
             }
@@ -100,9 +104,9 @@ namespace RevitAreaReinforcement
 
         public static double GetCoeffAlpha(bool anchorOrOverlap, bool downOrUp)
         {
-            if(anchorOrOverlap)
+            if (anchorOrOverlap)
             {
-                if(downOrUp)
+                if (downOrUp)
                 {
                     return 0.75;
                 }
@@ -126,7 +130,7 @@ namespace RevitAreaReinforcement
 
         public static double GetCoeffN1(int rebarClass)
         {
-            if(rebarClass > 240)
+            if (rebarClass > 240)
             {
                 return 2.5;
             }

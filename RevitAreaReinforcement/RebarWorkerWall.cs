@@ -77,11 +77,18 @@ namespace RevitAreaReinforcement
                 Debug.WriteLine("Unable to get horizontal rebartype: " + wri.horizontalRebarTypeName);
             }
 
-            
-            double offsetVerticalExterior = userDefineCover - coverFront.CoverDistance - 0.5 * verticalRebarType.bartype.BarDiameter;
-            double offsetVerticalInterior = userDefineCover - coverBack.CoverDistance - 0.5 * verticalRebarType.bartype.BarDiameter;
-            double offsetHorizontalExterior = offsetVerticalExterior - horizontalRebarType.bartype.BarDiameter;
-            double offsetHorizontalInterior = offsetVerticalInterior - horizontalRebarType.bartype.BarDiameter;
+#if R2017 || R2018 || R2019 || R2020 || R2021
+            double vertDiam = verticalRebarType.bartype.BarDiameter;
+            double horizDiam = horizontalRebarType.bartype.BarDiameter;
+#else
+            double vertDiam = verticalRebarType.bartype.BarNominalDiameter;
+            double horizDiam = horizontalRebarType.bartype.BarNominalDiameter;
+#endif
+
+            double offsetVerticalExterior = userDefineCover - coverFront.CoverDistance - 0.5 * vertDiam;
+            double offsetVerticalInterior = userDefineCover - coverBack.CoverDistance - 0.5 * vertDiam;
+            double offsetHorizontalExterior = offsetVerticalExterior - horizDiam;
+            double offsetHorizontalInterior = offsetVerticalInterior - horizDiam;
 
 
             if (wri.generateVertical)
@@ -128,7 +135,7 @@ namespace RevitAreaReinforcement
                 Line wallCurve = wallLocCurve.Curve as Line;
                 if (wallCurve == null) throw new Exception("Curved wall!");*/
 
-                double sideOffset = wri.backOffset - 0.5 * verticalRebarType.bartype.BarDiameter;
+                double sideOffset = wri.backOffset - 0.5 * vertDiam;
 
                 curvesVertical = SupportGeometry.MoveLine(curvesVertical, sideOffset, SupportGeometry.LineSide.Left);
                 curvesVertical = SupportGeometry.MoveLine(curvesVertical, sideOffset, SupportGeometry.LineSide.Right);
@@ -156,8 +163,8 @@ namespace RevitAreaReinforcement
             {
                 Debug.WriteLine("Start creating horizontal rebar");
                 //определяю контур
-                double horizontalTopOffset = 0.5 * horizontalRebarType.bartype.BarDiameter - wri.topOffset;
-                double horizintalBottomOffset = wri.bottomOffset - 0.5 * horizontalRebarType.bartype.BarDiameter;
+                double horizontalTopOffset = 0.5 * horizDiam - wri.topOffset;
+                double horizintalBottomOffset = wri.bottomOffset - 0.5 * horizDiam;
                 List<Curve> curvesHorizontal = SupportGeometry.MoveLine(wallOutline, horizontalTopOffset, SupportGeometry.LineSide.Top);
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, horizintalBottomOffset, SupportGeometry.LineSide.Bottom);
 
@@ -178,13 +185,13 @@ namespace RevitAreaReinforcement
                         horizRebarInterval = horizRebarInterval / 2;
 
                     double heigth = SupportGeometry.GetZoneHeigth(curvesHorizontal);
-                    double heigthByAxis = heigth - horizontalRebarType.bartype.BarDiameter;
+                    double heigthByAxis = heigth - horizDiam;
                     double countCheckAsDouble1 = heigthByAxis / horizRebarInterval;
                     double countCheckAsDouble2 = Math.Round(countCheckAsDouble1, 2);
                     double countCheckAsDouble3 = Math.Truncate(countCheckAsDouble2);
                     int countCheck = (int)countCheckAsDouble3;
                     double addIntervalByAxis = heigthByAxis - countCheck * horizRebarInterval;
-                    if (addIntervalByAxis < horizontalRebarType.bartype.BarDiameter) //доборный шаг не требуется
+                    if (addIntervalByAxis < horizDiam) //доборный шаг не требуется
                     {
                         Debug.WriteLine("Additional offset not needed");
                         curvesBase.Add(new AreaRebarInfo(curvesHorizontal, horizRebarInterval));
@@ -200,7 +207,7 @@ namespace RevitAreaReinforcement
                         }
 
                         double heigthClean = count * horizRebarInterval;
-                        double offsetMain = heigth - heigthClean - horizontalRebarType.bartype.BarDiameter;
+                        double offsetMain = heigth - heigthClean - horizDiam;
                         List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, -offsetMain, SupportGeometry.LineSide.Top);
 
                         if (wri.horizontalAdditionalStepSpace)

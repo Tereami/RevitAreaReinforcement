@@ -53,20 +53,26 @@ namespace RevitAreaReinforcement
 
             Debug.WriteLine("Rebar cover types id, top: " + coverTop.Id.IntegerValue + ", bottom: " + coverBottom.Id.IntegerValue);
 
+#if R2017 || R2018 || R2019 || R2020 || R2021
+            double diam = mrt.bartype.BarDiameter;
+#else
+            double diam = mrt.bartype.BarNominalDiameter;
+#endif
+
             double topCoverDir1 = topCoverUser - coverTop.CoverDistance;
-            double topCoverDir2 = topCoverDir1 + mrt.bartype.BarDiameter;
+            double topCoverDir2 = topCoverDir1 + diam;
             if(rif.turnTopBars)
             {
-                topCoverDir1 += mrt.bartype.BarDiameter;
-                topCoverDir2 -= mrt.bartype.BarDiameter;
+                topCoverDir1 += diam;
+                topCoverDir2 -= diam;
             }
 
             double bottomCoverDir1 = bottomCoverUser - coverBottom.CoverDistance;
-            double bottomCoverDir2 = bottomCoverDir1 + mrt.bartype.BarDiameter;
+            double bottomCoverDir2 = bottomCoverDir1 + diam;
             if(rif.turnBottomBars)
             {
-                bottomCoverDir1 += mrt.bartype.BarDiameter;
-                bottomCoverDir2 -= mrt.bartype.BarDiameter;
+                bottomCoverDir1 += diam;
+                bottomCoverDir2 -= diam;
             }
 
 
