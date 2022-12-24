@@ -25,6 +25,9 @@ namespace RevitAreaReinforcement
 {
     public class MyRebarType
     {
+        public static Guid rebarCodeParamGuid { get { return new Guid("32a47c7f-e91d-4a8e-bf24-927cb679b4d1"); } }
+        public static Guid rebarRunningMetersParamGuid { get { return new Guid("844a01e2-19fc-4dc5-baa0-a4bda30ef1f6"); } }
+
         public RebarBarType bartype;
         public bool isValid = false;
 
@@ -80,13 +83,13 @@ namespace RevitAreaReinforcement
 
                 if (Math.Abs(diam - BarDiameter) > 0.00001) continue;
 
-                Parameter classParam = rbt.LookupParameter("Арм.КлассЧисло");
+                Parameter classParam = rbt.get_Parameter(MyRebarType.rebarCodeParamGuid);
                 if (classParam == null || !classParam.HasValue) continue;
 
                 double cls = classParam.AsDouble();
                 if (Math.Abs(cls - BarClass) > 0.00001) continue;
 
-                Parameter commonLengthParam = rbt.LookupParameter("Рзм.ПогМетрыВкл");
+                Parameter commonLengthParam = rbt.get_Parameter(rebarRunningMetersParamGuid);
                 if (commonLengthParam == null || !commonLengthParam.HasValue) continue;
                 bool commonLengthOn = commonLengthParam.AsInteger() == 1;
                 if (commonLengthOn != AsCommonLength) continue;
@@ -98,7 +101,7 @@ namespace RevitAreaReinforcement
             }
             if (!isValid)
             {
-                string errmsg = "Не удалось получить тип стержня d" + (BarDiameter * 304.8).ToString("F0") + " класс " + BarClass.ToString("F0");
+                string errmsg = MyStrings.ErrorFailedToGetRebarType + " d" + (BarDiameter * 304.8).ToString("F0") + MyStrings.RebarClass + BarClass.ToString("F0");
                 Debug.WriteLine(errmsg);
                 throw new Exception(errmsg);
             }

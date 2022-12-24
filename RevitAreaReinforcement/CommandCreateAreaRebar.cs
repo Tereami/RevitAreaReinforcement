@@ -51,7 +51,7 @@ namespace RevitAreaReinforcement
             }
             if (walls.Count == 0)
             {
-                message = "Предварительно выберите стены для армирования";
+                message = MyStrings.MessageSelectWalls;
                 return Result.Failed;
             }
 
@@ -67,7 +67,7 @@ namespace RevitAreaReinforcement
             }
             if(elements.Size > 0)
             {
-                message = "Найдены не несущие стены, армирование не может быть выполнено";
+                message = MyStrings.MessageNoStructuralWalls;
                 Debug.WriteLine("Non-structural walls were found");
                 return Result.Failed;
             }
@@ -94,7 +94,7 @@ namespace RevitAreaReinforcement
                     }
                     catch 
                     {
-                        Debug.WriteLine("Deserialize fault!");
+                        Debug.WriteLine("Deserialize fauled!");
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace RevitAreaReinforcement
 
             using (Transaction t = new Transaction(doc))
             {
-                t.Start("Армирование стен");
+                t.Start(MyStrings.TransactionWallReinforcement);
                 Debug.WriteLine("Start transaction");
 
                 foreach (Wall wall in walls)

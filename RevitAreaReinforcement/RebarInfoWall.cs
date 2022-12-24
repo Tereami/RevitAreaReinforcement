@@ -26,11 +26,19 @@ namespace RevitAreaReinforcement
     [Serializable]
     public class RebarInfoWall
     {
+        public static Guid vertRebarDiameterParamGuid { get { return new Guid("ee3d34a4-e9e1-464a-9b9a-d034b0036a13"); } }
+        public static Guid vertRebarIntervalParamGuid { get { return new Guid("a792ada0-6a07-48eb-86b6-8c0389a40419"); } }
+        public static Guid vertRebarClassParamGuid { get { return new Guid("b2459150-dab4-4db4-97cb-592e92a15fe0"); } }
+        public static Guid horizRebarDiameterParamGuid { get { return new Guid("1e273bec-8d8b-426c-bbd2-cea2ac71142b"); } }
+        public static Guid horizRebarIntervalParamGuid { get { return new Guid("235e1a65-b813-4bc2-9325-d94476f793ef"); } }
+        public static Guid horizRebarClassParamGuid { get { return new Guid("27814539-ea9c-450e-8fe5-961968ae65d1"); } }
+        public static Guid rebarCoverDistanceParamGuid { get { return new Guid("16182862-7e1a-4253-a615-5a9bc4cbc268"); } }
+        public static Guid rebarFreeLengthParamGuid { get { return new Guid("c353cc79-d7c0-47f4-94ab-79d08b734684"); } }
 
         public bool generateVertical = true;
-        public string verticalSectionText = "Осн. верт.";
+        public string verticalSectionText = MyStrings.TextVerticalRebarPartition;
         public bool generateHorizontal = true;
-        public string horizontalSectionText = "Осн. гор.";
+        public string horizontalSectionText = MyStrings.TextHorizontalRebarPartition;
 
         public string verticalRebarTypeName = "12 A240";
         public double verticalRebarInterval = 0.65616797900262469;
@@ -83,8 +91,8 @@ namespace RevitAreaReinforcement
         public RebarInfoWall(Document doc, Wall wall)
         {
             Debug.WriteLine("Start get info from wall id" + wall.Id.IntegerValue.ToString());
-            double verticalDiameter = GetParameter("Арм.ВертДиаметр", wall).AsDouble();
-            double verticalClass = GetParameter("Арм.ВертКласс", wall).AsDouble();
+            double verticalDiameter = GetParameter(vertRebarDiameterParamGuid, wall).AsDouble();
+            double verticalClass = GetParameter(vertRebarClassParamGuid, wall).AsDouble();
             if (verticalDiameter == 0 || verticalClass == 0)
             {
                 generateVertical = false;
@@ -100,8 +108,8 @@ namespace RevitAreaReinforcement
                 Debug.WriteLine("Vertical rebar typename: " + verticalRebarTypeName);
             }
 
-            double horizontalDiameter = GetParameter("Арм.ГоризДиаметр", wall).AsDouble();
-            double horizontalClass = GetParameter("Арм.ГоризКласс", wall).AsDouble();
+            double horizontalDiameter = GetParameter(horizRebarDiameterParamGuid, wall).AsDouble();
+            double horizontalClass = GetParameter(horizRebarClassParamGuid, wall).AsDouble();
             if (horizontalDiameter == 0 || horizontalClass == 0)
             {
                 generateHorizontal = false;
@@ -117,13 +125,13 @@ namespace RevitAreaReinforcement
             }
 
 
-            verticalRebarInterval = GetParameter("Арм.ВертШаг", wall).AsDouble();
-            horizontalRebarInterval = GetParameter("Арм.ГоризШаг", wall).AsDouble();
+            verticalRebarInterval = GetParameter(vertRebarIntervalParamGuid, wall).AsDouble();
+            horizontalRebarInterval = GetParameter(horizRebarIntervalParamGuid, wall).AsDouble();
             Debug.WriteLine("Rebar interval: " + verticalRebarInterval.ToString("F3") + "x" + horizontalRebarInterval.ToString("F3"));
 
             try
             {
-                verticalFreeLength = GetParameter("Арм.ДлинаВыпуска", wall).AsDouble();
+                verticalFreeLength = GetParameter(rebarFreeLengthParamGuid, wall).AsDouble();
                 Debug.WriteLine("Vertical free length from parameter. L=" + verticalFreeLength.ToString("F3"));
             }
             catch
@@ -132,7 +140,7 @@ namespace RevitAreaReinforcement
                 Debug.WriteLine("Vertical free length = 0");
             }
 
-            rebarCover = GetParameter("Арм.ЗащитныйСлой", wall).AsDouble();
+            rebarCover = GetParameter(rebarCoverDistanceParamGuid, wall).AsDouble();
             Debug.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
 
             //horizontalFreeLength = wall.Width - rebarCover;
@@ -186,13 +194,13 @@ namespace RevitAreaReinforcement
         }*/
 
 
-        private Parameter GetParameter(string paramName, Element elem)
+        private Parameter GetParameter(Guid guid, Element elem)
         {
-            Parameter param = elem.LookupParameter(paramName);
+            Parameter param = elem.get_Parameter(guid);
             if (param == null || !param.HasValue)
             {
-                Debug.WriteLine("Unable to get parameter " + paramName + " from element id" + elem.Id.IntegerValue.ToString());
-                throw new Exception("В элементе " + elem.Id + " нет параметра " + paramName);
+                Debug.WriteLine("Failed to get parameter " + guid.ToString() + " from element id" + elem.Id.IntegerValue.ToString());
+                throw new Exception("Element " + elem.Id + " doesnt contain parameter " + guid.ToString());
             }
             return param;
         }

@@ -45,7 +45,7 @@ namespace RevitAreaReinforcement
             Debug.WriteLine("Selected floors: " + floors.Count);
             if (floors.Count == 0)
             {
-                message = "Выберите плиты для армирования";
+                message = MyStrings.MessageSelectFloors;
                 return Result.Failed;
             }
 
@@ -59,7 +59,7 @@ namespace RevitAreaReinforcement
 
             if (floors.Count == 0)
             {
-                message = "Нет подходящих перекрытий для армирования";
+                message = MyStrings.MessageNoCorrectFloors;
                 return Result.Failed;
             }
 
@@ -77,7 +77,7 @@ namespace RevitAreaReinforcement
             Debug.WriteLine("Structural floors: " + (floors.Count - elements.Size));
             if(elements.Size > 0)
             {
-                message = "Найдены не несущие плиты, армирование не будет выполнено";
+                message = MyStrings.MessageNoStructuralFloors;
                 return Result.Failed;
             }
 
@@ -95,13 +95,13 @@ namespace RevitAreaReinforcement
                     }
                     catch(Exception ex)
                     {
-                        Debug.WriteLine("Unable to deserialize, create new one: " + ex.Message);
+                        Debug.WriteLine("Failed deserialize, create new one: " + ex.Message);
                         rif = RebarInfoFloor.GetDefault(doc);
                     }
                     if (rif == null)
                     {
                         Debug.WriteLine("Deserialize error: " + floorPath);
-                        throw new Exception("Не удалось десериализовать: " + floorPath);
+                        throw new Exception("Serialize failed: " + floorPath);
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace RevitAreaReinforcement
 
             using (Transaction t = new Transaction(doc))
             {
-                t.Start("Армирование плит");
+                t.Start(MyStrings.TransactionFloorReinforcement);
 
                 foreach (Floor floor in floors)
                 {

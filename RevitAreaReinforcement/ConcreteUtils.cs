@@ -10,6 +10,8 @@ namespace RevitAreaReinforcement
 {
     public static class ConcreteUtils
     {
+        public static Guid materialCodeParamGuid { get { return new Guid("b5675d33-fade-46b1-921b-0cab8eec101e");  } }
+
         public static double getRebarFreeLength(RebarBarType barType, Element elem, double round, bool withOffset, bool isRebarStretched)
         {
             int rebarClass = GetRebarClass(barType);
@@ -36,10 +38,10 @@ namespace RevitAreaReinforcement
 
         public static int GetRebarClass(RebarBarType barType)
         {
-            Parameter rebarClassParam = barType.LookupParameter("Арм.КлассЧисло");
+            Parameter rebarClassParam = barType.get_Parameter(MyRebarType.rebarCodeParamGuid);
             if (rebarClassParam == null || !rebarClassParam.HasValue)
             {
-                throw new Exception("Нет параметра Арм.КлассЧисло в элементе " + barType.Id.IntegerValue.ToString());
+                throw new Exception(MyStrings.ErrorNoRebarCodeParam + barType.Id.IntegerValue.ToString());
             }
 
             int rebarClass = (int)rebarClassParam.AsDouble();
@@ -56,11 +58,12 @@ namespace RevitAreaReinforcement
                 throw new Exception("No Structural Material in element " + elem.Id.IntegerValue.ToString());
             }
             Material mat = doc.GetElement(materialParam.AsElementId()) as Material;
-            if (mat == null) throw new Exception("Unable to get Material from element " + elem.Id.IntegerValue.ToString());
-            Parameter materialCodeParam = mat.LookupParameter("Мтрл.КодМатериала");
+            if (mat == null) 
+                throw new Exception("Failed to get Material from element " + elem.Id.IntegerValue.ToString());
+            Parameter materialCodeParam = mat.get_Parameter(materialCodeParamGuid);
             if (materialCodeParam == null || !materialCodeParam.HasValue)
             {
-                throw new Exception("Нет параметра Мтрл.КодМатериала в материале " + mat.Name);
+                throw new Exception(MyStrings.ErrorNoMaterialCodeParameter + mat.Name);
             }
             int materialCode = materialCodeParam.AsInteger() / 100000;
             int concreteClass = materialCode % 100;

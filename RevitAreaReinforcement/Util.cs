@@ -29,7 +29,6 @@ namespace RevitAreaReinforcement
 {
     class Util
     {
-        #region Geometrical Comparison
         const double _eps = 1.0e-9;
 
         static public bool IsZero(double a)
@@ -68,32 +67,13 @@ namespace RevitAreaReinforcement
         {
             return IsVertical(f.Axis);
         }
-        #endregion // Geometrical Comparison
 
-        #region Formatting
-        /// <summary>
-        /// Return an English plural suffix 's' or 
-        /// nothing for the given number of items.
-        /// </summary>
-        //public static string PluralSuffix(int n)
-        //{
-        //    return 1 == n ? "" : "s";
-        //}
-
-        //public static string DotOrColon(int n)
-        //{
-        //    return 1 < n ? ":" : ".";
-        //}
 
         static public string RealString(double a)
         {
             return a.ToString("0.##");
         }
 
-        //static public string AngleString(double a)
-        //{
-        //    return RealString(a * 180 / Math.PI) + " degrees";
-        //}
 
         static public string PointString(XYZ p)
         {
@@ -102,38 +82,6 @@ namespace RevitAreaReinforcement
               RealString(p.Z));
         }
 
-        //static public string TransformString(Transform t)
-        //{
-        //    return string.Format("({0},{1},{2},{3})", PointString(t.Origin),
-        //      PointString(t.BasisX), PointString(t.BasisY), PointString(t.BasisZ));
-        //}
-        #endregion // Formatting
-
-        //static public void InfoMsg(string msg)
-        //{
-        //    System.Windows.Forms.MessageBox.Show(msg,
-        //      "AreaReinforcement",
-        //      System.Windows.Forms.MessageBoxButtons.OK,
-        //      System.Windows.Forms.MessageBoxIcon.Information);
-        //}
-
-        //public static string ElementDescription(Element e)
-        //{
-        //    // for a wall, the element name equals the 
-        //    // wall type name, which is equivalent to the 
-        //    // family name ...
-        //    FamilyInstance fi = e as FamilyInstance;
-        //    string fn = (null == fi)
-        //      ? string.Empty
-        //      : fi.Symbol.Family.Name + " ";
-
-        //    string cn = (null == e.Category)
-        //      ? e.GetType().Name
-        //      : e.Category.Name;
-
-        //    return string.Format("{0} {1}<{2} {3}>",
-        //      cn, fn, e.Id.IntegerValue, e.Name);
-        //}
 
         public static string ProfileDebugInfo(List<Curve> profile)
         {

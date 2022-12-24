@@ -237,6 +237,16 @@
     <Compile Include="DialogWindowWallAuto.Designer.cs">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyStrings.ru-RU.Designer.cs">
+      <DependentUpon>MyStrings.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="MyStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="RebarInfoFloor.cs" />
     <Compile Include="MyRebarType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -278,6 +288,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DialogWindowWallAuto.ru-RU.resx">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyStrings.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MyStrings.ru-RU.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MyStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

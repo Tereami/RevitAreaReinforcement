@@ -684,10 +684,6 @@ namespace RevitAreaReinforcement
         }
 
 
-
-
-
-
         public static List<Curve> GetFloorOuterBoundary(Floor floor)
         {
             Reference rf = HostObjectUtils.GetTopFaces(floor).First();

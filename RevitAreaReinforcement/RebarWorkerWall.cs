@@ -24,6 +24,9 @@ namespace RevitAreaReinforcement
 {
     public static class RebarWorkerWall
     {
+        public static Guid slabHeightParamGuid { get { return new Guid("b543b893-732a-40a9-9355-a489d3ce3a66"); } }
+
+
         public static List<string> GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
         {
             Debug.WriteLine("Start reinforcement for wall: " + wall.Id.IntegerValue.ToString());
@@ -60,14 +63,14 @@ namespace RevitAreaReinforcement
             MyRebarType verticalRebarType = new MyRebarType(doc, wri.verticalRebarTypeName);
             if (verticalRebarType.isValid == false)
             {
-                messages.Add("Не удалось получить тип стержня " + wri.verticalRebarTypeName);
-                Debug.WriteLine("Unable to get vertical rebartype: " + wri.verticalRebarTypeName);
+                messages.Add(MyStrings.ErrorFailedToGetRebarType + wri.verticalRebarTypeName);
+                Debug.WriteLine("Failed to get vertical rebartype: " + wri.verticalRebarTypeName);
             }
             MyRebarType horizontalRebarType = new MyRebarType(doc, wri.horizontalRebarTypeName);
             if (horizontalRebarType.isValid == false)
             {
-                messages.Add("Не удалось получить тип стержня " + wri.horizontalRebarTypeName);
-                Debug.WriteLine("Unable to get horizontal rebartype: " + wri.horizontalRebarTypeName);
+                messages.Add(MyStrings.ErrorFailedToGetRebarType + wri.horizontalRebarTypeName);
+                Debug.WriteLine("Failed to get horizontal rebartype: " + wri.horizontalRebarTypeName);
             }
 
 #if R2017 || R2018 || R2019 || R2020 || R2021
@@ -88,7 +91,7 @@ namespace RevitAreaReinforcement
             if (wri.generateVertical)
             {
                 Debug.WriteLine("Start creating vertical rebar");
-                Parameter paramFloorThickinessParam = wall.LookupParameter("Рзм.ТолщинаПерекрытия");
+                Parameter paramFloorThickinessParam = wall.get_Parameter(slabHeightParamGuid);
 
                 if (wri.autoVerticalFreeLength)
                 {
@@ -104,7 +107,7 @@ namespace RevitAreaReinforcement
                     else
                     {
                         Debug.WriteLine("Unable to auto-calculate vertical free length");
-                        throw new Exception("Не задан параметр Рзм.ТолщинаПерекрытия в элементе " + wall.Id.IntegerValue.ToString());
+                        throw new Exception(MyStrings.ErrorNoSlabHeightParam + wall.Id.IntegerValue.ToString());
                     }
                 }
 

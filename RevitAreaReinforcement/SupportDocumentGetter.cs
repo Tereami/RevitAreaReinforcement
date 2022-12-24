@@ -68,7 +68,7 @@ namespace RevitAreaReinforcement
         {
             foreach(Wall wall in walls)
             {
-                Parameter param = wall.LookupParameter("Арм.ГоризДиаметр");
+                Parameter param = wall.get_Parameter(RebarInfoWall.horizRebarDiameterParamGuid);
                 if (param == null || !param.HasValue) return false;
                 double diam = param.AsDouble();
                 if (diam < 0.001) return false; //если указан 0 то тоже пропускаем

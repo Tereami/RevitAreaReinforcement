@@ -59,7 +59,7 @@ namespace RevitAreaReinforcement
 
             if (ars.Count == 0)
             {
-                message += "Выберите арматуру по площади";
+                message += MyStrings.MessageSelectAreaRebar;
                 return Result.Failed;
             }
 
