@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DialogWindowFloor));
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -48,141 +49,88 @@
             // 
             // comboBoxType
             // 
-            this.comboBoxType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.comboBoxType, "comboBoxType");
             this.comboBoxType.FormattingEnabled = true;
-            this.comboBoxType.Location = new System.Drawing.Point(12, 25);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(194, 21);
-            this.comboBoxType.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 8);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Тип стержня:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 53);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Шаг, мм:";
             // 
             // numInterval
             // 
-            this.numInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numInterval.Location = new System.Drawing.Point(12, 70);
+            resources.ApplyResources(this.numInterval, "numInterval");
             this.numInterval.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
             this.numInterval.Name = "numInterval";
-            this.numInterval.Size = new System.Drawing.Size(194, 20);
-            this.numInterval.TabIndex = 3;
             // 
             // buttonOk
             // 
-            this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOk.Location = new System.Drawing.Point(9, 276);
+            resources.ApplyResources(this.buttonOk, "buttonOk");
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 4;
-            this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(131, 276);
+            resources.ApplyResources(this.buttonCancel, "buttonCancel");
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 4;
-            this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // numCoverBottom
             // 
-            this.numCoverBottom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numCoverBottom.Location = new System.Drawing.Point(12, 157);
+            resources.ApplyResources(this.numCoverBottom, "numCoverBottom");
             this.numCoverBottom.Name = "numCoverBottom";
-            this.numCoverBottom.Size = new System.Drawing.Size(194, 20);
-            this.numCoverBottom.TabIndex = 3;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 141);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Защ. слой низ, мм:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 96);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(110, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Защ. слой верх, мм:";
             // 
             // numCoverTop
             // 
-            this.numCoverTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numCoverTop.Location = new System.Drawing.Point(12, 112);
+            resources.ApplyResources(this.numCoverTop, "numCoverTop");
             this.numCoverTop.Name = "numCoverTop";
-            this.numCoverTop.Size = new System.Drawing.Size(194, 20);
-            this.numCoverTop.TabIndex = 3;
             // 
             // checkBoxUseDirection
             // 
-            this.checkBoxUseDirection.AutoSize = true;
-            this.checkBoxUseDirection.Location = new System.Drawing.Point(12, 192);
+            resources.ApplyResources(this.checkBoxUseDirection, "checkBoxUseDirection");
             this.checkBoxUseDirection.Name = "checkBoxUseDirection";
-            this.checkBoxUseDirection.Size = new System.Drawing.Size(193, 17);
-            this.checkBoxUseDirection.TabIndex = 5;
-            this.checkBoxUseDirection.Text = "Угол по \"Направлению пролёта\"";
             this.checkBoxUseDirection.UseVisualStyleBackColor = true;
             // 
             // checkBoxTurnTopBars
             // 
-            this.checkBoxTurnTopBars.AutoSize = true;
-            this.checkBoxTurnTopBars.Location = new System.Drawing.Point(12, 215);
+            resources.ApplyResources(this.checkBoxTurnTopBars, "checkBoxTurnTopBars");
             this.checkBoxTurnTopBars.Name = "checkBoxTurnTopBars";
-            this.checkBoxTurnTopBars.Size = new System.Drawing.Size(171, 17);
-            this.checkBoxTurnTopBars.TabIndex = 5;
-            this.checkBoxTurnTopBars.Text = "Перевернуть верхнюю сетку";
             this.checkBoxTurnTopBars.UseVisualStyleBackColor = true;
             // 
             // checkBoxTurnBottomBars
             // 
-            this.checkBoxTurnBottomBars.AutoSize = true;
+            resources.ApplyResources(this.checkBoxTurnBottomBars, "checkBoxTurnBottomBars");
             this.checkBoxTurnBottomBars.Checked = true;
             this.checkBoxTurnBottomBars.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTurnBottomBars.Location = new System.Drawing.Point(12, 238);
             this.checkBoxTurnBottomBars.Name = "checkBoxTurnBottomBars";
-            this.checkBoxTurnBottomBars.Size = new System.Drawing.Size(168, 17);
-            this.checkBoxTurnBottomBars.TabIndex = 5;
-            this.checkBoxTurnBottomBars.Text = "Перевернуть нижнюю сетку";
             this.checkBoxTurnBottomBars.UseVisualStyleBackColor = true;
             // 
             // DialogWindowFloor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(218, 311);
             this.Controls.Add(this.checkBoxTurnBottomBars);
             this.Controls.Add(this.checkBoxTurnTopBars);
             this.Controls.Add(this.checkBoxUseDirection);
@@ -198,8 +146,6 @@
             this.Controls.Add(this.comboBoxType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DialogWindowFloor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Армирование плиты v2020.04.07";
             this.Load += new System.EventHandler(this.DialogWindowFloor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverBottom)).EndInit();

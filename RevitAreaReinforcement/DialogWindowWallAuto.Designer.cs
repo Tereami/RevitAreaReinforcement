@@ -28,13 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DialogWindowWallAuto));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownVertFreeLengthRound = new System.Windows.Forms.NumericUpDown();
+            this.checkBox_VertRebarStretched = new System.Windows.Forms.CheckBox();
+            this.checkBox_AsymmVertFreeLength = new System.Windows.Forms.CheckBox();
             this.radioButtonFreeLengthAuto = new System.Windows.Forms.RadioButton();
+            this.label9 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.radioButtonFreeLengthManual = new System.Windows.Forms.RadioButton();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numericUpDownHorizOffset = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.checkBoxAdditionalStepSpace = new System.Windows.Forms.CheckBox();
             this.checkBoxAddHorizStep = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,9 +53,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.checkBoxAdditionalStepSpace = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVertFreeLengthRound)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizOffset)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -55,222 +62,179 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(288, 36);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Армирование будет выполнено автоматически по данным, указанным в стенах.";
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.numericUpDownVertFreeLengthRound);
+            this.groupBox1.Controls.Add(this.checkBox_VertRebarStretched);
+            this.groupBox1.Controls.Add(this.checkBox_AsymmVertFreeLength);
             this.groupBox1.Controls.Add(this.radioButtonFreeLengthAuto);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.radioButtonFreeLengthManual);
-            this.groupBox1.Location = new System.Drawing.Point(12, 48);
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(288, 111);
-            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Выпуски вертикальной арматуры";
+            // 
+            // numericUpDownVertFreeLengthRound
+            // 
+            resources.ApplyResources(this.numericUpDownVertFreeLengthRound, "numericUpDownVertFreeLengthRound");
+            this.numericUpDownVertFreeLengthRound.Name = "numericUpDownVertFreeLengthRound";
+            this.numericUpDownVertFreeLengthRound.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // checkBox_VertRebarStretched
+            // 
+            resources.ApplyResources(this.checkBox_VertRebarStretched, "checkBox_VertRebarStretched");
+            this.checkBox_VertRebarStretched.Name = "checkBox_VertRebarStretched";
+            this.checkBox_VertRebarStretched.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_AsymmVertFreeLength
+            // 
+            resources.ApplyResources(this.checkBox_AsymmVertFreeLength, "checkBox_AsymmVertFreeLength");
+            this.checkBox_AsymmVertFreeLength.Name = "checkBox_AsymmVertFreeLength";
+            this.checkBox_AsymmVertFreeLength.UseVisualStyleBackColor = true;
             // 
             // radioButtonFreeLengthAuto
             // 
-            this.radioButtonFreeLengthAuto.AutoSize = true;
-            this.radioButtonFreeLengthAuto.Location = new System.Drawing.Point(7, 43);
+            resources.ApplyResources(this.radioButtonFreeLengthAuto, "radioButtonFreeLengthAuto");
             this.radioButtonFreeLengthAuto.Name = "radioButtonFreeLengthAuto";
-            this.radioButtonFreeLengthAuto.Size = new System.Drawing.Size(103, 17);
-            this.radioButtonFreeLengthAuto.TabIndex = 1;
-            this.radioButtonFreeLengthAuto.Text = "Автоматически";
             this.radioButtonFreeLengthAuto.UseVisualStyleBackColor = true;
+            this.radioButtonFreeLengthAuto.CheckedChanged += new System.EventHandler(this.radioButtonFreeLengthAuto_CheckedChanged);
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(6, 63);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(276, 36);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Требуются параметры Рзм.ТолщинаПерекрытия, Арм.КлассЧисло, Мтрл.КодМатериала";
             // 
             // radioButtonFreeLengthManual
             // 
-            this.radioButtonFreeLengthManual.AutoSize = true;
+            resources.ApplyResources(this.radioButtonFreeLengthManual, "radioButtonFreeLengthManual");
             this.radioButtonFreeLengthManual.Checked = true;
-            this.radioButtonFreeLengthManual.Location = new System.Drawing.Point(7, 20);
             this.radioButtonFreeLengthManual.Name = "radioButtonFreeLengthManual";
-            this.radioButtonFreeLengthManual.Size = new System.Drawing.Size(201, 17);
-            this.radioButtonFreeLengthManual.TabIndex = 0;
             this.radioButtonFreeLengthManual.TabStop = true;
-            this.radioButtonFreeLengthManual.Text = "Из параметра Арм.ДлинаВыпуска";
             this.radioButtonFreeLengthManual.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.numericUpDownHorizOffset);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.checkBoxAdditionalStepSpace);
             this.groupBox2.Controls.Add(this.checkBoxAddHorizStep);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 165);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(288, 129);
-            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Горизонтальная арматура";
             // 
             // numericUpDownHorizOffset
             // 
-            this.numericUpDownHorizOffset.Location = new System.Drawing.Point(129, 19);
+            resources.ApplyResources(this.numericUpDownHorizOffset, "numericUpDownHorizOffset");
             this.numericUpDownHorizOffset.Name = "numericUpDownHorizOffset";
-            this.numericUpDownHorizOffset.Size = new System.Drawing.Size(63, 20);
-            this.numericUpDownHorizOffset.TabIndex = 4;
             this.numericUpDownHorizOffset.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
             // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // checkBoxAdditionalStepSpace
+            // 
+            resources.ApplyResources(this.checkBoxAdditionalStepSpace, "checkBoxAdditionalStepSpace");
+            this.checkBoxAdditionalStepSpace.Checked = true;
+            this.checkBoxAdditionalStepSpace.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAdditionalStepSpace.Name = "checkBoxAdditionalStepSpace";
+            this.checkBoxAdditionalStepSpace.UseVisualStyleBackColor = true;
+            // 
             // checkBoxAddHorizStep
             // 
-            this.checkBoxAddHorizStep.AutoSize = true;
+            resources.ApplyResources(this.checkBoxAddHorizStep, "checkBoxAddHorizStep");
             this.checkBoxAddHorizStep.Checked = true;
             this.checkBoxAddHorizStep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAddHorizStep.Location = new System.Drawing.Point(9, 45);
             this.checkBoxAddHorizStep.Name = "checkBoxAddHorizStep";
-            this.checkBoxAddHorizStep.Size = new System.Drawing.Size(101, 17);
-            this.checkBoxAddHorizStep.TabIndex = 3;
-            this.checkBoxAddHorizStep.Text = "Доборный шаг";
             this.checkBoxAddHorizStep.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(198, 22);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "мм";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 22);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Отступы";
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.textBoxRazdelHoris);
             this.groupBox3.Controls.Add(this.textBoxRazdelVert);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 300);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(288, 84);
-            this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Параметр \"Раздел\"";
             // 
             // textBoxRazdelHoris
             // 
-            this.textBoxRazdelHoris.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxRazdelHoris.Location = new System.Drawing.Point(128, 47);
+            resources.ApplyResources(this.textBoxRazdelHoris, "textBoxRazdelHoris");
             this.textBoxRazdelHoris.Name = "textBoxRazdelHoris";
-            this.textBoxRazdelHoris.Size = new System.Drawing.Size(153, 20);
-            this.textBoxRazdelHoris.TabIndex = 5;
             // 
             // textBoxRazdelVert
             // 
-            this.textBoxRazdelVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxRazdelVert.Location = new System.Drawing.Point(128, 21);
+            resources.ApplyResources(this.textBoxRazdelVert, "textBoxRazdelVert");
             this.textBoxRazdelVert.Name = "textBoxRazdelVert";
-            this.textBoxRazdelVert.Size = new System.Drawing.Size(153, 20);
-            this.textBoxRazdelVert.TabIndex = 5;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 24);
+            resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Для вертикальной:";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 50);
+            resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(116, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Для горизонтальной:";
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.buttonCancel, "buttonCancel");
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(225, 395);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 4;
-            this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonOk
             // 
-            this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(145, 395);
+            resources.ApplyResources(this.buttonOk, "buttonOk");
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 4;
-            this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-            // 
-            // checkBoxAdditionalStepSpace
-            // 
-            this.checkBoxAdditionalStepSpace.AutoSize = true;
-            this.checkBoxAdditionalStepSpace.Checked = true;
-            this.checkBoxAdditionalStepSpace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAdditionalStepSpace.Location = new System.Drawing.Point(9, 68);
-            this.checkBoxAdditionalStepSpace.Name = "checkBoxAdditionalStepSpace";
-            this.checkBoxAdditionalStepSpace.Size = new System.Drawing.Size(152, 17);
-            this.checkBoxAdditionalStepSpace.TabIndex = 3;
-            this.checkBoxAdditionalStepSpace.Text = "Учащение по низу/верху";
-            this.checkBoxAdditionalStepSpace.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.Location = new System.Drawing.Point(6, 88);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(276, 38);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Требуются параметры Арм.ВысотаУчащенияНиз и Арм.ВысотаУчащенияВерх";
             // 
             // DialogWindowWallAuto
             // 
             this.AcceptButton = this.buttonOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(312, 430);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.groupBox3);
@@ -279,10 +243,9 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DialogWindowWallAuto";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Настройки";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVertFreeLengthRound)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizOffset)).EndInit();
@@ -313,5 +276,10 @@
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBoxAdditionalStepSpace;
+        private System.Windows.Forms.CheckBox checkBox_AsymmVertFreeLength;
+        private System.Windows.Forms.CheckBox checkBox_VertRebarStretched;
+        private System.Windows.Forms.NumericUpDown numericUpDownVertFreeLengthRound;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
     }
 }

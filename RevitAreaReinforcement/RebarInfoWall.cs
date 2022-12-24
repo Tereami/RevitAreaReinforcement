@@ -45,14 +45,18 @@ namespace RevitAreaReinforcement
 
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
+        public bool verticalAsymmOffset = false;
+        public bool verticalRebarStretched = false;
+        public double verticalFreeLengthRound = 0.16404199475065617;
+
         public double horizontalFreeLength = -0.0656167979; //0.590551181102362205;
 
         public double backOffset = 0.16404199475065617;
         public double bottomOffset = 0.16404199475065617;
         public double topOffset = 0.16404199475065617;
-        public double verticalOffset = 0;
+        
 
-        public double rebarCover = 0.082020997375328086;
+        public double rebarCover = 0.16404199475065617;
 
         public bool useUnification = false;
         public List<double> lengthsUnification = new List<double> {

@@ -91,7 +91,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-    <Choose>
+  <Choose>
     <When Condition=" '$(Configuration)'=='R2017' ">
       <ItemGroup>
         <Reference Include="RevitAPI">
@@ -255,7 +255,13 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DialogWindowFloor.ru-RU.resx">
+      <DependentUpon>DialogWindowFloor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogWindowRestoreAreaRebar.resx">
+      <DependentUpon>DialogWindowRestoreAreaRebar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogWindowRestoreAreaRebar.ru-RU.resx">
       <DependentUpon>DialogWindowRestoreAreaRebar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogWindowWall.resx">
@@ -264,7 +270,13 @@
     <EmbeddedResource Include="DialogWindowFloor.resx">
       <DependentUpon>DialogWindowFloor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogWindowWall.ru-RU.resx">
+      <DependentUpon>DialogWindowWall.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogWindowWallAuto.resx">
+      <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogWindowWallAuto.ru-RU.resx">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

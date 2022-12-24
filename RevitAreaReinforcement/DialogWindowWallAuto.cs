@@ -20,6 +20,10 @@ namespace RevitAreaReinforcement
             rebarInfo = riw;
 
             radioButtonFreeLengthAuto.Checked = riw.autoVerticalFreeLength;
+            numericUpDownVertFreeLengthRound.Value = (decimal)(304.8 * riw.verticalFreeLengthRound);
+            checkBox_AsymmVertFreeLength.Checked = rebarInfo.verticalAsymmOffset;
+            checkBox_VertRebarStretched.Checked = rebarInfo.verticalRebarStretched;
+
             numericUpDownHorizOffset.Value = (decimal)(304.8 * riw.bottomOffset);
             checkBoxAddHorizStep.Checked = riw.horizontalAddInterval;
             checkBoxAdditionalStepSpace.Checked = riw.horizontalAdditionalStepSpace;
@@ -31,6 +35,10 @@ namespace RevitAreaReinforcement
         private void buttonOk_Click(object sender, EventArgs e)
         {
             rebarInfo.autoVerticalFreeLength = radioButtonFreeLengthAuto.Checked;
+            rebarInfo.verticalFreeLengthRound = ((double)numericUpDownVertFreeLengthRound.Value) / 304.8;
+            rebarInfo.verticalAsymmOffset = checkBox_AsymmVertFreeLength.Checked;
+            rebarInfo.verticalRebarStretched = checkBox_VertRebarStretched.Checked;
+
             rebarInfo.bottomOffset = ((double)numericUpDownHorizOffset.Value) / 304.8;
             rebarInfo.horizontalAddInterval = checkBoxAddHorizStep.Checked;
             rebarInfo.horizontalAdditionalStepSpace = checkBoxAdditionalStepSpace.Checked;
@@ -46,6 +54,13 @@ namespace RevitAreaReinforcement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void radioButtonFreeLengthAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            bool chkd = radioButtonFreeLengthAuto.Checked;
+            checkBox_AsymmVertFreeLength.Enabled = chkd;
+            checkBox_VertRebarStretched.Enabled = chkd;
         }
     }
 }

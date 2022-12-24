@@ -10,7 +10,7 @@ namespace RevitAreaReinforcement
 {
     public static class ConcreteUtils
     {
-        public static double getRebarFreeLength(RebarBarType barType, Element elem, double round)
+        public static double getRebarFreeLength(RebarBarType barType, Element elem, double round, bool withOffset, bool isRebarStretched)
         {
             int rebarClass = GetRebarClass(barType);
             double Rs = GetRebarRsByClass(rebarClass);
@@ -26,11 +26,11 @@ namespace RevitAreaReinforcement
             double Rbt = GetConcreteRbtByClass(concreteClass);
 
 
-            double alpha = GetCoeffAlpha(false, true);
+            double alpha = GetCoeffAlpha(false, isRebarStretched, withOffset);
 
             double length = (alpha * Rs * barDiameter) / (n1 * n2 * Rbt * 4);
 
-            double lengthRound = round * Math.Round(length / round);
+            double lengthRound = round * Math.Ceiling(length / round);
             return lengthRound;
         }
 
@@ -67,14 +67,19 @@ namespace RevitAreaReinforcement
 
             return concreteClass;
         }
+
         public static double GetConcreteRbtByClass(int clas)
         {
             switch (clas)
             {
                 case 10: return 0.5;
+                case 12: return 0.625;
                 case 15: return 0.75;
+                case 17: return 0.825;
                 case 20: return 0.9;
+                case 22: return 0.975;
                 case 25: return 1.05;
+                case 27: return 1.1;
                 case 30: return 1.15;
                 case 35: return 1.3;
                 case 40: return 1.4;
@@ -102,11 +107,12 @@ namespace RevitAreaReinforcement
             throw new Exception("UNKNOWN REBAR CLASS " + clas.ToString());
         }
 
-        public static double GetCoeffAlpha(bool anchorOrOverlap, bool downOrUp)
+        //СП 63.13330.2018 п.10.3
+        public static double GetCoeffAlpha(bool anchorOrOverlap, bool isStretched, bool withOffset)
         {
             if (anchorOrOverlap)
             {
-                if (downOrUp)
+                if (isStretched)
                 {
                     return 0.75;
                 }
@@ -117,13 +123,27 @@ namespace RevitAreaReinforcement
             }
             else
             {
-                if (downOrUp)
+                if (withOffset)
                 {
-                    return 0.9;
+                    if (isStretched)
+                    {
+                        return 1.2;
+                    }
+                    else
+                    {
+                        return 0.9;
+                    }
                 }
                 else
                 {
-                    return 1.2;
+                    if (isStretched)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        return 1.2;
+                    }
                 }
             }
         }

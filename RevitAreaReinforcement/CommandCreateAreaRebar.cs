@@ -123,7 +123,7 @@ namespace RevitAreaReinforcement
             {
                 serializer.Serialize(writer, riw);
             }
-            Debug.WriteLine("... Success!");
+            Debug.WriteLine("... xml success!");
 
 
             using (Transaction t = new Transaction(doc))
@@ -135,28 +135,17 @@ namespace RevitAreaReinforcement
                 {
                     if (wallsHaveRebarInfo)
                     {
-                        Debug.WriteLine("Start auto-reinforcement");
-                        RebarInfoWall newRiw = new RebarInfoWall(doc, wall);
-                        newRiw.topOffset = riw.topOffset;
-                        newRiw.bottomOffset = riw.bottomOffset;
-                        
-                        newRiw.horizontalAddInterval = riw.horizontalAddInterval;
-                        newRiw.horizontalAdditionalStepSpace = riw.horizontalAdditionalStepSpace;
-                        newRiw.verticalSectionText = riw.verticalSectionText;
-                        newRiw.horizontalSectionText = riw.horizontalSectionText;
-                        newRiw.verticalOffset = riw.verticalOffset;
-
-                        newRiw.useUnification = riw.useUnification;
-                        newRiw.lengthsUnification = riw.lengthsUnification;
-                        newRiw.autoVerticalFreeLength = riw.autoVerticalFreeLength;
-
-                        RebarWorkerWall.GenerateRebar(doc, wall, newRiw, zeroCover, areaTypeId);
+                        Debug.WriteLine("Get rebar info from wall");
+                        RebarInfoWall infoFromWall = new RebarInfoWall(doc, wall);
+                        riw.rebarCover = infoFromWall.rebarCover;
+                        riw.verticalFreeLength = infoFromWall.verticalFreeLength;
+                        riw.verticalRebarTypeName = infoFromWall.verticalRebarTypeName;
+                        riw.verticalRebarInterval = infoFromWall.verticalRebarInterval;
+                        riw.horizontalRebarTypeName = infoFromWall.horizontalRebarTypeName;
+                        riw.horizontalRebarInterval = infoFromWall.horizontalRebarInterval;
                     }
-                    else
-                    {
-                        Debug.WriteLine("Start manual reinforcement");
-                        RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
-                    }
+                    Debug.WriteLine("Start wall reinforcement");
+                    RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
                 }
                 t.Commit();
                 Debug.WriteLine("Finish transaction");

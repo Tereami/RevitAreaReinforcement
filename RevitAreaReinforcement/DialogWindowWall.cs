@@ -42,7 +42,6 @@ namespace RevitAreaReinforcement
             txtBackOffset.Text = (reinfInfo.backOffset * 304.8).ToString();
             txtBottomOffset.Text = (reinfInfo.bottomOffset * 304.8).ToString();
             txtTopOffset.Text = (reinfInfo.topOffset * 304.8).ToString();
-            txtVerticalOffset.Text = (reinfInfo.verticalOffset * 304.8).ToString();
 
             txtHorizontalInterval.Text = (reinfInfo.horizontalRebarInterval * 304.8).ToString();
             txtVerticalInterval.Text = (reinfInfo.verticalRebarInterval * 304.8).ToString();
@@ -51,8 +50,11 @@ namespace RevitAreaReinforcement
 
             txtVerticalFreeLength.Text = (reinfInfo.verticalFreeLength * 304.8).ToString();
             checkBoxAutoVerticalFreeLengh.Checked = wri.autoVerticalFreeLength;
-            txtHorizontalFreeLength.Text = (reinfInfo.horizontalFreeLength * 304.8).ToString();
+            checkBox_AsymVertFreeLength.Checked = wri.verticalAsymmOffset;
+            radioButtonForceUp.Checked = wri.verticalRebarStretched;
+            numericUpDownVertFreeLengthRound.Value = (decimal)(wri.verticalFreeLengthRound * 304.8);
 
+            txtHorizontalFreeLength.Text = (reinfInfo.horizontalFreeLength * 304.8).ToString();
             cmbHorizonalType.DataSource = rebarTypes1;
             cmbVerticalType.DataSource = rebarTypes2;
             cmbHorizonalType.SelectedItem = reinfInfo.horizontalRebarTypeName;
@@ -61,13 +63,10 @@ namespace RevitAreaReinforcement
             checkBoxHorizAddInterval.Checked = reinfInfo.horizontalAddInterval;
 
             checkBoxUnificateLength.Checked = reinfInfo.useUnification;
-            foreach(double len in reinfInfo.lengthsUnification)
-            {
-                string letText = (len * 304.8).ToString("F0");
-                textBoxLengths.Text += letText + ";";
-            }
+            textBoxLengths.Text = string.Join(";",
+                reinfInfo.lengthsUnification.Select(i => (i * 304.8).ToString("F0")));
 
-            this.Text = "Армирование стен. Версия " + System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
+            this.Text += System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -87,7 +86,6 @@ namespace RevitAreaReinforcement
             wri.backOffset = double.Parse(txtBackOffset.Text) / 304.8;
             wri.bottomOffset = double.Parse(txtBottomOffset.Text) / 304.8;
             wri.topOffset = double.Parse(txtTopOffset.Text) / 304.8;
-            wri.verticalOffset = double.Parse(txtVerticalOffset.Text) / 304.8;
 
             wri.horizontalRebarInterval = double.Parse(txtHorizontalInterval.Text) / 304.8;
             wri.verticalRebarInterval = double.Parse(txtVerticalInterval.Text) / 304.8;
@@ -96,8 +94,12 @@ namespace RevitAreaReinforcement
 
             wri.verticalFreeLength = double.Parse(txtVerticalFreeLength.Text) / 304.8;
             wri.autoVerticalFreeLength = checkBoxAutoVerticalFreeLengh.Checked;
-            wri.horizontalFreeLength = double.Parse(txtHorizontalFreeLength.Text) / 304.8;
+            wri.verticalAsymmOffset = checkBox_AsymVertFreeLength.Checked;
+            wri.verticalRebarStretched = radioButtonForceUp.Checked;
+            wri.verticalFreeLengthRound = ((double)numericUpDownVertFreeLengthRound.Value) / 304.8;
 
+
+            wri.horizontalFreeLength = double.Parse(txtHorizontalFreeLength.Text) / 304.8;
             wri.horizontalRebarTypeName = cmbHorizonalType.Text;
             wri.verticalRebarTypeName = cmbVerticalType.Text;
 
@@ -105,12 +107,12 @@ namespace RevitAreaReinforcement
 
             wri.useUnification = checkBoxUnificateLength.Checked;
             wri.lengthsUnification = new List<double>();
-            foreach(string lenStr in textBoxLengths.Text.Split(';'))
+            foreach (string lenStr in textBoxLengths.Text.Split(';'))
             {
                 double l = 0;
                 double.TryParse(lenStr, out l);
                 if (l == 0) continue;
-                l = l / 304.8; 
+                l = l / 304.8;
                 wri.lengthsUnification.Add(l);
             }
 
@@ -121,40 +123,23 @@ namespace RevitAreaReinforcement
 
         private void checkBoxGenerateVertical_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxGenerateVertical.Checked)
-            {
-                cmbVerticalType.Enabled = true;
-                txtBoxVertArmSection.Enabled = true;
-                txtVerticalFreeLength.Enabled = true;
-                txtVerticalInterval.Enabled = true;
-            }
-            else
-            {
-                cmbVerticalType.Enabled = false;
-                txtBoxVertArmSection.Enabled = false;
-                txtVerticalFreeLength.Enabled = false;
-                txtVerticalInterval.Enabled = false;
-            }
+            bool chkd = checkBoxGenerateVertical.Checked;
+
+            cmbVerticalType.Enabled = chkd;
+            txtBoxVertArmSection.Enabled = chkd;
+            txtVerticalFreeLength.Enabled = chkd;
+            txtVerticalInterval.Enabled = chkd;
         }
 
         private void checkBoxGenerateHorizontal_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxGenerateHorizontal.Checked)
-            {
-                cmbHorizonalType.Enabled = true;
-                txtBoxHorizArmSection.Enabled = true;
-                txtTopOffset.Enabled = true;
-                txtBottomOffset.Enabled = true;
-                txtHorizontalInterval.Enabled = true;
-            }
-            else
-            {
-                cmbHorizonalType.Enabled = false;
-                txtBoxHorizArmSection.Enabled = false;
-                txtTopOffset.Enabled = false;
-                txtBottomOffset.Enabled = false;
-                txtHorizontalInterval.Enabled = false;
-            }
+            bool chkd = checkBoxGenerateHorizontal.Checked;
+
+            cmbHorizonalType.Enabled = chkd;
+            txtBoxHorizArmSection.Enabled = chkd;
+            txtTopOffset.Enabled = chkd;
+            txtBottomOffset.Enabled = chkd;
+            txtHorizontalInterval.Enabled = chkd;
         }
 
         private void checkBoxUnificateLength_CheckedChanged(object sender, EventArgs e)
@@ -164,7 +149,13 @@ namespace RevitAreaReinforcement
 
         private void checkBoxAutoVerticalFreeLengh_CheckedChanged(object sender, EventArgs e)
         {
-            txtVerticalFreeLength.Enabled = !checkBoxAutoVerticalFreeLengh.Checked;
+            bool chkd = checkBoxAutoVerticalFreeLengh.Checked;
+            txtVerticalFreeLength.Enabled = !chkd;
+            checkBox_AsymVertFreeLength.Enabled = chkd;
+            radioButtonForceUp.Enabled = chkd;
+            radioButtonForceDown.Enabled = chkd;
+            numericUpDownVertFreeLengthRound.Enabled = chkd;
+            label1.Enabled = chkd;
         }
     }
 }
