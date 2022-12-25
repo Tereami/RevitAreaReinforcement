@@ -43,7 +43,6 @@
             this.numericUpDownHorizOffset = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.checkBoxIncreasedIntervalTopOrBottom = new System.Windows.Forms.CheckBox();
-            this.checkBoxAddHorizInterval = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -137,7 +136,6 @@
             this.groupBox2.Controls.Add(this.numericUpDownHorizOffset);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.checkBoxIncreasedIntervalTopOrBottom);
-            this.groupBox2.Controls.Add(this.checkBoxAddHorizInterval);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Name = "groupBox2";
@@ -165,15 +163,6 @@
             this.checkBoxIncreasedIntervalTopOrBottom.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxIncreasedIntervalTopOrBottom.Name = "checkBoxIncreasedIntervalTopOrBottom";
             this.checkBoxIncreasedIntervalTopOrBottom.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAddHorizInterval
-            // 
-            resources.ApplyResources(this.checkBoxAddHorizInterval, "checkBoxAddHorizInterval");
-            this.checkBoxAddHorizInterval.Checked = true;
-            this.checkBoxAddHorizInterval.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAddHorizInterval.Name = "checkBoxAddHorizInterval";
-            this.checkBoxAddHorizInterval.UseVisualStyleBackColor = true;
-            this.checkBoxAddHorizInterval.CheckedChanged += new System.EventHandler(this.checkBoxAddHorizInterval_CheckedChanged);
             // 
             // label4
             // 
@@ -265,7 +254,6 @@
         private System.Windows.Forms.RadioButton radioButtonFreeLengthManual;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.NumericUpDown numericUpDownHorizOffset;
-        private System.Windows.Forms.CheckBox checkBoxAddHorizInterval;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
