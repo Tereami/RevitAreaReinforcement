@@ -175,7 +175,7 @@ namespace RevitAreaReinforcement
 
                 List<AreaRebarInfo> curvesBase = new List<AreaRebarInfo>();
 
-                if (wri.horizontalIntervalIncreasedTopOrBottom)
+                if (wri.horizontalIntervalIncreasedTopOrBottom && (wri.horizontalHeightIncreaseIntervalBottom > 0 || wri.horizontalHeightIncreaseIntervalTop > 0))
                 {
                     if (wri.horizontalHeightIncreaseIntervalBottom > 0 && wri.horizontalHeightIncreaseIntervalTop == 0)
                     {
@@ -185,7 +185,7 @@ namespace RevitAreaReinforcement
                     {
                         curvesBase = IncreasedInterval(wri, curvesHorizontal, horizZoneHeight, horizDiam, SupportGeometry.LineSide.Top, wri.horizontalHeightIncreaseIntervalTop);
                     }
-                    else if(wri.horizontalHeightIncreaseIntervalTop > 0 && wri.horizontalHeightIncreaseIntervalBottom > 0)
+                    else if (wri.horizontalHeightIncreaseIntervalTop > 0 && wri.horizontalHeightIncreaseIntervalBottom > 0)
                     {
                         double horizRebarInterval = wri.horizontalRebarInterval;
                         double horizRebarHalfInterval = horizRebarInterval / 2;
