@@ -42,8 +42,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numericUpDownHorizOffset = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.checkBoxAdditionalStepSpace = new System.Windows.Forms.CheckBox();
-            this.checkBoxAddHorizStep = new System.Windows.Forms.CheckBox();
+            this.checkBoxIncreasedIntervalTopOrBottom = new System.Windows.Forms.CheckBox();
+            this.checkBoxAddHorizInterval = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -136,8 +136,8 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.numericUpDownHorizOffset);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.checkBoxAdditionalStepSpace);
-            this.groupBox2.Controls.Add(this.checkBoxAddHorizStep);
+            this.groupBox2.Controls.Add(this.checkBoxIncreasedIntervalTopOrBottom);
+            this.groupBox2.Controls.Add(this.checkBoxAddHorizInterval);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Name = "groupBox2";
@@ -158,21 +158,22 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // checkBoxAdditionalStepSpace
+            // checkBoxIncreasedIntervalTopOrBottom
             // 
-            resources.ApplyResources(this.checkBoxAdditionalStepSpace, "checkBoxAdditionalStepSpace");
-            this.checkBoxAdditionalStepSpace.Checked = true;
-            this.checkBoxAdditionalStepSpace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAdditionalStepSpace.Name = "checkBoxAdditionalStepSpace";
-            this.checkBoxAdditionalStepSpace.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.checkBoxIncreasedIntervalTopOrBottom, "checkBoxIncreasedIntervalTopOrBottom");
+            this.checkBoxIncreasedIntervalTopOrBottom.Checked = true;
+            this.checkBoxIncreasedIntervalTopOrBottom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxIncreasedIntervalTopOrBottom.Name = "checkBoxIncreasedIntervalTopOrBottom";
+            this.checkBoxIncreasedIntervalTopOrBottom.UseVisualStyleBackColor = true;
             // 
-            // checkBoxAddHorizStep
+            // checkBoxAddHorizInterval
             // 
-            resources.ApplyResources(this.checkBoxAddHorizStep, "checkBoxAddHorizStep");
-            this.checkBoxAddHorizStep.Checked = true;
-            this.checkBoxAddHorizStep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAddHorizStep.Name = "checkBoxAddHorizStep";
-            this.checkBoxAddHorizStep.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.checkBoxAddHorizInterval, "checkBoxAddHorizInterval");
+            this.checkBoxAddHorizInterval.Checked = true;
+            this.checkBoxAddHorizInterval.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAddHorizInterval.Name = "checkBoxAddHorizInterval";
+            this.checkBoxAddHorizInterval.UseVisualStyleBackColor = true;
+            this.checkBoxAddHorizInterval.CheckedChanged += new System.EventHandler(this.checkBoxAddHorizInterval_CheckedChanged);
             // 
             // label4
             // 
@@ -264,7 +265,7 @@
         private System.Windows.Forms.RadioButton radioButtonFreeLengthManual;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.NumericUpDown numericUpDownHorizOffset;
-        private System.Windows.Forms.CheckBox checkBoxAddHorizStep;
+        private System.Windows.Forms.CheckBox checkBoxAddHorizInterval;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -275,7 +276,7 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox checkBoxAdditionalStepSpace;
+        private System.Windows.Forms.CheckBox checkBoxIncreasedIntervalTopOrBottom;
         private System.Windows.Forms.CheckBox checkBox_AsymmVertFreeLength;
         private System.Windows.Forms.CheckBox checkBox_VertRebarStretched;
         private System.Windows.Forms.NumericUpDown numericUpDownVertFreeLengthRound;

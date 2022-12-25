@@ -143,6 +143,9 @@ namespace RevitAreaReinforcement
                         riw.verticalRebarInterval = infoFromWall.verticalRebarInterval;
                         riw.horizontalRebarTypeName = infoFromWall.horizontalRebarTypeName;
                         riw.horizontalRebarInterval = infoFromWall.horizontalRebarInterval;
+                        riw.horizontalHeightIncreaseIntervalBottom = infoFromWall.horizontalHeightIncreaseIntervalBottom;
+                        riw.horizontalHeightIncreaseIntervalTop = infoFromWall.horizontalHeightIncreaseIntervalTop;
+                        //riw.horizontalIntervalIncreasedTopOrBottom = infoFromWall.horizontalIntervalIncreasedTopOrBottom;
                     }
                     Debug.WriteLine("Start wall reinforcement");
                     RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);

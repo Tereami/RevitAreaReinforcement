@@ -25,8 +25,8 @@ namespace RevitAreaReinforcement
             checkBox_VertRebarStretched.Checked = rebarInfo.verticalRebarStretched;
 
             numericUpDownHorizOffset.Value = (decimal)(304.8 * riw.bottomOffset);
-            checkBoxAddHorizStep.Checked = riw.horizontalAddInterval;
-            checkBoxAdditionalStepSpace.Checked = riw.horizontalAdditionalStepSpace;
+            checkBoxAddHorizInterval.Checked = riw.horizontalAddInterval;
+            checkBoxIncreasedIntervalTopOrBottom.Checked = riw.horizontalIntervalIncreasedTopOrBottom;
 
             textBoxRazdelVert.Text = riw.verticalSectionText;
             textBoxRazdelHoris.Text = riw.horizontalSectionText;
@@ -40,8 +40,8 @@ namespace RevitAreaReinforcement
             rebarInfo.verticalRebarStretched = checkBox_VertRebarStretched.Checked;
 
             rebarInfo.bottomOffset = ((double)numericUpDownHorizOffset.Value) / 304.8;
-            rebarInfo.horizontalAddInterval = checkBoxAddHorizStep.Checked;
-            rebarInfo.horizontalAdditionalStepSpace = checkBoxAdditionalStepSpace.Checked;
+            rebarInfo.horizontalAddInterval = checkBoxAddHorizInterval.Checked;
+            rebarInfo.horizontalIntervalIncreasedTopOrBottom = checkBoxIncreasedIntervalTopOrBottom.Checked;
 
             rebarInfo.verticalSectionText = textBoxRazdelVert.Text;
             rebarInfo.horizontalSectionText = textBoxRazdelHoris.Text;
@@ -61,6 +61,11 @@ namespace RevitAreaReinforcement
             bool chkd = radioButtonFreeLengthAuto.Checked;
             checkBox_AsymmVertFreeLength.Enabled = chkd;
             checkBox_VertRebarStretched.Enabled = chkd;
+        }
+
+        private void checkBoxAddHorizInterval_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBoxIncreasedIntervalTopOrBottom.Enabled = checkBoxAddHorizInterval.Checked;
         }
     }
 }

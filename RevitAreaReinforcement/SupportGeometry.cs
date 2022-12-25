@@ -128,20 +128,21 @@ namespace RevitAreaReinforcement
         /// <param name="lines"></param>
         /// <param name="delta"></param>
         /// <returns></returns>
-        public static List<List<Curve>> CopyTopOrBottomLines(List<Curve> lines, double delta, bool topOrBottom)
+        public static List<List<Curve>> CopyTopOrBottomLines(List<Curve> lines, double delta, LineSide side)
         {
-            if(!topOrBottom)
+            if (side == LineSide.Left || side == LineSide.Right) throw new Exception("Not supported line side");
+            if(side == LineSide.Bottom)
             {
                 delta = -delta;
             }
 
             List<Line> loop = lines.Cast<Line>().ToList();
 
-            List<Line> topLines = GetSideLines(loop, LineSide.Top);
+            List<Line> linesToMove = GetSideLines(loop, side);
 
             List<List<Curve>> profiles = new List<List<Curve>>();
 
-            foreach (Line topLine in topLines)
+            foreach (Line topLine in linesToMove)
             {
                 XYZ topLine1 = topLine.GetEndPoint(0);
                 XYZ topLine2 = topLine.GetEndPoint(1);

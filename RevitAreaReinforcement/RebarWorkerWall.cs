@@ -99,7 +99,7 @@ namespace RevitAreaReinforcement
                     if (paramFloorThickinessParam != null && paramFloorThickinessParam.HasValue)
                     {
                         double floorThickness = paramFloorThickinessParam.AsDouble();
-                        freeLengthFromFloorTop = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall, 
+                        freeLengthFromFloorTop = ConcreteUtils.getRebarFreeLength(verticalRebarType.bartype, wall,
                             wri.verticalFreeLengthRound, wri.verticalAsymmOffset, wri.verticalRebarStretched);
                         wri.verticalFreeLength = floorThickness + freeLengthFromFloorTop;
                         Debug.WriteLine("Vertical free length = " + wri.verticalFreeLength);
@@ -145,7 +145,7 @@ namespace RevitAreaReinforcement
                     Debug.WriteLine("Generate vertical rebar area with offset");
                     AreaReinforcement arVertical1 = Generate(doc, wall, curvesVertical, false, true, false, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
 
-                    double asymmVerticalOffset = 
+                    double asymmVerticalOffset =
                         wri.verticalFreeLengthRound * Math.Ceiling((freeLengthFromFloorTop * 1.3) / wri.verticalFreeLengthRound);
 
                     List<Curve> curves2 = SupportGeometry.MoveLine(curvesVertical, asymmVerticalOffset, SupportGeometry.LineSide.Top);
@@ -171,25 +171,52 @@ namespace RevitAreaReinforcement
                 double sideOffset = wri.horizontalFreeLength * -1;
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Left);
                 curvesHorizontal = SupportGeometry.MoveLine(curvesHorizontal, sideOffset, SupportGeometry.LineSide.Right);
+                double horizZoneHeight = SupportGeometry.GetZoneHeigth(curvesHorizontal);
 
                 List<AreaRebarInfo> curvesBase = new List<AreaRebarInfo>();
 
+                if (wri.horizontalIntervalIncreasedTopOrBottom)
+                {
+                    if (wri.horizontalHeightIncreaseIntervalBottom > 0 && wri.horizontalHeightIncreaseIntervalTop == 0)
+                    {
+                        curvesBase = IncreasedInterval(wri, curvesHorizontal, horizZoneHeight, horizDiam, SupportGeometry.LineSide.Bottom, wri.horizontalHeightIncreaseIntervalBottom);
+                    }
+                    else if (wri.horizontalHeightIncreaseIntervalTop > 0 && wri.horizontalHeightIncreaseIntervalBottom == 0)
+                    {
+                        curvesBase = IncreasedInterval(wri, curvesHorizontal, horizZoneHeight, horizDiam, SupportGeometry.LineSide.Top, wri.horizontalHeightIncreaseIntervalTop);
+                    }
+                    else if(wri.horizontalHeightIncreaseIntervalTop > 0 && wri.horizontalHeightIncreaseIntervalBottom > 0)
+                    {
+                        double horizRebarInterval = wri.horizontalRebarInterval;
+                        double horizRebarHalfInterval = horizRebarInterval / 2;
 
-                if (wri.horizontalAddInterval)
+                        double fullIncreasedHeightBottom = wri.horizontalHeightIncreaseIntervalBottom + horizDiam;
+                        List<AreaRebarInfo> curvesBottomIncreased = AddIncreasedHorizIntervalProfiles(curvesHorizontal, fullIncreasedHeightBottom, horizRebarHalfInterval, SupportGeometry.LineSide.Bottom);
+                        curvesBase.AddRange(curvesBottomIncreased);
+
+                        double fullIncreasedHeightTop = wri.horizontalHeightIncreaseIntervalTop + horizDiam;
+                        List<AreaRebarInfo> curvesTopIncreased = AddIncreasedHorizIntervalProfiles(curvesHorizontal, fullIncreasedHeightTop, horizRebarHalfInterval, SupportGeometry.LineSide.Top);
+                        curvesBase.AddRange(curvesTopIncreased);
+
+                        double mainProfileBottomOffset = wri.horizontalHeightIncreaseIntervalBottom + horizRebarInterval;
+                        List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, mainProfileBottomOffset, SupportGeometry.LineSide.Bottom);
+                        double mainProfileHeightAfterBottomCut = horizZoneHeight - mainProfileBottomOffset;
+
+                        double mainProfileRoundedHeight = GetRoundedMainProfileHeight(mainProfileHeightAfterBottomCut, fullIncreasedHeightTop, horizDiam, horizRebarInterval);
+                        double mainProfileTopOffset = -1 * (mainProfileHeightAfterBottomCut - mainProfileRoundedHeight);
+                        profileMain = SupportGeometry.MoveLine(profileMain, mainProfileTopOffset, SupportGeometry.LineSide.Top);
+                        curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval));
+                    }
+                }
+                else if (wri.horizontalAddInterval)
                 {
                     Debug.WriteLine("Create with additional offset");
 
                     double horizRebarInterval = wri.horizontalRebarInterval;
 
-                    if (wri.horizontalAdditionalStepSpace)
-                        horizRebarInterval = horizRebarInterval / 2;
 
-                    double heigth = SupportGeometry.GetZoneHeigth(curvesHorizontal);
-                    double heigthByAxis = heigth - horizDiam;
-                    double countCheckAsDouble1 = heigthByAxis / horizRebarInterval;
-                    double countCheckAsDouble2 = Math.Round(countCheckAsDouble1, 2);
-                    double countCheckAsDouble3 = Math.Truncate(countCheckAsDouble2);
-                    int countCheck = (int)countCheckAsDouble3;
+                    double heigthByAxis = horizZoneHeight - horizDiam;
+                    int countCheck = GetIntervalsCount(heigthByAxis, horizRebarInterval);
                     double addIntervalByAxis = heigthByAxis - countCheck * horizRebarInterval;
                     if (addIntervalByAxis < horizDiam) //доборный шаг не требуется
                     {
@@ -207,41 +234,19 @@ namespace RevitAreaReinforcement
                         }
 
                         double heigthClean = count * horizRebarInterval;
-                        double offsetMain = heigth - heigthClean - horizDiam;
+                        double offsetMain = horizZoneHeight - heigthClean - horizDiam;
                         List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, -offsetMain, SupportGeometry.LineSide.Top);
 
-                        if (wri.horizontalAdditionalStepSpace)
-                        {
-                            if (wri.horizontalAddStepHeightBottom > 0)
-                            {
-                                List<List<Curve>> profilesAddBottom = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, wri.horizontalAddStepHeightBottom, false);
-                                foreach (var prof in profilesAddBottom)
-                                    curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
+                        curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval));
 
-                                profileMain = SupportGeometry.MoveLine(profileMain, wri.horizontalAddStepHeightBottom, SupportGeometry.LineSide.Bottom);
-                            }
-                            else if (wri.horizontalAddStepHeightTop > 0)
-                            {
-                                List<List<Curve>> profilesAddTop = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, wri.horizontalAddStepHeightTop, true);
-                                foreach (var prof in profilesAddTop)
-                                    curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
+                        double heigthAdd = horizZoneHeight - heigthClean - horizRebarInterval;
 
-                                profileMain = SupportGeometry.MoveLine(profileMain, -wri.horizontalAddStepHeightTop, SupportGeometry.LineSide.Top);
-                            }
-                            curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval * 2));
-                        }
-                        else
-                        {
-                            curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval));
-                        }
-
-                        double heigthAdd = heigth - heigthClean - horizRebarInterval;
-
-                        List<List<Curve>> profilesAdd = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, heigthAdd, true);
+                        List<List<Curve>> profilesAdd = SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, heigthAdd, SupportGeometry.LineSide.Top);
                         foreach (var prof in profilesAdd)
                             curvesBase.Add(new AreaRebarInfo(prof, horizRebarInterval));
                     }
                 }
+
                 else
                 {
                     Debug.WriteLine("Create only one zone for horizontal rebars");
@@ -268,8 +273,6 @@ namespace RevitAreaReinforcement
             Debug.WriteLine(Util.ProfileDebugInfo(profile));
             CurveUtils.SortCurvesContiguous(doc.Application.Create, profile, true);
             AreaReinforcement arein = AreaReinforcement.Create(doc, wall, profile, new XYZ(0, 0, 1), areaId, barType.Id, ElementId.InvalidElementId);
-
-
 
             if (isHorizontal)
             {
@@ -304,6 +307,55 @@ namespace RevitAreaReinforcement
 
             Debug.WriteLine("Rebar area created");
             return arein;
+        }
+
+        private static int GetIntervalsCount(double length, double interval)
+        {
+            double countCheckAsDouble1 = length / interval;
+            double countCheckAsDouble2 = Math.Round(countCheckAsDouble1, 2);
+            double countCheckAsDouble3 = Math.Truncate(countCheckAsDouble2);
+            int countCheck = (int)countCheckAsDouble3;
+            return countCheck;
+        }
+
+
+        private static List<AreaRebarInfo> IncreasedInterval(RebarInfoWall wri, List<Curve> curvesHorizontal, double horizZoneHeight, double horizDiam, SupportGeometry.LineSide side, double increasedHeight)
+        {
+            double horizRebarInterval = wri.horizontalRebarInterval;
+            double horizRebarHalfInterval = horizRebarInterval / 2;
+
+            double fullIncreasedHeight = increasedHeight + horizDiam;
+            List<AreaRebarInfo> curvesBase = AddIncreasedHorizIntervalProfiles(curvesHorizontal, fullIncreasedHeight, horizRebarHalfInterval, side);
+
+            double mainProfileRoundedHeight = GetRoundedMainProfileHeight(horizZoneHeight, fullIncreasedHeight, horizDiam, horizRebarInterval);
+            double mainProfileOffset = horizZoneHeight - mainProfileRoundedHeight;
+
+            //List<Curve> profileMain = curvesHorizontal.ToList();
+            if (side == SupportGeometry.LineSide.Top)
+                mainProfileOffset *= -1;
+
+            List<Curve> profileMain = SupportGeometry.MoveLine(curvesHorizontal, mainProfileOffset, side);
+            curvesBase.Add(new AreaRebarInfo(profileMain, horizRebarInterval));
+
+            return curvesBase;
+        }
+
+        private static List<AreaRebarInfo> AddIncreasedHorizIntervalProfiles(List<Curve> curvesHorizontal, double fullIncreasedHeight, double increasedInterval, SupportGeometry.LineSide side)
+        {
+            List<List<Curve>> profilesAddTop =
+                            SupportGeometry.CopyTopOrBottomLines(curvesHorizontal, fullIncreasedHeight, side);
+            List<AreaRebarInfo> curvesBase = new List<AreaRebarInfo>();
+            foreach (var prof in profilesAddTop)
+                curvesBase.Add(new AreaRebarInfo(prof, increasedInterval));
+            return curvesBase;
+        }
+
+        private static double GetRoundedMainProfileHeight(double horizZoneHeight, double fullIncreasedHeight, double horizDiam, double horizRebarInterval)
+        {
+            double mainProfileZoneHeightNotRound = horizZoneHeight - fullIncreasedHeight - horizDiam;
+            int mainRebarsCount = GetIntervalsCount(mainProfileZoneHeightNotRound, horizRebarInterval);
+            double mainProfileZoneHeightRound = horizRebarInterval * mainRebarsCount + horizDiam;
+            return mainProfileZoneHeightRound;
         }
     }
 }

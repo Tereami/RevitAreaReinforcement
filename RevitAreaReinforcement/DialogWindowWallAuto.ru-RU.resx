@@ -120,6 +120,9 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Армирование будет выполнено автоматически по данным, указанным в стенах.</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Выпуски вертикальной арматуры</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBox_VertRebarStretched.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 17</value>
@@ -157,22 +160,30 @@
   <data name="label8.Text" xml:space="preserve">
     <value>Округл.</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Выпуски вертикальной арматуры</value>
-  </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Требуются параметры Арм.ВысотаУчащенияНиз и Арм.ВысотаУчащенияВерх</value>
   </data>
-  <data name="checkBoxAdditionalStepSpace.Size" type="System.Drawing.Size, System.Drawing">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="checkBoxIncreasedIntervalTopOrBottom.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="checkBoxIncreasedIntervalTopOrBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBoxIncreasedIntervalTopOrBottom.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 17</value>
   </data>
-  <data name="checkBoxAdditionalStepSpace.Text" xml:space="preserve">
+  <data name="checkBoxIncreasedIntervalTopOrBottom.Text" xml:space="preserve">
     <value>Учащение по низу/верху</value>
   </data>
-  <data name="checkBoxAddHorizStep.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="checkBoxAddHorizInterval.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxAddHorizInterval.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
   </data>
-  <data name="checkBoxAddHorizStep.Text" xml:space="preserve">
+  <data name="checkBoxAddHorizInterval.Text" xml:space="preserve">
     <value>Доборный шаг</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
@@ -187,6 +198,9 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Горизонтальная арматура</value>
   </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Параметр "Раздел"</value>
+  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>105, 13</value>
   </data>
@@ -198,9 +212,6 @@
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Для горизонтальной:</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Параметр "Раздел"</value>
   </data>
   <data name="buttonCancel.Text" xml:space="preserve">
     <value>Отмена</value>

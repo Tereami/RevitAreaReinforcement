@@ -46,10 +46,9 @@ namespace RevitAreaReinforcement
         public double horizontalRebarInterval = 0.65616797900262469;
         public bool horizontalAddInterval = true;
 
-        public bool horizontalAdditionalStepSpace = false;
-        public double horizontalAddStepHeightBottom = 0;
-        public double horizontalAddStepHeightTop = 0;
-
+        public bool horizontalIntervalIncreasedTopOrBottom = false;
+        public double horizontalHeightIncreaseIntervalBottom = 0;
+        public double horizontalHeightIncreaseIntervalTop = 0;
 
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
@@ -152,19 +151,19 @@ namespace RevitAreaReinforcement
             {
                 if (addStepHeightBottomParam != null && addStepHeightBottomParam.HasValue)
                 {
-                    horizontalAddStepHeightBottom = addStepHeightBottomParam.AsDouble();
-                    horizontalAdditionalStepSpace = true;
+                    horizontalHeightIncreaseIntervalBottom = addStepHeightBottomParam.AsDouble();
+                    horizontalIntervalIncreasedTopOrBottom = true;
                 }
                 else
-                    horizontalAddStepHeightBottom = 0;
+                    horizontalHeightIncreaseIntervalBottom = 0;
 
                 if (addStepHeightTopParam != null && addStepHeightTopParam.HasValue)
                 {
-                    horizontalAddStepHeightTop = addStepHeightTopParam.AsDouble();
-                    horizontalAdditionalStepSpace = true;
+                    horizontalHeightIncreaseIntervalTop = addStepHeightTopParam.AsDouble();
+                    horizontalIntervalIncreasedTopOrBottom = true;
                 }
                 else
-                    horizontalAddStepHeightTop = 0;
+                    horizontalHeightIncreaseIntervalTop = 0;
             }
         }
 
