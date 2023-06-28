@@ -89,7 +89,7 @@ namespace RevitAreaReinforcement
         /// <param name="wall"></param>
         public RebarInfoWall(Document doc, Wall wall)
         {
-            Debug.WriteLine("Start get info from wall id" + wall.Id.IntegerValue.ToString());
+            Debug.WriteLine($"Start get info from wall id {wall.GetElementId()}");
             double verticalDiameter = GetParameter(vertRebarDiameterParamGuid, wall).AsDouble();
             double verticalClass = GetParameter(vertRebarClassParamGuid, wall).AsDouble();
             if (verticalDiameter == 0 || verticalClass == 0)
@@ -198,7 +198,7 @@ namespace RevitAreaReinforcement
             Parameter param = elem.get_Parameter(guid);
             if (param == null || !param.HasValue)
             {
-                Debug.WriteLine("Failed to get parameter " + guid.ToString() + " from element id" + elem.Id.IntegerValue.ToString());
+                Debug.WriteLine($"Failed to get parameter {guid} from element id {elem.GetElementId()}");
                 throw new Exception("Element " + elem.Id + " doesnt contain parameter " + guid.ToString());
             }
             return param;

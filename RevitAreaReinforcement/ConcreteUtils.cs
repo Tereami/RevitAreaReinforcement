@@ -41,7 +41,7 @@ namespace RevitAreaReinforcement
             Parameter rebarClassParam = barType.get_Parameter(MyRebarType.rebarCodeParamGuid);
             if (rebarClassParam == null || !rebarClassParam.HasValue)
             {
-                throw new Exception(MyStrings.ErrorNoRebarCodeParam + barType.Id.IntegerValue.ToString());
+                throw new Exception(MyStrings.ErrorNoRebarCodeParam + barType.GetElementId().ToString());
             }
 
             int rebarClass = (int)rebarClassParam.AsDouble();
@@ -55,11 +55,11 @@ namespace RevitAreaReinforcement
             Parameter materialParam = elemType.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM);
             if (materialParam == null || !materialParam.HasValue)
             {
-                throw new Exception("No Structural Material in element " + elem.Id.IntegerValue.ToString());
+                throw new Exception($"No Structural Material in element {elem.GetElementId()}");
             }
             Material mat = doc.GetElement(materialParam.AsElementId()) as Material;
             if (mat == null) 
-                throw new Exception("Failed to get Material from element " + elem.Id.IntegerValue.ToString());
+                throw new Exception($"Failed to get Material from element {elem.GetElementId()}");
             Parameter materialCodeParam = mat.get_Parameter(materialCodeParamGuid);
             if (materialCodeParam == null || !materialCodeParam.HasValue)
             {

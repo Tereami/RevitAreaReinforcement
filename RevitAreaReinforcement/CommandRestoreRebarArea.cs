@@ -73,11 +73,11 @@ namespace RevitAreaReinforcement
             {
                 foreach (AreaReinforcement ar in ars)
                 {
-                    string line = ar.Id.IntegerValue.ToString() + ":";
+                    string line = ar.GetElementId() + ":";
                     List<ElementId> curveIds = ar.GetBoundaryCurveIds().ToList();
                     foreach (ElementId id in curveIds)
                     {
-                        line = line + id.IntegerValue.ToString() + ",";
+                        line = line + id.GetValue().ToString() + ",";
                     }
                     idsFileWriter.WriteLine(line);
                 }

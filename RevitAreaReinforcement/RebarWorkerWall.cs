@@ -29,7 +29,7 @@ namespace RevitAreaReinforcement
 
         public static List<string> GenerateRebar(Document doc, Wall wall, RebarInfoWall wri, RebarCoverType zeroCover, ElementId areaTypeId)
         {
-            Debug.WriteLine("Start reinforcement for wall: " + wall.Id.IntegerValue.ToString());
+            Debug.WriteLine($"Start reinforcement for wall: {wall.GetElementId()}");
             List<string> messages = new List<string>();
 
 
@@ -107,7 +107,7 @@ namespace RevitAreaReinforcement
                     else
                     {
                         Debug.WriteLine("Unable to auto-calculate vertical free length");
-                        throw new Exception(MyStrings.ErrorNoSlabHeightParam + wall.Id.IntegerValue.ToString());
+                        throw new Exception(MyStrings.ErrorNoSlabHeightParam + wall.GetElementId().ToString());
                     }
                 }
 
