@@ -51,7 +51,7 @@ namespace RevitAreaReinforcement
                 coverBottom = coverTop;
             }
 
-            Debug.WriteLine($"Rebar cover types id, top: {coverTop.GetElementId()}, bottom: {coverBottom.GetElementId()}");
+            Debug.WriteLine($"Rebar cover types id, top: {coverTop.Id}, bottom: {coverBottom.Id}");
 
 #if R2017 || R2018 || R2019 || R2020 || R2021
             double diam = mrt.bartype.BarDiameter;

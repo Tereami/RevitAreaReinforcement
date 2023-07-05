@@ -50,9 +50,9 @@ namespace RevitAreaReinforcement
             }
 
             ElementId areaTypeId = SupportDocumentGetter.GetDefaultArea(doc).Id;
-            Debug.WriteLine($"AreaTypeId: {areaTypeId.GetValue()}");
+            Debug.WriteLine($"AreaTypeId: {areaTypeId}");
             RebarCoverType zeroCover = SupportDocumentGetter.GetRebarCoverType(doc, 0);
-            Debug.WriteLine($"Zero cover type id: {zeroCover.GetElementId()}");
+            Debug.WriteLine($"Zero cover type id: {zeroCover.Id}");
 
             List<string> rebarTypes = SupportDocumentGetter.GetRebarTypes(doc);
             Debug.WriteLine("Rebar types: " + rebarTypes.Count);
@@ -138,7 +138,7 @@ namespace RevitAreaReinforcement
 
                 foreach (Floor floor in floors)
                 {
-                    Debug.WriteLine($"Current reinforcement floor: {floor.GetElementId()}");
+                    Debug.WriteLine($"Current reinforcement floor: {floor.Id}");
                     List<string> curRebarMessages = RebarWorkerFloor.Generate(doc, floor, rif, areaTypeId);
                     rebarMessages.AddRange(curRebarMessages);
                 }

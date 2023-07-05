@@ -262,7 +262,6 @@
     <Compile Include="DialogWindowWallAuto.Designer.cs">
       <DependentUpon>DialogWindowWallAuto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.cs" />
     <Compile Include="MyStrings.ru-RU.Designer.cs">
       <DependentUpon>MyStrings.ru-RU.resx</DependentUpon>
       <AutoGen>True</AutoGen>
