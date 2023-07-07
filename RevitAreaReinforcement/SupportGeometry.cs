@@ -75,8 +75,20 @@ namespace RevitAreaReinforcement
             else
             {
                 List<Line> verticalLines = loop.Where(i => Math.Abs(i.Direction.Z) == 1).ToList();
-                XYZ directionPoint0 = new XYZ(verticalLines[0].GetEndPoint(0).X, verticalLines[0].GetEndPoint(0).Y, 0);
-                XYZ directionPoint1 = new XYZ(verticalLines[1].GetEndPoint(0).X, verticalLines[1].GetEndPoint(0).Y, 0);
+
+                List<XYZ> xyPoints = verticalLines.Select(i => new XYZ(i.GetEndPoint(0).X, i.GetEndPoint(1).Y, 0)).ToList();
+
+                XYZ directionPoint0 = xyPoints[0];
+                XYZ directionPoint1 = null; 
+
+                foreach(XYZ point in xyPoints)
+                {
+                    bool overlap = CheckPointsIsOverlap(directionPoint0, point);
+                    if (overlap) continue;
+                    directionPoint1 = point;
+                    break;
+                }
+
 
                 XYZ wallDirectionVector = getVectorFromTwoPoints(directionPoint1, directionPoint0);
                 XYZ normalizedDirection = normalizeVector(wallDirectionVector);
