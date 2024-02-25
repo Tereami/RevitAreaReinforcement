@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -37,8 +38,10 @@ namespace RevitAreaReinforcement
 
             if (types.Count == 0)
             {
-                Debug.WriteLine("No cover for: " + (coverDistance*304.8).ToString("F2"));
-                throw new Exception("RebarCoverTypes not found");
+                string msg = MyStrings.ErrorNoRebarCover + (coverDistance * 304.8).ToString("F2");
+                Debug.WriteLine(msg);
+                TaskDialog.Show("ERROR", msg);
+                throw new Exception(msg);
             }
 
             return types.First();
@@ -55,8 +58,10 @@ namespace RevitAreaReinforcement
             Debug.WriteLine("Area reinforcement types found: " + areaTypes.Count.ToString());
             if (areaTypes.Count == 0)
             {
-                Debug.WriteLine("No area types");
-                throw new Exception("Area reinforcement types not found");
+                string msg = MyStrings.ErrorNoAreaType;
+                Debug.WriteLine(msg);
+                TaskDialog.Show("ERROR", msg);
+                throw new Exception(msg);
             }
 
             AreaReinforcementType ar = areaTypes.First();

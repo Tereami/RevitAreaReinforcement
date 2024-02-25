@@ -19,7 +19,7 @@ namespace RevitAreaReinforcement {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class MyStrings {
@@ -70,6 +70,15 @@ namespace RevitAreaReinforcement {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No AreaRebar types. Please use Weandrevit template or create manually even one AreaRebar element before plugin start..
+        /// </summary>
+        public static string ErrorNoAreaType {
+            get {
+                return ResourceManager.GetString("ErrorNoAreaType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No parameter Mtrl.Code in material .
         /// </summary>
         public static string ErrorNoMaterialCodeParameter {
@@ -84,6 +93,15 @@ namespace RevitAreaReinforcement {
         public static string ErrorNoRebarCodeParam {
             get {
                 return ResourceManager.GetString("ErrorNoRebarCodeParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No rebar cover .
+        /// </summary>
+        public static string ErrorNoRebarCover {
+            get {
+                return ResourceManager.GetString("ErrorNoRebarCover", resourceCulture);
             }
         }
         

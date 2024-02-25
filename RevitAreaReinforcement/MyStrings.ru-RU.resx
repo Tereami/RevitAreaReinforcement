@@ -120,11 +120,17 @@
   <data name="ErrorFailedToGetRebarType" xml:space="preserve">
     <value>Не удалось получить тип стержня</value>
   </data>
+  <data name="ErrorNoAreaType" xml:space="preserve">
+    <value>Нет типов армирования по площади. Используйте шаблон Weandrevit либо создайте вручную хотя бы один элемент Армирования по площади перед запуском плагина.</value>
+  </data>
   <data name="ErrorNoMaterialCodeParameter" xml:space="preserve">
     <value>Нет параметра Мтрл.КодМатериала в материале </value>
   </data>
   <data name="ErrorNoRebarCodeParam" xml:space="preserve">
     <value>Нет параметра Арм.КлассЧисло в элементе </value>
+  </data>
+  <data name="ErrorNoRebarCover" xml:space="preserve">
+    <value>Нет защитного слоя </value>
   </data>
   <data name="ErrorNoSlabHeightParam" xml:space="preserve">
     <value>Не задан параметр Рзм.ТолщинаПерекрытия в элементе</value>

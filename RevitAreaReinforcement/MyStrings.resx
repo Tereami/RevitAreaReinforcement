@@ -120,11 +120,17 @@
   <data name="ErrorFailedToGetRebarType" xml:space="preserve">
     <value>Failed to get rebar type </value>
   </data>
+  <data name="ErrorNoAreaType" xml:space="preserve">
+    <value>No AreaRebar types. Please use Weandrevit template or create manually even one AreaRebar element before plugin start.</value>
+  </data>
   <data name="ErrorNoMaterialCodeParameter" xml:space="preserve">
     <value>No parameter Mtrl.Code in material </value>
   </data>
   <data name="ErrorNoRebarCodeParam" xml:space="preserve">
     <value>No parameter Rbr.ProfileCode in element </value>
+  </data>
+  <data name="ErrorNoRebarCover" xml:space="preserve">
+    <value>No rebar cover </value>
   </data>
   <data name="ErrorNoSlabHeightParam" xml:space="preserve">
     <value>No parameter Dim.SlabHeight in element</value>
