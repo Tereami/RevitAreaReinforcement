@@ -89,22 +89,22 @@ namespace RevitAreaReinforcement
         /// <param name="wall"></param>
         public RebarInfoWall(Document doc, Wall wall)
         {
-            Debug.WriteLine($"Start get info from wall id {wall.Id}");
+            Trace.WriteLine($"Start get info from wall id {wall.Id}");
             double verticalDiameter = GetParameter(vertRebarDiameterParamGuid, wall).AsDouble();
             double verticalClass = GetParameter(vertRebarClassParamGuid, wall).AsDouble();
             if (verticalDiameter == 0 || verticalClass == 0)
             {
                 generateVertical = false;
                 verticalRebarTypeName = null;
-                Debug.WriteLine("Vertical rebar will not be created");
+                Trace.WriteLine("Vertical rebar will not be created");
             }
             else
             {
-                Debug.WriteLine("Vertical rebar will be created");
+                Trace.WriteLine("Vertical rebar will be created");
                 generateVertical = true;
                 MyRebarType newrebtype = new MyRebarType(doc, verticalDiameter, verticalClass, false);
                 verticalRebarTypeName = newrebtype.bartype.Name;
-                Debug.WriteLine("Vertical rebar typename: " + verticalRebarTypeName);
+                Trace.WriteLine("Vertical rebar typename: " + verticalRebarTypeName);
             }
 
             double horizontalDiameter = GetParameter(horizRebarDiameterParamGuid, wall).AsDouble();
@@ -113,34 +113,34 @@ namespace RevitAreaReinforcement
             {
                 generateHorizontal = false;
                 horizontalRebarTypeName = null;
-                Debug.WriteLine("Horizontal rebar will not be created");
+                Trace.WriteLine("Horizontal rebar will not be created");
             }
             else
             {
-                Debug.WriteLine("Horizontal rebar will be created");
+                Trace.WriteLine("Horizontal rebar will be created");
                 generateHorizontal = true;
                 horizontalRebarTypeName = new MyRebarType(doc, horizontalDiameter, horizontalClass, true).bartype.Name;
-                Debug.WriteLine("Horizontal rebar typename: " + horizontalRebarTypeName);
+                Trace.WriteLine("Horizontal rebar typename: " + horizontalRebarTypeName);
             }
 
 
             verticalRebarInterval = GetParameter(vertRebarIntervalParamGuid, wall).AsDouble();
             horizontalRebarInterval = GetParameter(horizRebarIntervalParamGuid, wall).AsDouble();
-            Debug.WriteLine("Rebar interval: " + verticalRebarInterval.ToString("F3") + "x" + horizontalRebarInterval.ToString("F3"));
+            Trace.WriteLine("Rebar interval: " + verticalRebarInterval.ToString("F3") + "x" + horizontalRebarInterval.ToString("F3"));
 
             try
             {
                 verticalFreeLength = GetParameter(rebarFreeLengthParamGuid, wall).AsDouble();
-                Debug.WriteLine("Vertical free length from parameter. L=" + verticalFreeLength.ToString("F3"));
+                Trace.WriteLine("Vertical free length from parameter. L=" + verticalFreeLength.ToString("F3"));
             }
             catch
             {
                 verticalFreeLength = 0;
-                Debug.WriteLine("Vertical free length = 0");
+                Trace.WriteLine("Vertical free length = 0");
             }
 
             rebarCover = GetParameter(rebarCoverDistanceParamGuid, wall).AsDouble();
-            Debug.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
+            Trace.WriteLine("Rebar corver =" + rebarCover.ToString("F3"));
 
             //horizontalFreeLength = wall.Width - rebarCover;
             backOffset = bottomOffset;
@@ -170,25 +170,25 @@ namespace RevitAreaReinforcement
 
         /*public static RebarInfoWall GetDefault(Document doc)
         {
-            Debug.WriteLine("Create default rebar info");
+            Trace.WriteLine("Create default rebar info");
             List<RebarBarType> bartypes = new FilteredElementCollector(doc)
                 .WhereElementIsElementType()
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
                 .ToList();
 
-            Debug.WriteLine("RebarBarTypes found: " + bartypes.Count.ToString());
+            Trace.WriteLine("RebarBarTypes found: " + bartypes.Count.ToString());
 
             RebarBarType bartype = bartypes.First();
             string bartypename = bartype.Name;
-            Debug.WriteLine("Selected bartype: " + bartypename);
+            Trace.WriteLine("Selected bartype: " + bartypename);
 
             RebarInfoWall info = new RebarInfoWall();
             info.horizontalRebarTypeName = bartypename;
             info.verticalRebarTypeName = bartypename;
             info.lengthsUnification = new List<double> { 38.38582677165354, 25.59055118110236, 19.19291338582677, 12.79527559055118, 9.596456692913386, 7.677165354330709 };
 
-            Debug.WriteLine("RebarInfo was created");
+            Trace.WriteLine("RebarInfo was created");
             return info;
         }*/
 
@@ -198,7 +198,7 @@ namespace RevitAreaReinforcement
             Parameter param = elem.get_Parameter(guid);
             if (param == null || !param.HasValue)
             {
-                Debug.WriteLine($"Failed to get parameter {guid} from element id {elem.Id}");
+                Trace.WriteLine($"Failed to get parameter {guid} from element id {elem.Id}");
                 throw new Exception("Element " + elem.Id + " doesnt contain parameter " + guid.ToString());
             }
             return param;

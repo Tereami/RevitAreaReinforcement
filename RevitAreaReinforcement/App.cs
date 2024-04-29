@@ -60,7 +60,7 @@ namespace RevitAreaReinforcement
 
         public static void ActivateConfigFolder()
         {
-            Debug.WriteLine("Activate config folder");
+            Trace.WriteLine("Activate config folder");
             if (string.IsNullOrEmpty(App.assemblyFolder))
             {
                 App.assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -77,7 +77,7 @@ namespace RevitAreaReinforcement
                 System.IO.Path.Combine(rbspath, solutionName);
             if (!System.IO.Directory.Exists(localFolder))
                 System.IO.Directory.CreateDirectory(localFolder);
-            Debug.WriteLine("Activate folder " + localFolder);
+            Trace.WriteLine("Activate folder " + localFolder);
         }
 
     }

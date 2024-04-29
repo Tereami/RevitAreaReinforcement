@@ -49,7 +49,7 @@ namespace RevitAreaReinforcement
             }
 
             double heigth = topPoint.Z - bottomPoint.Z;
-            Debug.WriteLine("Zone height: " + (heigth * 304.8).ToString("F2"));
+            Trace.WriteLine("Zone height: " + (heigth * 304.8).ToString("F2"));
             return heigth;
         }
 

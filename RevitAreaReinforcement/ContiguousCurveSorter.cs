@@ -120,8 +120,7 @@ namespace RevitAreaReinforcement
 
                 if (debug_output)
                 {
-                    Debug.WriteLine("{0} endPoint {1}", i,
-                      Util.PointString(endPoint));
+                    Trace.WriteLine($"{i} endPoint {Util.PointString(endPoint)}");
                 }
 
                 XYZ p;
@@ -143,18 +142,14 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.WriteLine(
-                                  "{0} start point match, no need to swap",
-                                  j, i + 1);
+                                Trace.WriteLine($"j={j} start point match, no need to swap, i={i}");
                             }
                         }
                         else
                         {
                             if (debug_output)
                             {
-                                Debug.WriteLine(
-                                  "{0} start point, swap with {1}",
-                                  j, i + 1);
+                                Trace.WriteLine($"{j} start point, swap with {i}");
                             }
                             Curve tmp = curves[i + 1];
                             curves[i + 1] = curves[j];
@@ -175,9 +170,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.WriteLine(
-                                  "{0} end point, reverse {1}",
-                                  j, i + 1);
+                                Trace.WriteLine($"{j} end point, reverse {i}");
                             }
 
                             curves[i + 1] = CreateReversedCurve(
@@ -187,9 +180,7 @@ namespace RevitAreaReinforcement
                         {
                             if (debug_output)
                             {
-                                Debug.WriteLine(
-                                  "{0} end point, swap with reverse {1}",
-                                  j, i + 1);
+                                Trace.WriteLine($"{j} end point, swap with reverse {i}");
                             }
 
                             Curve tmp = curves[i + 1];

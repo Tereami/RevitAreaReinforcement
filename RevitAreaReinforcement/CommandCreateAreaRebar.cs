@@ -31,9 +31,9 @@ namespace RevitAreaReinforcement
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            Debug.Listeners.Clear();
-            Debug.Listeners.Add(new RbsLogger.Logger("WallAreaRebar"));
-            Debug.WriteLine("Wall reinforcement start");
+            Trace.Listeners.Clear();
+            Trace.Listeners.Add(new RbsLogger.Logger("WallAreaRebar"));
+            Trace.WriteLine("Wall reinforcement start");
 
             App.ActivateConfigFolder();
 
@@ -55,7 +55,7 @@ namespace RevitAreaReinforcement
                 return Result.Failed;
             }
 
-            Debug.WriteLine("Selected walls count: " + walls.Count.ToString());
+            Trace.WriteLine("Selected walls count: " + walls.Count.ToString());
             foreach (Wall w in walls)
             {
                 Parameter isStructural = w.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT);
@@ -68,7 +68,7 @@ namespace RevitAreaReinforcement
             if(elements.Size > 0)
             {
                 message = MyStrings.MessageNoStructuralWalls;
-                Debug.WriteLine("Non-structural walls were found");
+                Trace.WriteLine("Non-structural walls were found");
                 return Result.Failed;
             }
 
@@ -81,7 +81,7 @@ namespace RevitAreaReinforcement
 
             RebarInfoWall riw = new RebarInfoWall(); //RebarInfoWall.GetDefault(doc);
             string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
-            Debug.WriteLine("Try to deserialize xml: " + wallPath);
+            Trace.WriteLine("Try to deserialize xml: " + wallPath);
             XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
 
             if (System.IO.File.Exists(wallPath))
@@ -94,7 +94,7 @@ namespace RevitAreaReinforcement
                     }
                     catch 
                     {
-                        Debug.WriteLine("Deserialize fauled!");
+                        Trace.WriteLine("Deserialize fauled!");
                     }
                 }
             }
@@ -102,40 +102,40 @@ namespace RevitAreaReinforcement
             if (wallsHaveRebarInfo)
             {
                 //TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
-                Debug.WriteLine("DialogWindow for auto-reinforcement");
+                Trace.WriteLine("DialogWindow for auto-reinforcement");
                 DialogWindowWallAuto dialogWallAuto = new DialogWindowWallAuto(riw);
                 dialogWallAuto.ShowDialog();
                 if (dialogWallAuto.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
                 riw = dialogWallAuto.rebarInfo;
-                Debug.WriteLine("RebarInfo created");
+                Trace.WriteLine("RebarInfo created");
             }
             else
             {
-                Debug.WriteLine("Dialog window for manual-reinforcement");
+                Trace.WriteLine("Dialog window for manual-reinforcement");
                 DialogWindowWall form = new DialogWindowWall(riw, rebarTypes, rebarTypes2);
                 form.ShowDialog();
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
             }
 
-            Debug.Write("Delete xml file and rewrite: " + wallPath);
+            Trace.Write("Delete xml file and rewrite: " + wallPath);
             if (File.Exists(wallPath)) File.Delete(wallPath);
             using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
             {
                 serializer.Serialize(writer, riw);
             }
-            Debug.WriteLine("... xml success!");
+            Trace.WriteLine("... xml success!");
 
 
             using (Transaction t = new Transaction(doc))
             {
                 t.Start(MyStrings.TransactionWallReinforcement);
-                Debug.WriteLine("Start transaction");
+                Trace.WriteLine("Start transaction");
 
                 foreach (Wall wall in walls)
                 {
                     if (wallsHaveRebarInfo)
                     {
-                        Debug.WriteLine("Get rebar info from wall");
+                        Trace.WriteLine("Get rebar info from wall");
                         RebarInfoWall infoFromWall = new RebarInfoWall(doc, wall);
                         riw.rebarCover = infoFromWall.rebarCover;
                         riw.verticalFreeLength = infoFromWall.verticalFreeLength;
@@ -147,11 +147,11 @@ namespace RevitAreaReinforcement
                         riw.horizontalHeightIncreaseIntervalTop = infoFromWall.horizontalHeightIncreaseIntervalTop;
                         riw.horizontalAddInterval = true;
                     }
-                    Debug.WriteLine("Start wall reinforcement");
+                    Trace.WriteLine("Start wall reinforcement");
                     RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
                 }
                 t.Commit();
-                Debug.WriteLine("Finish transaction");
+                Trace.WriteLine("Finish transaction");
             }
             return Result.Succeeded;
         }

@@ -34,12 +34,12 @@ namespace RevitAreaReinforcement
                 .Where(i => i.CoverDistance == coverDistance)
                 .ToList();
 
-            Debug.WriteLine("RebarCoverTypes found: " + types.Count.ToString());
+            Trace.WriteLine("RebarCoverTypes found: " + types.Count.ToString());
 
             if (types.Count == 0)
             {
                 string msg = MyStrings.ErrorNoRebarCover + (coverDistance * 304.8).ToString("F2");
-                Debug.WriteLine(msg);
+                Trace.WriteLine(msg);
                 TaskDialog.Show("ERROR", msg);
                 throw new Exception(msg);
             }
@@ -55,11 +55,11 @@ namespace RevitAreaReinforcement
                 .Cast<AreaReinforcementType>()
                 .ToList();
 
-            Debug.WriteLine("Area reinforcement types found: " + areaTypes.Count.ToString());
+            Trace.WriteLine("Area reinforcement types found: " + areaTypes.Count.ToString());
             if (areaTypes.Count == 0)
             {
                 string msg = MyStrings.ErrorNoAreaType;
-                Debug.WriteLine(msg);
+                Trace.WriteLine(msg);
                 TaskDialog.Show("ERROR", msg);
                 throw new Exception(msg);
             }
@@ -78,7 +78,7 @@ namespace RevitAreaReinforcement
                 double diam = param.AsDouble();
                 if (diam < 0.001) return false; //если указан 0 то тоже пропускаем
             }
-            Debug.WriteLine("Walls have info for auto-reinforcement");
+            Trace.WriteLine("Walls have info for auto-reinforcement");
             return true;
         }
 
@@ -91,7 +91,7 @@ namespace RevitAreaReinforcement
                 .Select(i => i.Name)
                 .OrderBy(i => i)
                 .ToList();
-            Debug.WriteLine("RebarBarTypes found: " + rebarTypes.Count.ToString());
+            Trace.WriteLine("RebarBarTypes found: " + rebarTypes.Count.ToString());
             return rebarTypes;
         }
     }

@@ -66,7 +66,7 @@ namespace RevitAreaReinforcement
 
         public MyRebarType(Document Doc, double BarDiameter, double BarClass, bool AsCommonLength)
         {
-            Debug.WriteLine("Try to create MyRebarType, d=" + BarDiameter + " class=" + BarClass);
+            Trace.WriteLine("Try to create MyRebarType, d=" + BarDiameter + " class=" + BarClass);
             List<RebarBarType> bartypes = new FilteredElementCollector(Doc)
                 .WhereElementIsElementType()
                 .OfClass(typeof(RebarBarType))
@@ -96,13 +96,13 @@ namespace RevitAreaReinforcement
 
                 bartype = rbt;
                 isValid = true;
-                Debug.WriteLine("Type found: " + bartype.Name);
+                Trace.WriteLine("Type found: " + bartype.Name);
                 break;
             }
             if (!isValid)
             {
                 string errmsg = MyStrings.ErrorFailedToGetRebarType + " d" + (BarDiameter * 304.8).ToString("F0") + MyStrings.RebarClass + BarClass.ToString("F0");
-                Debug.WriteLine(errmsg);
+                Trace.WriteLine(errmsg);
                 throw new Exception(errmsg);
             }
         }
