@@ -11,23 +11,18 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
+using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Autodesk.Revit;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
 using CylindricalFace = Autodesk.Revit.DB.CylindricalFace;
 using Edge = Autodesk.Revit.DB.Edge;
 using PlanarFace = Autodesk.Revit.DB.PlanarFace;
-using Transform = Autodesk.Revit.DB.Transform;
 using XYZ = Autodesk.Revit.DB.XYZ;
 #endregion
 
 namespace RevitAreaReinforcement
 {
-    class Util
+    public static class Util
     {
         const double _eps = 1.0e-9;
 
@@ -98,20 +93,49 @@ namespace RevitAreaReinforcement
 
         public static string CurveDebugInfo(Curve c)
         {
-            double length = c.Length;
-            string msg = Environment.NewLine + "Curve length: " + (length * 304.8).ToString("F1") ;
-            msg += Environment.NewLine + GetPointDebugInfo(c.GetEndPoint(0));
-            msg += Environment.NewLine + GetPointDebugInfo(c.GetEndPoint(1));
-            msg += Environment.NewLine;
+            List<string> info = new List<string>()
+            {
+                $"Curve length: {c.Length.InchesToStringMillimeters()}",
+                 GetPointDebugInfo(c.GetEndPoint(0)),
+                 GetPointDebugInfo(c.GetEndPoint(1)),
+            };
+            string msg = string.Join(Environment.NewLine, info);
             return msg;
         }
 
         public static string GetPointDebugInfo(XYZ point)
         {
-            string msg = "X: " + (point.X * 304.8).ToString();
-            msg += "\t Y: " + (point.Y * 304.8).ToString();
-            msg += "\t Z: " + (point.Z * 304.8).ToString();
+            string msg = "X: " + point.X.InchesToStringMillimeters();
+            msg += "\t Y: " + point.Y.InchesToStringMillimeters();
+            msg += "\t Z: " + point.Z.InchesToStringMillimeters();
             return msg;
+        }
+
+        public static string InchesToStringMillimeters(this double inches)
+        {
+            double mm = inches.InchesToMillimeters();
+            string text = mm.ToString("0.#");
+            return text;
+        }
+
+        public static double ParseToInches(this string millimeters)
+        {
+            if (double.TryParse(millimeters, out double result))
+                return result / 304.8;
+            else
+                return 0;
+        }
+
+        public static double InchesToMillimeters(this double inches)
+        {
+            double mm = Math.Round(inches * 304.8, 3);
+            return mm;
+        }
+
+        public static double MillimetersToInches(this double millimeters)
+        {
+            double inches = millimeters / 304.8;
+            return inches;
         }
     }
 }

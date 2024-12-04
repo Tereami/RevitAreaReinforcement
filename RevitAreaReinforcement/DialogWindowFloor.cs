@@ -13,12 +13,6 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #region Usings
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 #endregion
 
@@ -42,8 +36,9 @@ namespace RevitAreaReinforcement
             checkBoxUseDirection.Checked = Info.useDirection;
             checkBoxTurnTopBars.Checked = Info.turnTopBars;
             checkBoxTurnBottomBars.Checked = Info.turnBottomBars;
-            this.Text = "Армирование плит v" + System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
 
+            string appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Text = $"{this.Text} v. {appVersion}";
         }
 
         private void DialogWindowFloor_Load(object sender, EventArgs e)

@@ -11,11 +11,11 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
+using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
-using Autodesk.Revit.DB;
+using System.Linq;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -30,13 +30,13 @@ namespace RevitAreaReinforcement
             XYZ bottomPoint = lines.First().GetEndPoint(0);
             XYZ topPoint = lines.First().GetEndPoint(1);
 
-            foreach(Curve curve in lines)
+            foreach (Curve curve in lines)
             {
                 points.Add(curve.GetEndPoint(0));
                 points.Add(curve.GetEndPoint(1));
             }
 
-            foreach(XYZ point in points)
+            foreach (XYZ point in points)
             {
                 if (point.Z > topPoint.Z)
                 {
@@ -49,7 +49,7 @@ namespace RevitAreaReinforcement
             }
 
             double heigth = topPoint.Z - bottomPoint.Z;
-            Trace.WriteLine("Zone height: " + (heigth * 304.8).ToString("F2"));
+            Trace.WriteLine($"Zone height: {heigth.InchesToStringMillimeters()}");
             return heigth;
         }
 
@@ -68,9 +68,9 @@ namespace RevitAreaReinforcement
             List<Line> sideLines = GetSideLines(loop, side);
 
             XYZ moveVector = null;
-            if(side == LineSide.Top)
+            if (side == LineSide.Top)
                 moveVector = new XYZ(0, 0, delta);
-            else if(side == LineSide.Bottom)
+            else if (side == LineSide.Bottom)
                 moveVector = new XYZ(0, 0, delta);
             else
             {
@@ -79,9 +79,9 @@ namespace RevitAreaReinforcement
                 List<XYZ> xyPoints = verticalLines.Select(i => new XYZ(i.GetEndPoint(0).X, i.GetEndPoint(1).Y, 0)).ToList();
 
                 XYZ directionPoint0 = xyPoints[0];
-                XYZ directionPoint1 = null; 
+                XYZ directionPoint1 = null;
 
-                foreach(XYZ point in xyPoints)
+                foreach (XYZ point in xyPoints)
                 {
                     bool overlap = CheckPointsIsOverlap(directionPoint0, point);
                     if (overlap) continue;
@@ -93,11 +93,11 @@ namespace RevitAreaReinforcement
                 XYZ wallDirectionVector = getVectorFromTwoPoints(directionPoint1, directionPoint0);
                 XYZ normalizedDirection = normalizeVector(wallDirectionVector);
 
-                if (side == LineSide.Left) delta= -delta;
+                if (side == LineSide.Left) delta = -delta;
 
                 moveVector = new XYZ(normalizedDirection.X * delta, normalizedDirection.Y * delta, 0);
             }
-                
+
 
             foreach (Line curLine in sideLines)
             {
@@ -109,12 +109,12 @@ namespace RevitAreaReinforcement
 
                 Line mainLineNew = Line.CreateBound(p1new, p2new);
                 SearchLineResult res0 = GetJointLineAtEnd(curLine, loop, 0);
-                
+
                 Line prevLineNew = MoveJointLine(res0, moveVector);
 
                 SearchLineResult res1 = GetJointLineAtEnd(curLine, loop, 1);
                 Line nextLine = res1.Line;
-                
+
                 Line nextLineNew = MoveJointLine(res1, moveVector);
 
                 loop[loop.IndexOf(curLine)] = mainLineNew;
@@ -143,7 +143,7 @@ namespace RevitAreaReinforcement
         public static List<List<Curve>> CopyTopOrBottomLines(List<Curve> lines, double delta, LineSide side)
         {
             if (side == LineSide.Left || side == LineSide.Right) throw new Exception("Not supported line side");
-            if(side == LineSide.Bottom)
+            if (side == LineSide.Bottom)
             {
                 delta = -delta;
             }
@@ -268,7 +268,7 @@ namespace RevitAreaReinforcement
         public static Line[] GetLeftAndRightLine(List<Line> verticalLines)
         {
             double distance = 0;
-            
+
             Line[] result = new Line[2];
             for (int i = 0; i < (verticalLines.Count - 1); i++)
             {
@@ -281,7 +281,7 @@ namespace RevitAreaReinforcement
                     XYZ point2 = l2.GetEndPoint(0);
                     XYZ p2 = new XYZ(point2.X, point2.Y, 0);
                     double temp = GetLengthBetweenPoints(p1, p2);
-                    if(temp > distance)
+                    if (temp > distance)
                     {
                         distance = temp;
                         result[0] = l1;
@@ -350,7 +350,7 @@ namespace RevitAreaReinforcement
         /// <returns></returns>
         public static List<Curve> CleanLoop(List<Curve> lines)
         {
-            Start:
+        Start:
             for (int i = 0; i < lines.Count; i++)
             {
                 Line l1 = lines[i] as Line;
@@ -453,7 +453,7 @@ namespace RevitAreaReinforcement
             check = CheckPointsIsOverlap(p1, p2);
             if (check)
             {
-                if(GetCommonPoint) return new int[] { 0, 0 };
+                if (GetCommonPoint) return new int[] { 0, 0 };
                 else return new int[] { 1, 1 };
             }
 
