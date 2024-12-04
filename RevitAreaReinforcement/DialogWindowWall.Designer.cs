@@ -115,14 +115,14 @@
             // 
             // cmbHorizonalType
             // 
-            resources.ApplyResources(this.cmbHorizonalType, "cmbHorizonalType");
             this.cmbHorizonalType.FormattingEnabled = true;
+            resources.ApplyResources(this.cmbHorizonalType, "cmbHorizonalType");
             this.cmbHorizonalType.Name = "cmbHorizonalType";
             // 
             // cmbVerticalType
             // 
-            resources.ApplyResources(this.cmbVerticalType, "cmbVerticalType");
             this.cmbVerticalType.FormattingEnabled = true;
+            resources.ApplyResources(this.cmbVerticalType, "cmbVerticalType");
             this.cmbVerticalType.Name = "cmbVerticalType";
             // 
             // checkBoxGenerateVertical

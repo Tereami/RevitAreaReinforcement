@@ -135,6 +135,9 @@
   <data name="ErrorNoSlabHeightParam" xml:space="preserve">
     <value>Не задан параметр Рзм.ТолщинаПерекрытия в элементе</value>
   </data>
+  <data name="ErrorRebarCoverParamUnavailable" xml:space="preserve">
+    <value>Недоступен параметр Защитный слой! Проверьте элемент с id:</value>
+  </data>
   <data name="MessageNoCorrectFloors" xml:space="preserve">
     <value>Нет подходящих перекрытий для армирования</value>
   </data>

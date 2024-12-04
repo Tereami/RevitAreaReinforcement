@@ -115,6 +115,15 @@ namespace RevitAreaReinforcement {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RebarCover parameter is unavailable! Please check element id:.
+        /// </summary>
+        public static string ErrorRebarCoverParamUnavailable {
+            get {
+                return ResourceManager.GetString("ErrorRebarCoverParamUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No suitable floor for reinforcement.
         /// </summary>
         public static string MessageNoCorrectFloors {

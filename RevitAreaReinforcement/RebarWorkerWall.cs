@@ -11,13 +11,12 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -33,7 +32,15 @@ namespace RevitAreaReinforcement
             List<string> messages = new List<string>();
 
 
-            wall.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER).Set(zeroCover.Id);
+            Parameter otherCoverParameter = wall.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER);
+            if (otherCoverParameter == null || otherCoverParameter.IsReadOnly)
+            {
+                string errMsg = $"{MyStrings.ErrorRebarCoverParamUnavailable} {wall.Id}";
+                TaskDialog.Show("Error", errMsg);
+                Trace.WriteLine($"{MyStrings.ErrorRebarCoverParamUnavailable} {wall.Id}");
+                throw new Exception(errMsg);
+            }
+            otherCoverParameter.Set(zeroCover.Id);
             Trace.WriteLine("Set zero rebar cover for other faces");
 
             Solid sol = SupportGeometry.GetSolidFromElement(wall);

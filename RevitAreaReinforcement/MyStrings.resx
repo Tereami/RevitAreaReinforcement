@@ -135,6 +135,9 @@
   <data name="ErrorNoSlabHeightParam" xml:space="preserve">
     <value>No parameter Dim.SlabHeight in element</value>
   </data>
+  <data name="ErrorRebarCoverParamUnavailable" xml:space="preserve">
+    <value>RebarCover parameter is unavailable! Please check element id:</value>
+  </data>
   <data name="MessageNoCorrectFloors" xml:space="preserve">
     <value>No suitable floor for reinforcement</value>
   </data>
