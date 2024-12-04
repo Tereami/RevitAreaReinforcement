@@ -121,6 +121,9 @@
   <data name="button1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
     <value>699, 595</value>
@@ -148,10 +151,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>26</value>
   </data>
   <data name="button2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="button2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
     <value>780, 595</value>
@@ -178,10 +184,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>25</value>
   </data>
   <data name="txtVerticalInterval.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 494</value>
+    <value>372, 494</value>
   </data>
   <data name="txtVerticalInterval.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -205,7 +211,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtVerticalInterval.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>24</value>
   </data>
   <data name="txtRebarCover.Location" type="System.Drawing.Point, System.Drawing">
     <value>685, 492</value>
@@ -232,7 +238,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtRebarCover.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="txtBackOffset.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 494</value>
@@ -259,7 +265,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtBackOffset.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>23</value>
   </data>
   <data name="txtHorizontalFreeLength.Location" type="System.Drawing.Point, System.Drawing">
     <value>150, 494</value>
@@ -286,7 +292,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtHorizontalFreeLength.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>22</value>
   </data>
   <data name="txtVerticalFreeLength.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 52</value>
@@ -313,7 +319,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtVerticalFreeLength.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="txtTopOffset.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 191</value>
@@ -340,10 +346,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtTopOffset.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="txtHorizontalInterval.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 291</value>
+    <value>43, 317</value>
   </data>
   <data name="txtHorizontalInterval.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -367,7 +373,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtHorizontalInterval.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="txtBottomOffset.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 465</value>
@@ -394,7 +400,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtBottomOffset.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="cmbHorizonalType.Location" type="System.Drawing.Point, System.Drawing">
     <value>535, 455</value>
@@ -418,7 +424,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmbHorizonalType.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="cmbVerticalType.Location" type="System.Drawing.Point, System.Drawing">
     <value>524, 52</value>
@@ -442,10 +448,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmbVerticalType.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="checkBoxGenerateVertical.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="checkBoxGenerateVertical.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="checkBoxGenerateVertical.Location" type="System.Drawing.Point, System.Drawing">
     <value>524, 30</value>
@@ -469,10 +478,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBoxGenerateVertical.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="checkBoxGenerateHorizontal.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="checkBoxGenerateHorizontal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="checkBoxGenerateHorizontal.Location" type="System.Drawing.Point, System.Drawing">
     <value>535, 433</value>
@@ -496,7 +508,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBoxGenerateHorizontal.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="txtBoxVertArmSection.Location" type="System.Drawing.Point, System.Drawing">
     <value>524, 78</value>
@@ -517,7 +529,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtBoxVertArmSection.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="txtBoxHorizArmSection.Location" type="System.Drawing.Point, System.Drawing">
     <value>535, 481</value>
@@ -538,10 +550,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtBoxHorizArmSection.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="checkBoxHorizAddInterval.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="checkBoxHorizAddInterval.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="checkBoxHorizAddInterval.Location" type="System.Drawing.Point, System.Drawing">
     <value>535, 507</value>
@@ -565,10 +580,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBoxHorizAddInterval.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="checkBoxUnificateLength.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="checkBoxUnificateLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="checkBoxUnificateLength.Location" type="System.Drawing.Point, System.Drawing">
     <value>524, 105</value>
@@ -592,7 +610,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBoxUnificateLength.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="textBoxLengths.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -616,10 +634,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxLengths.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="checkBoxAutoVerticalFreeLengh.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="checkBoxAutoVerticalFreeLengh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="checkBoxAutoVerticalFreeLengh.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 78</value>
@@ -643,13 +664,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBoxAutoVerticalFreeLengh.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="checkBox_AsymVertFreeLength.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="checkBox_AsymVertFreeLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="checkBox_AsymVertFreeLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 361</value>
+    <value>797, 457</value>
   </data>
   <data name="checkBox_AsymVertFreeLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 17</value>
@@ -670,10 +694,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_AsymVertFreeLength.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="radioButtonForceDown.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="radioButtonForceDown.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="radioButtonForceDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="radioButtonForceDown.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 96</value>
@@ -697,10 +727,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButtonForceDown.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="radioButtonForceUp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="radioButtonForceUp.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="radioButtonForceUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="radioButtonForceUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 72</value>
@@ -724,7 +760,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButtonForceUp.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="numericUpDownVertFreeLengthRound.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="numericUpDownVertFreeLengthRound.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 121</value>
@@ -745,10 +784,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDownVertFreeLengthRound.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label1.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>40, 103</value>
@@ -772,10 +817,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 8</value>
@@ -802,7 +850,61 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>27</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>797, 81</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 17</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Text" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="&gt;&gt;checkBox_AsymVertFreeLengthTop.Name" xml:space="preserve">
+    <value>checkBox_AsymVertFreeLengthTop</value>
+  </data>
+  <data name="&gt;&gt;checkBox_AsymVertFreeLengthTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_AsymVertFreeLengthTop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBox_AsymVertFreeLengthTop.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="textBoxVertAsymmLength.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBoxVertAsymmLength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>788, 384</value>
+  </data>
+  <data name="textBoxVertAsymmLength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
+  </data>
+  <data name="textBoxVertAsymmLength.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;textBoxVertAsymmLength.Name" xml:space="preserve">
+    <value>textBoxVertAsymmLength</value>
+  </data>
+  <data name="&gt;&gt;textBoxVertAsymmLength.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxVertAsymmLength.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;textBoxVertAsymmLength.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

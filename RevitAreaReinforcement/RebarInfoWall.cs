@@ -11,14 +11,10 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Structure;
-using System.Xml.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -53,6 +49,8 @@ namespace RevitAreaReinforcement
         public double verticalFreeLength = 2.1325459317585302;
         public bool autoVerticalFreeLength = false;
         public bool verticalAsymmOffset = false;
+        public bool verticalAsymmOffsetTop = false;
+        public double verticalAsymmManualLength = 0;
         public bool verticalRebarStretched = false;
         public double verticalFreeLengthRound = 0.16404199475065617;
 
@@ -61,7 +59,7 @@ namespace RevitAreaReinforcement
         public double backOffset = 0.16404199475065617;
         public double bottomOffset = 0.16404199475065617;
         public double topOffset = 0.16404199475065617;
-        
+
 
         public double rebarCover = 0.16404199475065617;
 

@@ -152,11 +152,17 @@ namespace RevitAreaReinforcement
                     Trace.WriteLine("Generate vertical rebar area with offset");
                     AreaReinforcement arVertical1 = Generate(doc, wall, curvesVertical, false, true, false, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
 
-                    double asymmVerticalOffset =
-                        wri.verticalFreeLengthRound * Math.Ceiling((freeLengthFromFloorTop * 1.3) / wri.verticalFreeLengthRound);
+                    double asymmVerticalOffset = 0;
+                    if (wri.autoVerticalFreeLength)
+                        asymmVerticalOffset = wri.verticalFreeLengthRound * Math.Ceiling((freeLengthFromFloorTop * 1.3) / wri.verticalFreeLengthRound);
+                    else
+                        asymmVerticalOffset = wri.verticalAsymmManualLength;
 
-                    List<Curve> curves2 = SupportGeometry.MoveLine(curvesVertical, asymmVerticalOffset, SupportGeometry.LineSide.Top);
-                    curves2 = SupportGeometry.MoveLine(curves2, asymmVerticalOffset, SupportGeometry.LineSide.Bottom);
+                    List<Curve> curves2 = SupportGeometry.MoveLine(curvesVertical, asymmVerticalOffset, SupportGeometry.LineSide.Bottom);
+
+                    if (wri.verticalAsymmOffsetTop)
+                        curves2 = SupportGeometry.MoveLine(curves2, asymmVerticalOffset, SupportGeometry.LineSide.Top);
+
                     AreaReinforcement arVertical2 = Generate(doc, wall, curves2, false, false, true, offsetVerticalInterior, offsetVerticalExterior, wri.verticalRebarInterval, areaTypeId, verticalRebarType.bartype, wri.verticalSectionText);
                 }
                 else

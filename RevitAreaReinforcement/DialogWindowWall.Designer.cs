@@ -55,6 +55,8 @@
             this.numericUpDownVertFreeLengthRound = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox_AsymVertFreeLengthTop = new System.Windows.Forms.CheckBox();
+            this.textBoxVertAsymmLength = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVertFreeLengthRound)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -184,6 +186,7 @@
             resources.ApplyResources(this.checkBox_AsymVertFreeLength, "checkBox_AsymVertFreeLength");
             this.checkBox_AsymVertFreeLength.Name = "checkBox_AsymVertFreeLength";
             this.checkBox_AsymVertFreeLength.UseVisualStyleBackColor = true;
+            this.checkBox_AsymVertFreeLength.CheckedChanged += new System.EventHandler(this.checkBox_AsymVertFreeLength_CheckedChanged);
             // 
             // radioButtonForceDown
             // 
@@ -226,14 +229,27 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
+            // checkBox_AsymVertFreeLengthTop
+            // 
+            resources.ApplyResources(this.checkBox_AsymVertFreeLengthTop, "checkBox_AsymVertFreeLengthTop");
+            this.checkBox_AsymVertFreeLengthTop.Name = "checkBox_AsymVertFreeLengthTop";
+            this.checkBox_AsymVertFreeLengthTop.UseVisualStyleBackColor = true;
+            // 
+            // textBoxVertAsymmLength
+            // 
+            resources.ApplyResources(this.textBoxVertAsymmLength, "textBoxVertAsymmLength");
+            this.textBoxVertAsymmLength.Name = "textBoxVertAsymmLength";
+            // 
             // DialogWindowWall
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textBoxVertAsymmLength);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownVertFreeLengthRound);
             this.Controls.Add(this.radioButtonForceUp);
             this.Controls.Add(this.radioButtonForceDown);
+            this.Controls.Add(this.checkBox_AsymVertFreeLengthTop);
             this.Controls.Add(this.checkBox_AsymVertFreeLength);
             this.Controls.Add(this.checkBoxAutoVerticalFreeLengh);
             this.Controls.Add(this.textBoxLengths);
@@ -293,5 +309,7 @@
         private System.Windows.Forms.RadioButton radioButtonForceUp;
         private System.Windows.Forms.NumericUpDown numericUpDownVertFreeLengthRound;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox_AsymVertFreeLengthTop;
+        private System.Windows.Forms.TextBox textBoxVertAsymmLength;
     }
 }

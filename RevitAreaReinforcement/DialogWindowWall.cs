@@ -47,6 +47,8 @@ namespace RevitAreaReinforcement
             txtVerticalFreeLength.Text = reinfInfo.verticalFreeLength.InchesToStringMillimeters();
             checkBoxAutoVerticalFreeLengh.Checked = wri.autoVerticalFreeLength;
             checkBox_AsymVertFreeLength.Checked = wri.verticalAsymmOffset;
+            checkBox_AsymVertFreeLengthTop.Checked = wri.verticalAsymmOffsetTop;
+            textBoxVertAsymmLength.Text = wri.verticalAsymmManualLength.InchesToStringMillimeters();
             radioButtonForceUp.Checked = wri.verticalRebarStretched;
             numericUpDownVertFreeLengthRound.Value = (decimal)(wri.verticalFreeLengthRound.InchesToMillimeters());
 
@@ -92,6 +94,8 @@ namespace RevitAreaReinforcement
             wri.verticalFreeLength = txtVerticalFreeLength.Text.ParseToInches();
             wri.autoVerticalFreeLength = checkBoxAutoVerticalFreeLengh.Checked;
             wri.verticalAsymmOffset = checkBox_AsymVertFreeLength.Checked;
+            wri.verticalAsymmOffsetTop = checkBox_AsymVertFreeLengthTop.Checked;
+            wri.verticalAsymmManualLength = textBoxVertAsymmLength.Text.ParseToInches();
             wri.verticalRebarStretched = radioButtonForceUp.Checked;
             wri.verticalFreeLengthRound = ((double)numericUpDownVertFreeLengthRound.Value) / 304.8;
 
@@ -140,11 +144,24 @@ namespace RevitAreaReinforcement
         {
             bool chkd = checkBoxAutoVerticalFreeLengh.Checked;
             txtVerticalFreeLength.Enabled = !chkd;
-            checkBox_AsymVertFreeLength.Enabled = chkd;
             radioButtonForceUp.Enabled = chkd;
             radioButtonForceDown.Enabled = chkd;
             numericUpDownVertFreeLengthRound.Enabled = chkd;
             label1.Enabled = chkd;
+
+            if (checkBox_AsymVertFreeLength.Checked)
+                textBoxVertAsymmLength.Enabled = !chkd;
+        }
+
+        private void checkBox_AsymVertFreeLength_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            bool chkd = checkBox.Checked;
+            checkBox_AsymVertFreeLengthTop.Checked = chkd;
+            checkBox_AsymVertFreeLengthTop.Enabled = chkd;
+
+            if (!checkBoxAutoVerticalFreeLengh.Checked)
+                textBoxVertAsymmLength.Enabled = chkd;
         }
     }
 }

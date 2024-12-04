@@ -117,28 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="button2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="button2.Text" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="checkBoxGenerateVertical.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="txtHorizontalInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 317</value>
+  </data>
   <data name="checkBoxGenerateVertical.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 17</value>
   </data>
   <data name="checkBoxGenerateVertical.Text" xml:space="preserve">
     <value>Вертикальная</value>
-  </data>
-  <data name="checkBoxGenerateHorizontal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="checkBoxGenerateHorizontal.Size" type="System.Drawing.Size, System.Drawing">
     <value>109, 17</value>
@@ -146,17 +136,11 @@
   <data name="checkBoxGenerateHorizontal.Text" xml:space="preserve">
     <value>Горизонтальная</value>
   </data>
-  <data name="checkBoxHorizAddInterval.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="checkBoxHorizAddInterval.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
   </data>
   <data name="checkBoxHorizAddInterval.Text" xml:space="preserve">
     <value>Доборный шаг</value>
-  </data>
-  <data name="checkBoxUnificateLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="checkBoxUnificateLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 17</value>
@@ -164,17 +148,11 @@
   <data name="checkBoxUnificateLength.Text" xml:space="preserve">
     <value>Унифицировать длины</value>
   </data>
-  <data name="checkBoxAutoVerticalFreeLengh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="checkBoxAutoVerticalFreeLengh.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 17</value>
   </data>
   <data name="checkBoxAutoVerticalFreeLengh.Text" xml:space="preserve">
     <value>Авто</value>
-  </data>
-  <data name="checkBox_AsymVertFreeLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="checkBox_AsymVertFreeLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 17</value>
@@ -182,17 +160,11 @@
   <data name="checkBox_AsymVertFreeLength.Text" xml:space="preserve">
     <value>Вкл</value>
   </data>
-  <data name="radioButtonForceDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="radioButtonForceDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 17</value>
   </data>
   <data name="radioButtonForceDown.Text" xml:space="preserve">
     <value>Сжатие</value>
-  </data>
-  <data name="radioButtonForceUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="radioButtonForceUp.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 17</value>
@@ -200,17 +172,21 @@
   <data name="radioButtonForceUp.Text" xml:space="preserve">
     <value>Растяжение</value>
   </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Округл.</value>
   </data>
-  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="checkBox_AsymVertFreeLengthTop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 17</value>
+  </data>
+  <data name="checkBox_AsymVertFreeLengthTop.Text" xml:space="preserve">
+    <value>Вкл</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Параметры армирования</value>
