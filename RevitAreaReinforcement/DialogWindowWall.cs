@@ -13,12 +13,8 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 #region Usings
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 #endregion
 
@@ -66,7 +62,8 @@ namespace RevitAreaReinforcement
             textBoxLengths.Text = string.Join(";",
                 reinfInfo.lengthsUnification.Select(i => (i * 304.8).ToString("F0")));
 
-            this.Text += System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
+            string appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Text = $"{this.Text} v. {appVersion}";
         }
 
         private void button2_Click(object sender, EventArgs e)

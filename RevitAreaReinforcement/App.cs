@@ -13,6 +13,7 @@ Zuev Aleksandr, 2020, all rigths reserved.*/
 using Autodesk.Revit.UI;
 using System.Diagnostics;
 
+[assembly: System.Reflection.AssemblyVersion("1.0.*")]
 namespace RevitAreaReinforcement
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -67,7 +68,7 @@ namespace RevitAreaReinforcement
                 App.assemblyFolder = System.IO.Path.GetDirectoryName(App.assemblyPath);
             }
 
-            string appdataPath = 
+            string appdataPath =
                 System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             string rbspath = System.IO.Path.Combine(appdataPath, "bim-starter");
             if (!System.IO.Directory.Exists(rbspath))
