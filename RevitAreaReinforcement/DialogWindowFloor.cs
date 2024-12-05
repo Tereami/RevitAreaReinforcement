@@ -37,6 +37,8 @@ namespace RevitAreaReinforcement
             checkBoxTurnTopBars.Checked = Info.turnTopBars;
             checkBoxTurnBottomBars.Checked = Info.turnBottomBars;
 
+            checkBoxSkipAlreadyReinforced.Checked = Info.SkipAlreadyReinforcedFloors;
+
             string appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Text = $"{this.Text} v. {appVersion}";
         }
@@ -55,6 +57,8 @@ namespace RevitAreaReinforcement
             rif.useDirection = checkBoxUseDirection.Checked;
             rif.turnTopBars = checkBoxTurnTopBars.Checked;
             rif.turnBottomBars = checkBoxTurnBottomBars.Checked;
+
+            rif.SkipAlreadyReinforcedFloors = checkBoxSkipAlreadyReinforced.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

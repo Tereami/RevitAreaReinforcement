@@ -11,17 +11,16 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using Autodesk.Revit.DB.Structure;
-using System.Xml.Serialization;
 using System.IO;
-using System.Data;
+using System.Linq;
+using System.Xml.Serialization;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -29,6 +28,8 @@ namespace RevitAreaReinforcement
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class CommandCreateAreaRebar : IExternalCommand
     {
+        public static List<AreaReinforcement> allAreaReinforcements { get; set; }
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Trace.Listeners.Clear();
@@ -39,9 +40,11 @@ namespace RevitAreaReinforcement
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            allAreaReinforcements = SupportDocumentGetter.GetRebarAreas(doc);
+
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
             List<Wall> walls = new List<Wall>();
-            
+
 
             foreach (ElementId id in sel.GetElementIds())
             {
@@ -65,7 +68,7 @@ namespace RevitAreaReinforcement
                     elements.Insert(w);
                 }
             }
-            if(elements.Size > 0)
+            if (elements.Size > 0)
             {
                 message = MyStrings.MessageNoStructuralWalls;
                 Trace.WriteLine("Non-structural walls were found");
@@ -80,6 +83,7 @@ namespace RevitAreaReinforcement
 
 
             RebarInfoWall riw = new RebarInfoWall(); //RebarInfoWall.GetDefault(doc);
+            riw.SetDefaultUnificateLengths();
             string wallPath = System.IO.Path.Combine(App.localFolder, "wall.xml");
             Trace.WriteLine("Try to deserialize xml: " + wallPath);
             XmlSerializer serializer = new XmlSerializer(typeof(RebarInfoWall));
@@ -90,9 +94,10 @@ namespace RevitAreaReinforcement
                 {
                     try
                     {
+                        riw.lengthsUnification.Clear();
                         riw = (RebarInfoWall)serializer.Deserialize(reader);
                     }
-                    catch 
+                    catch
                     {
                         Trace.WriteLine("Deserialize fauled!");
                     }
@@ -101,7 +106,6 @@ namespace RevitAreaReinforcement
 
             if (wallsHaveRebarInfo)
             {
-                //TaskDialog.Show("Внимание!", "Армирование будет выполнено по данным, указанным в стенах, без вывода диалогового окна.");
                 Trace.WriteLine("DialogWindow for auto-reinforcement");
                 DialogWindowWallAuto dialogWallAuto = new DialogWindowWallAuto(riw);
                 dialogWallAuto.ShowDialog();
@@ -117,15 +121,7 @@ namespace RevitAreaReinforcement
                 if (form.DialogResult != System.Windows.Forms.DialogResult.OK) return Result.Cancelled;
             }
 
-            Trace.Write("Delete xml file and rewrite: " + wallPath);
-            if (File.Exists(wallPath)) File.Delete(wallPath);
-            using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
-            {
-                serializer.Serialize(writer, riw);
-            }
-            Trace.WriteLine("... xml success!");
-
-
+            List<string> errorMessages = new List<string>();
             using (Transaction t = new Transaction(doc))
             {
                 t.Start(MyStrings.TransactionWallReinforcement);
@@ -148,10 +144,40 @@ namespace RevitAreaReinforcement
                         riw.horizontalAddInterval = true;
                     }
                     Trace.WriteLine("Start wall reinforcement");
-                    RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
+                    List<string> curErrorMessages = RebarWorkerWall.GenerateRebar(doc, wall, riw, zeroCover, areaTypeId);
+                    errorMessages.AddRange(curErrorMessages);
                 }
                 t.Commit();
                 Trace.WriteLine("Finish transaction");
+            }
+
+            if (errorMessages.Count > 0)
+            {
+                string errorMsg = string.Join(Environment.NewLine, errorMessages);
+                Trace.WriteLine(errorMsg);
+                TaskDialog.Show("Error", errorMsg);
+                return Result.Failed;
+            }
+
+            Trace.Write("Delete xml settings file and rewrite: " + wallPath);
+            if (File.Exists(wallPath))
+            {
+                try
+                {
+                    File.Delete(wallPath);
+                }
+                catch
+                {
+                    TaskDialog.Show("Warning", "Settings are not saved! Failed to delete file: " + wallPath);
+                }
+            }
+            if (!File.Exists(wallPath))
+            {
+                using (FileStream writer = new FileStream(wallPath, FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(writer, riw);
+                }
+                Trace.WriteLine("... xml success!");
             }
             return Result.Succeeded;
         }

@@ -31,13 +31,25 @@ namespace RevitAreaReinforcement
             Trace.WriteLine($"Start reinforcement for wall: {wall.Id}");
             List<string> messages = new List<string>();
 
+            if (wri.SkipAlreadyReinforcedWalls)
+            {
+                bool checkWallAlreadyHasReinforced = SupportDocumentGetter
+                    .CheckElementHasReinforcement(wall, CommandCreateAreaRebar.allAreaReinforcements, wri.MinimumReinforcementCoeff);
+
+                if (checkWallAlreadyHasReinforced)
+                {
+                    string msg = $"Wall id {wall.Id} is already reinforced";
+                    Trace.WriteLine(msg);
+                    return messages;
+                }
+            }
 
             Parameter otherCoverParameter = wall.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER);
             if (otherCoverParameter == null || otherCoverParameter.IsReadOnly)
             {
                 string errMsg = $"{MyStrings.ErrorRebarCoverParamUnavailable} {wall.Id}";
                 TaskDialog.Show("Error", errMsg);
-                Trace.WriteLine($"{MyStrings.ErrorRebarCoverParamUnavailable} {wall.Id}");
+                Trace.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
             otherCoverParameter.Set(zeroCover.Id);

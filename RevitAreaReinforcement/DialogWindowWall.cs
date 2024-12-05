@@ -64,6 +64,8 @@ namespace RevitAreaReinforcement
             textBoxLengths.Text = string.Join(";",
                 reinfInfo.lengthsUnification.Select(i => i.InchesToStringMillimeters()));
 
+            checkBoxSkipReinforced.Checked = reinfInfo.SkipAlreadyReinforcedWalls;
+
             string appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Text = $"{this.Text} v. {appVersion}";
         }
@@ -108,6 +110,8 @@ namespace RevitAreaReinforcement
 
             wri.useUnification = checkBoxUnificateLength.Checked;
             wri.lengthsUnification = textBoxLengths.Text.Split(';').Select(i => i.ParseToInches()).ToList();
+
+            wri.SkipAlreadyReinforcedWalls = checkBoxSkipReinforced.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

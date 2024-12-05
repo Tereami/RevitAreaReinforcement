@@ -52,6 +52,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.checkBoxSkipAlreadyReinforced = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVertFreeLengthRound)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -219,12 +220,19 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
+            // checkBoxSkipAlreadyReinforced
+            // 
+            resources.ApplyResources(this.checkBoxSkipAlreadyReinforced, "checkBoxSkipAlreadyReinforced");
+            this.checkBoxSkipAlreadyReinforced.Name = "checkBoxSkipAlreadyReinforced";
+            this.checkBoxSkipAlreadyReinforced.UseVisualStyleBackColor = true;
+            // 
             // DialogWindowWallAuto
             // 
             this.AcceptButton = this.buttonOk;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
+            this.Controls.Add(this.checkBoxSkipAlreadyReinforced);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.groupBox3);
@@ -242,6 +250,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -270,5 +279,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownVertFreeLengthRound;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox checkBoxSkipAlreadyReinforced;
     }
 }

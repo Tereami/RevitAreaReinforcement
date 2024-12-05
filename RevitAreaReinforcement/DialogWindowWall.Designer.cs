@@ -57,6 +57,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox_AsymVertFreeLengthTop = new System.Windows.Forms.CheckBox();
             this.textBoxVertAsymmLength = new System.Windows.Forms.TextBox();
+            this.checkBoxSkipReinforced = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVertFreeLengthRound)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -117,14 +118,14 @@
             // 
             // cmbHorizonalType
             // 
-            this.cmbHorizonalType.FormattingEnabled = true;
             resources.ApplyResources(this.cmbHorizonalType, "cmbHorizonalType");
+            this.cmbHorizonalType.FormattingEnabled = true;
             this.cmbHorizonalType.Name = "cmbHorizonalType";
             // 
             // cmbVerticalType
             // 
-            this.cmbVerticalType.FormattingEnabled = true;
             resources.ApplyResources(this.cmbVerticalType, "cmbVerticalType");
+            this.cmbVerticalType.FormattingEnabled = true;
             this.cmbVerticalType.Name = "cmbVerticalType";
             // 
             // checkBoxGenerateVertical
@@ -240,10 +241,19 @@
             resources.ApplyResources(this.textBoxVertAsymmLength, "textBoxVertAsymmLength");
             this.textBoxVertAsymmLength.Name = "textBoxVertAsymmLength";
             // 
+            // checkBoxSkipReinforced
+            // 
+            resources.ApplyResources(this.checkBoxSkipReinforced, "checkBoxSkipReinforced");
+            this.checkBoxSkipReinforced.Checked = true;
+            this.checkBoxSkipReinforced.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSkipReinforced.Name = "checkBoxSkipReinforced";
+            this.checkBoxSkipReinforced.UseVisualStyleBackColor = true;
+            // 
             // DialogWindowWall
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBoxSkipReinforced);
             this.Controls.Add(this.textBoxVertAsymmLength);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownVertFreeLengthRound);
@@ -311,5 +321,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBox_AsymVertFreeLengthTop;
         private System.Windows.Forms.TextBox textBoxVertAsymmLength;
+        private System.Windows.Forms.CheckBox checkBoxSkipReinforced;
     }
 }

@@ -64,14 +64,10 @@ namespace RevitAreaReinforcement
         public double rebarCover = 0.16404199475065617;
 
         public bool useUnification = false;
-        public List<double> lengthsUnification = new List<double> {
-            38.385826771653541,
-            25.590551181102363,
-            19.19291338582677,
-            12.795275590551181,
-            9.5964566929133852,
-            7.6771653543307083 };
+        public List<double> lengthsUnification = new List<double>();
 
+        public bool SkipAlreadyReinforcedWalls = true;
+        public double MinimumReinforcementCoeff = 150;
 
         /// <summary>
         /// Создание настроек армирования по-умолчанию
@@ -216,6 +212,19 @@ namespace RevitAreaReinforcement
                 }
             }
             return result;
+        }
+
+        public void SetDefaultUnificateLengths()
+        {
+            lengthsUnification = new List<double>
+            {
+                38.385826771653541,
+                25.590551181102363,
+                19.19291338582677,
+                12.795275590551181,
+                9.5964566929133852,
+                7.6771653543307083
+            };
         }
     }
 }

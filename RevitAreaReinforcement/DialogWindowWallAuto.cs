@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RevitAreaReinforcement
@@ -29,6 +22,8 @@ namespace RevitAreaReinforcement
 
             textBoxRazdelVert.Text = riw.verticalSectionText;
             textBoxRazdelHoris.Text = riw.horizontalSectionText;
+
+            checkBoxSkipAlreadyReinforced.Checked = riw.SkipAlreadyReinforcedWalls;
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -43,6 +38,8 @@ namespace RevitAreaReinforcement
 
             rebarInfo.verticalSectionText = textBoxRazdelVert.Text;
             rebarInfo.horizontalSectionText = textBoxRazdelHoris.Text;
+
+            rebarInfo.SkipAlreadyReinforcedWalls = checkBoxSkipAlreadyReinforced.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

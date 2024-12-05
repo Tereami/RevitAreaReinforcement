@@ -11,25 +11,39 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using System.Collections.Generic;
+using System.Diagnostics;
 #endregion
 
 namespace RevitAreaReinforcement
 {
     public static class RebarWorkerFloor
     {
-        
+
         public static List<string> Generate(Document doc, Floor floor, RebarInfoFloor rif, ElementId areaTypeId)
         {
             Trace.WriteLine("RebarWorkerFloor is started");
             List<string> messages = new List<string>();
+
+
+            if (rif.SkipAlreadyReinforcedFloors)
+            {
+                bool checkFloorAlreadyHasReinforced = SupportDocumentGetter
+                    .CheckElementHasReinforcement(floor, CommandCreateFloorRebar.allAreaReinforcements, rif.MinimumReinforcementCoeff);
+
+                if (checkFloorAlreadyHasReinforced)
+                {
+                    string msg = $"Floor id {floor.Id} is already reinforced";
+                    Trace.WriteLine(msg);
+                    return messages;
+                }
+            }
+
+
             MyRebarType mrt = new MyRebarType(doc, rif.rebarTypeName);
-            if(mrt.isValid == false)
+            if (mrt.isValid == false)
             {
                 messages.Add(MyStrings.ErrorFailedToGetRebarType + rif.rebarTypeName);
             }
@@ -61,7 +75,7 @@ namespace RevitAreaReinforcement
 
             double topCoverDir1 = topCoverUser - coverTop.CoverDistance;
             double topCoverDir2 = topCoverDir1 + diam;
-            if(rif.turnTopBars)
+            if (rif.turnTopBars)
             {
                 topCoverDir1 += diam;
                 topCoverDir2 -= diam;
@@ -69,7 +83,7 @@ namespace RevitAreaReinforcement
 
             double bottomCoverDir1 = bottomCoverUser - coverBottom.CoverDistance;
             double bottomCoverDir2 = bottomCoverDir1 + diam;
-            if(rif.turnBottomBars)
+            if (rif.turnBottomBars)
             {
                 bottomCoverDir1 += diam;
                 bottomCoverDir2 -= diam;

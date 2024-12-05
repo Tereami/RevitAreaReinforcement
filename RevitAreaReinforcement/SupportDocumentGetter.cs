@@ -11,15 +11,13 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -71,7 +69,7 @@ namespace RevitAreaReinforcement
 
         public static bool CheckWallsHaveRebarInfo(List<Wall> walls)
         {
-            foreach(Wall wall in walls)
+            foreach (Wall wall in walls)
             {
                 Parameter param = wall.get_Parameter(RebarInfoWall.horizRebarDiameterParamGuid);
                 if (param == null || !param.HasValue) return false;
@@ -93,6 +91,61 @@ namespace RevitAreaReinforcement
                 .ToList();
             Trace.WriteLine("RebarBarTypes found: " + rebarTypes.Count.ToString());
             return rebarTypes;
+        }
+
+        public static List<AreaReinforcement> GetRebarAreas(Document doc)
+        {
+            List<AreaReinforcement> areas = new FilteredElementCollector(doc)
+                .WhereElementIsNotElementType()
+                .OfClass(typeof(AreaReinforcement))
+                .Cast<AreaReinforcement>()
+                .ToList();
+            return areas;
+        }
+
+        public static List<AreaReinforcement> GetAreasInElement(Element element, List<AreaReinforcement> allAreas)
+        {
+            List<AreaReinforcement> curAreas = new List<AreaReinforcement>();
+            ElementId elemId = element.Id;
+            foreach (AreaReinforcement area in allAreas)
+            {
+                ElementId hostId = area.GetHostId();
+                if (hostId == elemId)
+                    curAreas.Add(area);
+            }
+            return curAreas;
+        }
+
+        public static bool CheckElementHasReinforcement(Element element, List<AreaReinforcement> AllAreas, double volumeCoeff)
+        {
+            Parameter hostVolumeParam = element.get_Parameter(BuiltInParameter.HOST_VOLUME_COMPUTED);
+            if (hostVolumeParam == null || !hostVolumeParam.HasValue)
+                throw new Exception($"No volume in element id {element.Id}");
+
+            double hostVolume = hostVolumeParam.AsDouble();
+
+            double rebarVolume = 0;
+            List<AreaReinforcement> curAreas = GetAreasInElement(element, AllAreas);
+            foreach (AreaReinforcement area in curAreas)
+            {
+                Parameter areaPartitionParam = area.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM);
+                if (areaPartitionParam == null || !areaPartitionParam.HasValue) continue;
+
+                string partitionText = areaPartitionParam.AsString();
+                if (partitionText.Length < 5) continue;
+
+                Parameter areaVolumeParam = area.get_Parameter(BuiltInParameter.REINFORCEMENT_VOLUME);
+                if (areaVolumeParam == null || !areaVolumeParam.HasValue) continue;
+                double curRebarVolume = areaVolumeParam.AsDouble();
+                rebarVolume += curRebarVolume;
+            }
+
+            double calcCoeff = hostVolume / rebarVolume;
+
+            if (calcCoeff < volumeCoeff)
+                return true;
+            else
+                return false;
         }
     }
 }

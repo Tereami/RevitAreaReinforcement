@@ -42,6 +42,7 @@
             this.checkBoxUseDirection = new System.Windows.Forms.CheckBox();
             this.checkBoxTurnTopBars = new System.Windows.Forms.CheckBox();
             this.checkBoxTurnBottomBars = new System.Windows.Forms.CheckBox();
+            this.checkBoxSkipAlreadyReinforced = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverBottom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoverTop)).BeginInit();
@@ -127,10 +128,21 @@
             this.checkBoxTurnBottomBars.Name = "checkBoxTurnBottomBars";
             this.checkBoxTurnBottomBars.UseVisualStyleBackColor = true;
             // 
+            // checkBoxSkipAlreadyReinforced
+            // 
+            resources.ApplyResources(this.checkBoxSkipAlreadyReinforced, "checkBoxSkipAlreadyReinforced");
+            this.checkBoxSkipAlreadyReinforced.Checked = true;
+            this.checkBoxSkipAlreadyReinforced.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSkipAlreadyReinforced.Name = "checkBoxSkipAlreadyReinforced";
+            this.checkBoxSkipAlreadyReinforced.UseVisualStyleBackColor = true;
+            // 
             // DialogWindowFloor
             // 
+            this.AcceptButton = this.buttonOk;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonCancel;
+            this.Controls.Add(this.checkBoxSkipAlreadyReinforced);
             this.Controls.Add(this.checkBoxTurnBottomBars);
             this.Controls.Add(this.checkBoxTurnTopBars);
             this.Controls.Add(this.checkBoxUseDirection);
@@ -170,5 +182,6 @@
         private System.Windows.Forms.CheckBox checkBoxUseDirection;
         private System.Windows.Forms.CheckBox checkBoxTurnTopBars;
         private System.Windows.Forms.CheckBox checkBoxTurnBottomBars;
+        private System.Windows.Forms.CheckBox checkBoxSkipAlreadyReinforced;
     }
 }

@@ -11,16 +11,15 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using System.Diagnostics;
-using Autodesk.Revit.UI.Selection;
-using Autodesk.Revit.DB.Structure;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -28,6 +27,8 @@ namespace RevitAreaReinforcement
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class CommandCreateFloorRebar : IExternalCommand
     {
+        public static List<AreaReinforcement> allAreaReinforcements { get; set; }
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Trace.Listeners.Clear();
@@ -35,6 +36,9 @@ namespace RevitAreaReinforcement
             Trace.WriteLine("Floor reinforcement start");
             App.ActivateConfigFolder();
             Document doc = commandData.Application.ActiveUIDocument.Document;
+
+            allAreaReinforcements = SupportDocumentGetter.GetRebarAreas(doc);
+
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
             List<Floor> floors = new List<Floor>();
             foreach (ElementId id in sel.GetElementIds())
@@ -63,19 +67,19 @@ namespace RevitAreaReinforcement
                 return Result.Failed;
             }
 
-            foreach(Floor fl in floors)
+            foreach (Floor fl in floors)
             {
                 Parameter floorIsStructuralParam = fl.get_Parameter(BuiltInParameter.FLOOR_PARAM_IS_STRUCTURAL);
-                if(floorIsStructuralParam != null)
+                if (floorIsStructuralParam != null)
                 {
-                    if(floorIsStructuralParam.AsInteger() != 1)
+                    if (floorIsStructuralParam.AsInteger() != 1)
                     {
                         elements.Insert(fl);
                     }
                 }
             }
             Trace.WriteLine("Structural floors: " + (floors.Count - elements.Size));
-            if(elements.Size > 0)
+            if (elements.Size > 0)
             {
                 message = MyStrings.MessageNoStructuralFloors;
                 return Result.Failed;
@@ -93,7 +97,7 @@ namespace RevitAreaReinforcement
                     {
                         rif = (RebarInfoFloor)serializer.Deserialize(reader);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Trace.WriteLine("Failed deserialize, create new one: " + ex.Message);
                         rif = RebarInfoFloor.GetDefault(doc);
@@ -119,17 +123,6 @@ namespace RevitAreaReinforcement
                 return Result.Cancelled;
             }
 
-            if (File.Exists(floorPath))
-            {
-                Trace.WriteLine("File is deleted: " + floorPath);
-                File.Delete(floorPath);
-            }
-            using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
-            {
-                serializer.Serialize(writer, form.rif);
-                Trace.WriteLine("New file is created: " + floorPath);
-            }
-
             List<string> rebarMessages = new List<string>();
 
             using (Transaction t = new Transaction(doc))
@@ -145,14 +138,36 @@ namespace RevitAreaReinforcement
                 t.Commit();
             }
 
-            if(rebarMessages.Count > 0)
+            if (rebarMessages.Count > 0)
             {
-                foreach(string msg in rebarMessages)
+                foreach (string msg in rebarMessages)
                 {
                     message += msg + System.Environment.NewLine;
                 }
                 Trace.WriteLine("Errors: " + message);
                 return Result.Failed;
+            }
+
+            Trace.WriteLine("Save settings to xml file: " + floorPath);
+            if (File.Exists(floorPath))
+            {
+                try
+                {
+                    File.Delete(floorPath);
+                }
+                catch
+                {
+                    TaskDialog.Show("Warning", "Settings are not saved! Failed to delete file: " + floorPath);
+                }
+                Trace.WriteLine("File is deleted: " + floorPath);
+            }
+            if (!File.Exists(floorPath))
+            {
+                using (FileStream writer = new FileStream(floorPath, FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(writer, form.rif);
+                    Trace.WriteLine("New settings file is created: " + floorPath);
+                }
             }
             Trace.WriteLine("All done");
             return Result.Succeeded;

@@ -11,14 +11,10 @@ This code is provided 'as is'. Author disclaims any implied warranty.
 Zuev Aleksandr, 2020, all rigths reserved.*/
 #endregion
 #region Usings
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
-using System.Xml.Serialization;
+using System;
+using System.Linq;
 #endregion
 
 namespace RevitAreaReinforcement
@@ -35,6 +31,8 @@ namespace RevitAreaReinforcement
         public bool turnTopBars = false;
         public bool turnBottomBars = true;
 
+        public bool SkipAlreadyReinforcedFloors = true;
+        public double MinimumReinforcementCoeff = 150;
 
         public RebarInfoFloor()
         {
